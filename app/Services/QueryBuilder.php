@@ -69,6 +69,13 @@ class QueryBuilder
         return $this->builder;
     }
 
+    public function latest():self
+    {
+         $this->builder->latest();
+
+        return $this;
+    }
+
     public function get(array $columns = ['*']): Collection
     {
         return $this->builder->get($columns);

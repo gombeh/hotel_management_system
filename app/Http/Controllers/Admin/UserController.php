@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\CreateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\QueryBuilder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = QueryBuilder::from(User::class)
@@ -22,6 +21,7 @@ class UserController extends Controller
                 'email' => null,
             ])
             ->hasLimitRecord()
+            ->latest()
             ->paginate()
             ->withQueryString();
 
@@ -36,49 +36,22 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(CreateRequest $request)
     {
-        //
+       $data = $request->validated();
+
+       User::create($data);
+
+        return redirect()->back()->with('message', 'User created.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         //

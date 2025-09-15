@@ -7,11 +7,11 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <a href="#" class="btn btn-primary btn-5 d-none d-sm-inline-block" data-bs-toggle="modal"
-                   data-bs-target="#modal-report">
+                <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                   @click="openCreateModal = !openCreateModal">
                     <Plus/>
                     Create new user
-                </a>
+                </button>
             </div>
             <!-- BEGIN MODAL -->
             <!-- END MODAL -->
@@ -108,16 +108,18 @@
             </div>
         </div>
     </div>
+    <Create v-if="openCreateModal"/>
 </template>
 
 <script setup>
 import Plus from "../../../Components/Svg/Plus.vue";
 import Search from "../../../Components/Svg/Search.vue";
-import {ref, toRaw, watch} from "vue";
+import {provide, ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Dot from "../../../Components/Svg/Dot.vue";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
+import Create from "./Create.vue";
 
 const props = defineProps({
     'users': Object,
@@ -126,9 +128,12 @@ const props = defineProps({
     'limit': Number,
 });
 
+let openCreateModal = ref(false);
 const search = ref(props.filters.search);
 const sorts = ref(props.sorts ?? {});
 const limit = ref(props.limit ?? 15)
+
+provide("closeModal", function () {openCreateModal.value = false});
 
 const sortColumn = (field) => {
     const value = sorts.value;

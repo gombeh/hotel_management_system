@@ -4,6 +4,9 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import '@tabler/core/dist/js/tabler.min.js'
 import Layout from "./Shared/Admin/Layout.vue";
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
 
 createInertiaApp({
     resolve: name => {
@@ -18,6 +21,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(Toast)
             .mount(el)
     },
 })
