@@ -97,7 +97,7 @@
                     </table>
                 </div>
                 <div class="card-footer d-flex align-items-center">
-                    <select class="form-select w-auto" v-model="limit" @change="limitChange">
+                    <select class="form-select w-auto" v-model="limit" @change="updateStatus">
                         <option value="15" selected>15 records</option>
                         <option value="25">25 records</option>
                         <option value="50">50 records</option>
@@ -145,30 +145,22 @@ const sortColumn = (field) => {
             delete (value[field])
     }
 
-    router.get(route('admin.users.index'), {
-        sorts: toRaw(value)
-    }, {
-        preserveState: true,
-        replace: true
-    })
+    updateStatus();
 }
 
-const limitChange = () => {
-    router.get(route('admin.users.index'), {
-        limit: limit.value
-    }, {
-        preserveState: true,
-        replace: true
-    })
-}
-
-watch(search, debounce(value => {
-    router.get(route('admin.users.index'), {
-        search: value,
-    }, {
-        preserveState: true,
-        replace: true
-    })
+watch(search, debounce(() => {
+    updateStatus()
 }, 300))
+
+const updateStatus =() => {
+    router.get(route('admin.users.index'), {
+        sorts: toRaw(sorts.value),
+        limit: limit.value,
+        search: search.value
+    }, {
+        preserveState: true,
+        replace: true
+    })
+}
 
 </script>

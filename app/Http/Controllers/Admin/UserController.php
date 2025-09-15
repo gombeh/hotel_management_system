@@ -22,7 +22,8 @@ class UserController extends Controller
                 'email' => null,
             ])
             ->hasLimitRecord()
-            ->paginate();
+            ->paginate()
+            ->withQueryString();
 
 
 
