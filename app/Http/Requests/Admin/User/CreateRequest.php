@@ -27,7 +27,7 @@ class CreateRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|email|unique:users,email',
             'password' => ['required', 'string', 'max:255'],
-            'gender' => ['nullable', 'string', 'in:male,female'],
+            'sex' => ['nullable', 'string', 'in:male,female'],
         ];
     }
 

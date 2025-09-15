@@ -54,16 +54,7 @@
                 </div>
                 <div class="mb-3 col-lg-6">
                     <div class="form-label">Sex</div>
-                    <div>
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radios-inline" checked>
-                            <span class="form-check-label">Male</span>
-                        </label>
-                        <label class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radios-inline">
-                            <span class="form-check-label">Female</span>
-                        </label>
-                    </div>
+                    <RadioButton v-model="form.sex" :options="options" />
                 </div>
             </div>
         </form>
@@ -74,14 +65,20 @@ import Modal from "../../../Shared/Admin/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
 import BaseInput from "../../../Shared/Admin/BaseInput.vue";
 import {inject} from "vue";
+import RadioButton from "../../../Shared/Admin/RadioButton.vue";
 
 const form = useForm({
     first_name: '',
     last_name: '',
     email: '',
     password: '',
-    gender: '',
-})
+    sex: '',
+});
+
+const options = [
+    {label: 'Male', value: 'male'},
+    {label: 'Female', value: 'female'},
+]
 
 const closeModal = inject('closeModal');
 const submitCreate = () => {

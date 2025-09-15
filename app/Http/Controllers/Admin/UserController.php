@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\User\CreateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\QueryBuilder;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
