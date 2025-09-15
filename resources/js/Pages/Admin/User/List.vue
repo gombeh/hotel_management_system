@@ -97,7 +97,7 @@
                     </table>
                 </div>
                 <div class="card-footer d-flex align-items-center">
-                    <select class="form-select w-auto" v-model="limit" @change="updateStatus">
+                    <select class="form-select w-auto" v-model="limit" @change="syncFilters">
                         <option value="15" selected>15 records</option>
                         <option value="25">25 records</option>
                         <option value="50">50 records</option>
@@ -145,14 +145,14 @@ const sortColumn = (field) => {
             delete (value[field])
     }
 
-    updateStatus();
+    syncFilters();
 }
 
 watch(search, debounce(() => {
-    updateStatus()
+    syncFilters()
 }, 300))
 
-const updateStatus =() => {
+const syncFilters =() => {
     router.get(route('admin.users.index'), {
         sorts: toRaw(sorts.value),
         limit: limit.value,
