@@ -8,7 +8,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        @click="openCreateModal = !openCreateModal">
+                        @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     Create new user
                 </button>
@@ -83,16 +83,23 @@
                         <td class="sort-gender">admin</td>
                         <td class=sort-email>{{ user.email }}</td>
                         <td class="text-end">
-                                <div class="dropdown">
-                                  <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
-                                          data-bs-toggle="dropdown" aria-expanded="true">
-                                      Actions
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                    <button class="dropdown-item align-middle" href="#"> <IconEdit class="icon icon1" /> Edit </button>
-                                    <a class="dropdown-item" href="#"> <IconTrash class="icon icon1" /> Delete </a>
-                                  </div>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
+                                        data-bs-toggle="dropdown" aria-expanded="true">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                    <button class="dropdown-item align-middle" @click="openEditModal(user)">
+                                        <IconEdit class="icon icon1"/>
+                                        Edit
+                                    </button>
+                                    <button class="dropdown-item"
+                                            @click="() => confirmDelete(route('admin.users.destroy', user.id))">
+                                        <IconTrash class="icon icon1"/>
+                                        Delete
+                                    </button>
                                 </div>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -109,7 +116,8 @@
             </div>
         </div>
     </div>
-    <Create v-if="openCreateModal"/>
+    <Create v-if="openModal"/>
+    <Update v-if="openModal && editingUser" :user="editingUser"/>
 </template>
 
 <script setup>
@@ -118,7 +126,11 @@ import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
 import Create from "./Create.vue";
-import { IconEdit, IconTrash, IconPlus, IconSearch } from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
+import Update from "./Update.vue";
+import {useConfirm} from "../../../Composables/useConfirm.js";
+
+const confirmDelete = useConfirm();
 
 const props = defineProps({
     'users': Object,
@@ -127,14 +139,22 @@ const props = defineProps({
     'limit': Number,
 });
 
-let openCreateModal = ref(false);
+let editingUser = ref(null);
+let openModal = ref(false);
 const search = ref(props.filters.search);
 const sorts = ref(props.sorts ?? {});
 const limit = ref(props.limit ?? 15)
 
-provide("closeModal", function () {
-    openCreateModal.value = false
+provide("closeModal", () => {
+    openModal.value = false
+    if(editingUser) editingUser.value = null
 });
+
+const openEditModal = (user) => {
+    editingUser.value = user;
+    openModal.value = true
+}
+
 
 const sortColumn = (field) => {
     const value = sorts.value;

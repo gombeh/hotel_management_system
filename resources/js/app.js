@@ -6,6 +6,7 @@ import '@tabler/core/dist/js/tabler.min.js'
 import Layout from "./Shared/Admin/Layout.vue";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 
 createInertiaApp({
@@ -22,6 +23,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(Toast)
+            .use(ZiggyVue)
             .mount(el)
     },
 })

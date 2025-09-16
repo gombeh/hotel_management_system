@@ -11,6 +11,5 @@ Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
 
 Route::middleware(['auth'])->group(function() {
    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-   Route::get('/users', [UserController::class, 'index'])->name('users.index');
-   Route::post('/users', [UserController::class, 'store'])->name('users.store');
+   Route::resource('/users', UserController::class)->except('show', 'edit', 'create');
 });

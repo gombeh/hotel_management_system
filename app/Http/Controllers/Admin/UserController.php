@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateRequest;
+use App\Http\Requests\Admin\User\EditRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\QueryBuilder;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -45,14 +45,22 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(EditRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        if (empty($data['password'])) unset($data['password']);
+
+        $user->update($data);
+
+        return redirect()->back()->with('message', 'User updated.');
     }
 
 
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->back()->with('message', 'User deleted.');
     }
 }
