@@ -13,7 +13,7 @@
                     <div class="modal-footer">
                         <button @click="closeModal" class="btn btn-link link-secondary btn-3" > Cancel </button>
                         <button href="#" class="btn btn-primary btn-5 ms-auto" :form="formId">
-                            <Save />
+                            <IconDeviceFloppy class="icon" />
                             Save
                         </button>
                     </div>
@@ -23,7 +23,7 @@
     </Teleport>
 </template>
 <script setup>
-    import Save from "../../Components/Svg/Save.vue";
+    import {IconDeviceFloppy} from "@tabler/icons-vue"
     import {inject, onUnmounted} from "vue";
 
     defineProps({

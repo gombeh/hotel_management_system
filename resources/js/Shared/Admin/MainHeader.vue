@@ -9,7 +9,7 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="./">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><Home /></span>
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><IconHome class="icon" /></span>
                                         <span class="nav-link-title"> Home </span>
                                     </a>
                                 </li>
@@ -22,7 +22,7 @@
                                         role="button"
                                         aria-expanded="false"
                                     >
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><Users/></span>
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><IconUsers class="icon"/></span>
                                         <span class="nav-link-title"> People </span>
                                     </a>
                                     <div class="dropdown-menu">
@@ -48,7 +48,6 @@
     </header>
 </template>
 <script setup lang="ts">
-import Users from "../../Components/Svg/Users.vue";
-import Home from "../../Components/Svg/Home.vue";
+import {IconHome, IconUsers} from "@tabler/icons-vue"
 import { Link } from '@inertiajs/vue3'
 </script>

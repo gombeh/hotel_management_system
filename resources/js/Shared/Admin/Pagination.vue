@@ -9,8 +9,8 @@
             }"
             class="page-item">
             <Link class="page-link cursor-pointer" :href="link.url ?? ''">
-                <Prev v-if="index===0" />
-                <Next v-else-if="index===(links.length - 1)" />
+                <IconChevronLeft class="icon" v-if="index===0" />
+                <IconChevronRight class="icon" v-else-if="index===(links.length - 1)" />
                 <span v-else>{{link.label}}</span>
             </Link>
         </li>
@@ -19,8 +19,8 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3'
-import Next from "../../Components/Svg/Next.vue";
-import Prev from "../../Components/Svg/Prev.vue";
+
+import {IconChevronRight, IconChevronLeft} from "@tabler/icons-vue"
 
 defineProps({
     links: Array

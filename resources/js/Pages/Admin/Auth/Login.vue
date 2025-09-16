@@ -17,14 +17,12 @@
                                 <h2 class="h2 text-center mb-4">Login to your account</h2>
                                 <form method="post" @submit.prevent="submitLogin" autocomplete="off" novalidate="">
                                     <div class="mb-3">
-                                        <label class="form-label">Email address</label>
-                                        <input type="email" v-model="form.email"
-                                               class="form-control"
-                                               :class="{'is-invalid': form.errors.email}"
-                                               placeholder="your@email.com"
-                                               autocomplete="off"/>
-                                        <div class="invalid-feedback" v-if="form.errors.email"
-                                             v-text="form.errors.email"></div>
+                                        <BaseInput
+                                            label="Email address"
+                                            v-model="form.email"
+                                            :error="form.errors.email"
+                                            placeholder="your@email.com"
+                                            required />
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
@@ -50,7 +48,7 @@
                                                   :class="{'invalid-extra-input': form.errors.password}">
                                                  <a href="#" class="link-secondary"
                                                     data-bs-original-title="Show password" @click="toggleShow">
-                                                    <EyeIcon :show-eyes="showPassword"/>
+                                                    <IconEye :class="{'show-eyes': showPassword}" class="icon"/>
                                                  </a>
                                             </span>
                                             <div class="invalid-feedback" v-show="form.errors.password"
@@ -81,9 +79,10 @@
 
 <script setup lang="ts">
 import LoginIcon from "../../../Components/Svg/LoginIcon.vue";
-import EyeIcon from "../../../Components/Svg/EyeIcon.vue";
+import {IconEye} from '@tabler/icons-vue'
 import {useForm} from "@inertiajs/vue3";
 import {ref} from "vue";
+import BaseInput from "../../../Shared/Admin/BaseInput.vue";
 
 defineOptions({ layout: null })
 
