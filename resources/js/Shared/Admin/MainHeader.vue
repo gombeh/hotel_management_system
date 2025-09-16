@@ -28,12 +28,13 @@
                                     <div class="dropdown-menu">
                                         <div class="dropdown-menu-columns">
                                             <div class="dropdown-menu-column">
-                                                <Link class="dropdown-item" href="/admin/users">
+                                                <Link class="dropdown-item" :href="route('admin.users.index')">
                                                     Users
                                                 </Link>
-                                                <a class="dropdown-item" href="./markdown.html"> Roles </a>
-                                                <a class="dropdown-item" href="./markdown.html"> Permissions </a>
-                                                <a class="dropdown-item" href="./markdown.html"> Customer </a>
+                                                <Link class="dropdown-item" :href="route('admin.roles.index')">
+                                                    Roles
+                                                </Link>
+                                                <a class="dropdown-item" href="./markdown.html"> Customers </a>
                                             </div>
                                         </div>
                                     </div>
