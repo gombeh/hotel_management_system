@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr v-for="role in roles.data" :key="role.id">
+                        <tr v-for="role in roles" :key="role.id">
                             <td>
                                 <input class="form-check-input m-0 align-middle table-selectable-check" type="checkbox"
                                        aria-label="Select invoice" value="true">
@@ -85,7 +85,7 @@ import {useConfirm} from "../../../Composables/useConfirm.js";
 const confirmDelete = useConfirm();
 
 defineProps({
-    'roles': Object,
+    roles: Object,
     can: Object,
 });
 

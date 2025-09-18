@@ -69,10 +69,16 @@ class QueryBuilder
         return $this->builder;
     }
 
-    public function latest():self
+    public function latest(): self
     {
-         $this->builder->latest();
+        $this->builder->latest();
 
+        return $this;
+    }
+
+    public function with($relations, $callback = null): self
+    {
+        $this->builder->with($relations, $callback);
         return $this;
     }
 

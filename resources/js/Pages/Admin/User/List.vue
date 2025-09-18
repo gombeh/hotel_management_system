@@ -81,7 +81,7 @@
                                    aria-label="Select invoice" value="true">
                         </td>
                         <td class="sort-full_name">{{ user.full_name }}</td>
-                        <td class="sort-gender">admin</td>
+                        <td class="sort-gender">{{ user.roles.map(role => role.name).join(', ') }}</td>
                         <td class=sort-email>{{ user.email }}</td>
                         <td class="text-end">
                             <div class="dropdown" v-if="Object.values(user.can).some((per) => per === true)">
@@ -117,8 +117,8 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal"/>
-    <Update v-if="openModal && editingUser" :user="editingUser"/>
+    <Create v-if="openModal" :roles="roles"/>
+    <Update v-if="openModal && editingUser" :user="editingUser" :roles="roles"/>
 </template>
 
 <script setup>
@@ -138,7 +138,8 @@ const props = defineProps({
     'filters': Object,
     'sorts': Object,
     'limit': Number,
-    'can': Object
+    'can': Object,
+    'roles': Object
 });
 
 let editingUser = ref(null);

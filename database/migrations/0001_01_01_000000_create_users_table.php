@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('first_name');
             $table->string('last_name');
             $table->enum('sex', ['male', 'female'])->nullable();
+            $table->boolean('is_super_admin')->default(false);
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();

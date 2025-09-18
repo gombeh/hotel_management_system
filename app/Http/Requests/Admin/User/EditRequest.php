@@ -28,6 +28,8 @@ class EditRequest extends FormRequest
             'email' => 'required|string|email|unique:users,email,'. $this->user->id,
             'password' => ['nullable', 'string', 'max:255'],
             'sex' => ['nullable', 'string', 'in:male,female'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['nullable', 'integer', 'exists:roles,id'],
         ];
     }
 

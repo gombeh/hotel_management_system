@@ -28,6 +28,8 @@ class CreateRequest extends FormRequest
             'email' => 'required|string|email|unique:users,email',
             'password' => ['required', 'string', 'max:255'],
             'sex' => ['nullable', 'string', 'in:male,female'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['nullable', 'integer', 'exists:roles,id'],
         ];
     }
 

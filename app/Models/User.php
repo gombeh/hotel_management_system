@@ -26,6 +26,7 @@ class User extends Authenticatable
         'sex',
         'email',
         'password',
+        'is_super_admin',
     ];
 
     /**
@@ -55,5 +56,14 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function ($user) {
+            if ($user->id === 1) {
+                abort(403, 'The root user cannot be deleted.');
+            }
+        });
     }
 }

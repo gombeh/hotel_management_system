@@ -14,18 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $defaultRoles = ['admin', 'reception', 'manager'];
+        array_map(fn($name) => Role::create(['name' => $name]), $defaultRoles);
+
         User::factory()->create([
             'first_name' => 'Rasoul',
             'last_name' => 'Zinati',
-            'email' => 'test@gmail.com',
+            'email' => 'test@example.com',
             'password' => bcrypt('1234'),
             'sex' => 'male',
+            'is_super_admin' => true,
         ]);
 
-         User::factory(100)->create();
+         $users = User::factory(100)->create();
 
+         $users->each(fn($user) => $user->assignRole(fake()->randomElements($defaultRoles), mt_rand(1,3)));
 
-         $defaultRoles = ['supper_admin', 'admin', 'reception'];
-         array_map(fn($name) => Role::create(['name' => $name]), $defaultRoles);
     }
 }

@@ -25,7 +25,7 @@
                 <div class="mb-3 col-lg-6">
                     <BaseInput
                         label="Email"
-                        type= "email"
+                        type="email"
                         v-model="form.email"
                         :error="form.errors.email"
                         placeholder="your email"
@@ -35,7 +35,7 @@
                 <div class="mb-3 col-lg-6">
                     <BaseInput
                         label="Password"
-                        type= "password"
+                        type="password"
                         v-model="form.password"
                         :error="form.errors.password"
                         placeholder="your password"
@@ -46,15 +46,18 @@
             <div class="row">
                 <div class="mb-3 col-lg-6">
                     <div class="form-label">Select Roles</div>
-                    <select class="form-select" multiple="">
-                        <option value="1">Super admin</option>
-                        <option value="2">Admin</option>
-                        <option value="3">Reception</option>
+                    <select class="form-select"
+                            :class="{ 'is-invalid':rolesError.length}"
+                            multiple="" v-model="form.roles">
+                        <option v-for="role in roles" :value="role.id">{{ role.name }}</option>
                     </select>
+                    <div class="invalid-feedback" v-if="rolesError.length">
+                        {{ form.errors[rolesError[0]] }}
+                    </div>
                 </div>
                 <div class="mb-3 col-lg-6">
                     <div class="form-label">Sex</div>
-                    <RadioButton v-model="form.sex" :options="options" />
+                    <RadioButton v-model="form.sex" :options="options"/>
                 </div>
             </div>
         </form>
@@ -64,8 +67,14 @@
 import Modal from "../../../Shared/Admin/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
 import BaseInput from "../../../Shared/Admin/BaseInput.vue";
-import {inject} from "vue";
+import {inject, defineProps, computed} from "vue";
 import RadioButton from "../../../Shared/Admin/RadioButton.vue";
+import {wildCardProperty} from "../../../Utils/helper.js"
+
+
+defineProps({
+    'roles': Object
+});
 
 const form = useForm({
     first_name: '',
@@ -73,7 +82,10 @@ const form = useForm({
     email: '',
     password: '',
     sex: '',
+    roles: [],
 });
+
+const rolesError = computed(() => wildCardProperty(form.errors, /^roles.\d+$/));
 
 const options = [
     {label: 'Male', value: 'male'},

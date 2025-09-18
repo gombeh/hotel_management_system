@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'sex' => $this->sex,
             'full_name' => $this->full_name,
+            'roles' => RoleResource::collection($this->roles),
             'can' => $this->whenNotNull($this->can)
         ];
     }
