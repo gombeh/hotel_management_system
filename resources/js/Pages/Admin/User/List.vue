@@ -8,6 +8,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                        v-if="can.createUser"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     Create new user
@@ -83,17 +84,17 @@
                         <td class="sort-gender">admin</td>
                         <td class=sort-email>{{ user.email }}</td>
                         <td class="text-end">
-                            <div class="dropdown">
+                            <div class="dropdown" v-if="Object.values(user.can).some((per) => per === true)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                    <button class="dropdown-item align-middle" @click="openEditModal(user)">
+                                    <button class="dropdown-item align-middle" @click="openEditModal(user)" v-if="user.can.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </button>
-                                    <button class="dropdown-item"
+                                    <button class="dropdown-item" v-if="user.can.delete"
                                             @click="() => confirmDelete(route('admin.users.destroy', user.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -137,6 +138,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': Object,
     'limit': Number,
+    'can': Object
 });
 
 let editingUser = ref(null);

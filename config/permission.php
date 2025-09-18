@@ -199,4 +199,6 @@ return [
 
         'store' => 'default',
     ],
+
+    "extra_permissions" => [] // define extra permission for insert to table permissions
 ];

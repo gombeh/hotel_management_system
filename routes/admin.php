@@ -12,6 +12,11 @@ Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
 
 Route::middleware(['auth'])->group(function() {
    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
    Route::resource('/users', UserController::class)->except('show', 'edit', 'create');
+
    Route::resource('/roles', RoleController::class)->except('show', 'edit', 'create');
+   Route::getAuth('roles/{role}/permissions', [RoleController::class, 'listPermissions'])->name('roles.permissions.index');
+   Route::postAuth('roles/{role}/permissions', [RoleController::class, 'storePermissions'])->name('roles.permissions.store');
+
 });

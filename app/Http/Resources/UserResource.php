@@ -15,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var $this User */
+        /** @var $this User | UserResource */
         return [
             'id' => $this->id,
             'first_name' => $this->first_name,
@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'sex' => $this->sex,
             'full_name' => $this->full_name,
+            'can' => $this->whenNotNull($this->can)
         ];
     }
 }

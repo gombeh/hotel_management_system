@@ -11,6 +11,11 @@ use App\Services\QueryBuilder;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index()
     {
         $users = QueryBuilder::from(User::class)
@@ -22,8 +27,11 @@ class UserController extends Controller
             ->hasLimitRecord()
             ->latest()
             ->paginate()
-            ->withQueryString();
-
+            ->withQueryString()
+            ->through(fn($user) => $user->setAttribute('can', [
+                'edit' => auth()->user()->can('update', $user),
+                'delete' => auth()->user()->can('delete', $user),
+            ]));
 
 
         $resource = UserResource::collection($users);
@@ -32,14 +40,18 @@ class UserController extends Controller
             'filters' => request()->only('search'),
             'sorts' => request()->input('sorts'),
             'limit' => request()->integer('limit', config('app.per_page')),
+            'can' => [
+                'createUser' => auth()->user()->can('create', User::class),
+            ]
         ]);
     }
 
+
     public function store(CreateRequest $request)
     {
-       $data = $request->validated();
+        $data = $request->validated();
 
-       User::create($data);
+        User::create($data);
 
         return redirect()->back()->with('message', 'User created.');
     }

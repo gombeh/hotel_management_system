@@ -15,10 +15,11 @@ class RoleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var $this Role */
+        /** @var $this Role | RoleResource */
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'can' => $this->whenNotNull($this->can),
         ];
     }
 }
