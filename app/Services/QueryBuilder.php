@@ -78,7 +78,9 @@ class QueryBuilder
 
     public function with($relations, $callback = null): self
     {
-        $this->builder->with($relations, $callback);
+        $callback
+            ? $this->builder->with($relations, $callback)
+            : $this->builder->with($relations);
         return $this;
     }
 

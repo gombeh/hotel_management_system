@@ -22,6 +22,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $users = QueryBuilder::from(User::class)
+            ->with('roles')
             ->mixedFilter('search', ['first_name', 'last_name', 'email'])
             ->sortFields([
                 'full_name' => ['first_name', 'last_name'],
@@ -29,8 +30,6 @@ class UserController extends Controller
             ])
             ->hasLimitRecord()
             ->latest()
-            ->getBuilder()
-            ->with('roles') // todo fix this
             ->paginate()
             ->withQueryString()
             ->through(fn($user) => $user->setAttribute('can', [
