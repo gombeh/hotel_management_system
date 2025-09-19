@@ -44,15 +44,13 @@
             </div>
             <div class="row">
                 <div class="mb-3 col-lg-6">
-                    <div class="form-label">Select Roles</div>
-                    <select class="form-select"
-                            :class="{ 'is-invalid':rolesError.length }"
-                            multiple="" v-model="form.roles">
+                    <SelectBox v-model="form.roles"
+                               name="roles"
+                               :errors="form.errors"
+                               multiple=""
+                               label="Select Roles">
                         <option v-for="role in roles" :value="role.id">{{ role.name }}</option>
-                    </select>
-                    <div class="invalid-feedback" v-if="rolesError.length">
-                        {{ form.errors[rolesError[0]] }}
-                    </div>
+                    </SelectBox>
                 </div>
                 <div class="mb-3 col-lg-6">
                     <div class="form-label">Sex</div>
@@ -66,9 +64,9 @@
 import Modal from "../../../Shared/Admin/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
 import BaseInput from "../../../Shared/Admin/BaseInput.vue";
-import {computed, inject} from "vue";
+import {inject} from "vue";
 import RadioButton from "../../../Shared/Admin/RadioButton.vue";
-import {wildCardProperty} from "../../../Utils/helper.js"
+import SelectBox from "../../../Shared/Admin/SelectBox.vue";
 
 
 const {user} = defineProps({
@@ -84,9 +82,6 @@ const form = useForm({
     sex: user.sex,
     roles: user.roles.map(role => role.id)
 });
-
-const rolesError = computed(() => wildCardProperty(form.errors, /^roles.\d+$/));
-
 
 const options = [
     {label: 'Male', value: 'male'},
