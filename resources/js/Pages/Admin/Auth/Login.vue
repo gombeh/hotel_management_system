@@ -82,7 +82,7 @@ import LoginIcon from "../../../Components/Svg/LoginIcon.vue";
 import {IconEye} from '@tabler/icons-vue'
 import {useForm} from "@inertiajs/vue3";
 import {ref} from "vue";
-import BaseInput from "../../../Shared/Admin/BaseInput.vue";
+import BaseInput from "../../../Components/BaseInput.vue";
 
 defineOptions({ layout: null })
 

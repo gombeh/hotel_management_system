@@ -14,9 +14,9 @@
     </Modal>
 </template>
 <script setup>
-import Modal from "../../../Shared/Admin/Modal.vue";
+import Modal from "../../../Components/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
-import BaseInput from "../../../Shared/Admin/BaseInput.vue";
+import BaseInput from "../../../Components/BaseInput.vue";
 import {inject} from "vue";
 
 const form = useForm({

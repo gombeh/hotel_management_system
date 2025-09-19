@@ -23,10 +23,10 @@
     </Teleport>
 </template>
 <script setup>
-    import {IconDeviceFloppy} from "@tabler/icons-vue"
-    import {inject, onUnmounted} from "vue";
+import {IconDeviceFloppy} from "@tabler/icons-vue"
+import {inject, onUnmounted} from "vue";
 
-    defineProps({
+defineProps({
         title: String,
         formId: String,
     })

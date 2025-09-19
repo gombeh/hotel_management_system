@@ -11,9 +11,9 @@
 </template>
 
 <script setup>
-import {watch, defineProps, ref} from "vue";
+import {defineProps, ref, watch} from "vue";
 
-    const props = defineProps({
+const props = defineProps({
         options: Array,
         modelValue: String | Number
     })

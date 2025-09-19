@@ -14,7 +14,7 @@
 
 <script setup>
 import {computed, defineProps, ref, watch} from 'vue'
-import {wildCardProperty} from "../../Utils/helper.js";
+import {wildCardProperty} from "../Utils/helper.js";
 
 const props = defineProps({
     name: String,

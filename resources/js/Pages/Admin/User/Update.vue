@@ -61,12 +61,12 @@
     </Modal>
 </template>
 <script setup lang="ts">
-import Modal from "../../../Shared/Admin/Modal.vue";
+import Modal from "../../../Components/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
-import BaseInput from "../../../Shared/Admin/BaseInput.vue";
+import BaseInput from "../../../Components/BaseInput.vue";
 import {inject} from "vue";
-import RadioButton from "../../../Shared/Admin/RadioButton.vue";
-import SelectBox from "../../../Shared/Admin/SelectBox.vue";
+import RadioButton from "../../../Components/RadioButton.vue";
+import SelectBox from "../../../Components/SelectBox.vue";
 
 
 const {user} = defineProps({
