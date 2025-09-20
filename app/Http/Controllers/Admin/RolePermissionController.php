@@ -9,6 +9,7 @@ use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionController extends Controller
 {
@@ -29,11 +30,13 @@ class RolePermissionController extends Controller
     public function update(Request $request, Role $role)
     {
         ['permissions' => $permissions] = $request->validate([
-            'permissions' => 'required|array',
+            'permissions' => 'nullable|array',
             'permissions.*' => 'required|exists:permissions,id',
         ]);
 
         $role->permissions()->sync($permissions);
+
+        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
 
         return redirect()->back()->with("message", "Permissions added to role successfully");
     }

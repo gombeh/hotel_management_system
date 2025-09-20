@@ -1,8 +1,3 @@
-<script setup>
-
-import Notifications from "./Notifications.vue";
-</script>
-
 <template>
     <div class="navbar-nav flex-row order-md-last">
         <div class="nav-item d-none d-md-flex me-3">
@@ -104,12 +99,13 @@ import Notifications from "./Notifications.vue";
                 <a href="#" class="dropdown-item">Feedback</a>
                 <div class="dropdown-divider"></div>
                 <a href="./settings.html" class="dropdown-item">Settings</a>
-                <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                <Link :href="route('admin.logout')" method="DELETE" class="dropdown-item">Logout</Link>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<script setup>
+import Notifications from "./Notifications.vue";
+import {Link} from "@inertiajs/vue3";
+</script>

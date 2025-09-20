@@ -12,6 +12,8 @@ Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('admin.
 Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
 
 Route::middleware(['auth'])->group(function() {
+
+   Route::delete('/logout', [AuthenticateController::class, 'delete'])->name('logout');
    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
    Route::resource('/users', UserController::class)->except('show', 'edit', 'create');

@@ -53,19 +53,24 @@
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                        <button class="dropdown-item align-middle" @click="openEditModal(role)" v-if="role.can.edit">
+                                        <Link class="dropdown-item"
+                                              :href="route('admin.roles.permissions.index', role.id)"
+                                              v-if="role.can.permissions">
+                                            <IconLock class="icon icon1"/>
+                                            Permissions
+                                        </Link>
+                                        <button class="dropdown-item align-middle"
+                                                @click="openEditModal(role)"
+                                                v-if="role.can.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
-                                                @click="() => confirmDelete(route('admin.roles.destroy', role.id))" v-if="role.can.delete">
+                                                @click="() => confirmDelete(route('admin.roles.destroy', role.id))"
+                                                v-if="role.can.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
-                                        <Link class="dropdown-item" :href="route('admin.roles.permissions.index', role.id)">
-                                            <IconTrash class="icon icon1"/>
-                                            Permissions
-                                        </Link>
                                     </div>
                                 </div>
                             </td>
@@ -83,7 +88,7 @@
 import {provide, ref} from "vue";
 import Create from "./Create.vue";
 import {Link} from "@inertiajs/vue3";
-import {IconEdit, IconTrash, IconPlus} from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconLock} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 

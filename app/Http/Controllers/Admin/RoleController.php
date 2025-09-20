@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Attributes\Authorize;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
@@ -17,10 +16,12 @@ class RoleController extends Controller
 
     public function index()
     {
+        $user = auth()->user();
         $roles = Role::all()
                     ->map(fn ($role) => $role->setAttribute('can', [
-                        'edit' => auth()->user()->can('update', $role),
-                        'delete' => auth()->user()->can('delete', $role),
+                        'edit' => $user->can('update', $role),
+                        'delete' => $user->can('delete', $role),
+                        'permissions' => $user->can('permissions', $role),
                     ]));
 
         $resource = RoleResource::collection($roles);

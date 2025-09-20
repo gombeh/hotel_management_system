@@ -21,4 +21,9 @@ class AuthenticateController extends Controller
 
         return redirect()->intended(route('admin.dashboard'));
     }
+
+    public function delete() {
+        auth()->logout();
+        return redirect()->route('admin.login');
+    }
 }
