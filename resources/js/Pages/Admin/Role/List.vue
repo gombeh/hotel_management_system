@@ -1,5 +1,5 @@
 <template>
-    <div class="row g-2 align-items-center mb-6">
+    <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title">Roles</h2>
         </div>
@@ -62,6 +62,10 @@
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
+                                        <Link class="dropdown-item" :href="route('admin.roles.permissions.index', role.id)">
+                                            <IconTrash class="icon icon1"/>
+                                            Permissions
+                                        </Link>
                                     </div>
                                 </div>
                             </td>
@@ -78,6 +82,7 @@
 <script setup>
 import {provide, ref} from "vue";
 import Create from "./Create.vue";
+import {Link} from "@inertiajs/vue3";
 import {IconEdit, IconTrash, IconPlus} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";

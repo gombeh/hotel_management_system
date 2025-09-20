@@ -1,5 +1,5 @@
 <template>
-    <div class="row g-2 align-items-center mb-6">
+    <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title">Users</h2>
         </div>

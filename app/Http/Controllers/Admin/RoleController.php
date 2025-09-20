@@ -61,16 +61,4 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->back()->with('message', 'Role deleted.');
     }
-
-    #[Authorize('permissions', 'role')]
-    public function listPermissions()
-    {
-
-    }
-
-    #[Authorize('permissions', 'role')]
-    public function storePermissions()
-    {
-
-    }
 }
