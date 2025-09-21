@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthenticateController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');

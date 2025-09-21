@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,5 +31,6 @@ class DatabaseSeeder extends Seeder
 
          $users->each(fn($user) => $user->assignRole(fake()->randomElements($defaultRoles), mt_rand(1,3)));
 
+         Country::factory(10)->create();
     }
 }
