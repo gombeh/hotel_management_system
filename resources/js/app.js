@@ -1,7 +1,7 @@
 import './bootstrap';
 
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
 import '@tabler/core/dist/js/tabler.min.js'
 import Layout from "./Shared/Admin/Layout.vue";
 import Toast from "vue-toastification";
@@ -24,11 +24,13 @@ createInertiaApp({
             .use(plugin)
             .use(Toast)
             .use(ZiggyVue)
+            .component('Link', Link)
+            .component('Head', Head)
             .mount(el)
     },
     progress: {
         // The delay after which the progress bar will appear, in milliseconds...
-        delay: 30,
+        delay: 250,
 
         // The color of the progress bar...
         color: '#29d',

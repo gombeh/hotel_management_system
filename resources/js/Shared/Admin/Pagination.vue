@@ -8,7 +8,7 @@
                 'disabled': !link.url
             }"
             class="page-item">
-            <Link class="page-link cursor-pointer" :href="link.url ?? ''">
+            <Link class="page-link cursor-pointer" :href="link.url ?? ''" preserve-scroll preserve-state>
                 <IconChevronLeft class="icon" v-if="index===0" />
                 <IconChevronRight class="icon" v-else-if="index===(links.length - 1)" />
                 <span v-else>{{link.label}}</span>
@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3'
-
 import {IconChevronRight, IconChevronLeft} from "@tabler/icons-vue"
 
 defineProps({

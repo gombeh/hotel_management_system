@@ -87,7 +87,6 @@
 <script setup>
 import {provide, ref} from "vue";
 import Create from "./Create.vue";
-import {Link} from "@inertiajs/vue3";
 import {IconEdit, IconTrash, IconPlus, IconLock} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";

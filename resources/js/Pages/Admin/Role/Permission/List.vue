@@ -63,7 +63,7 @@
 <script setup>
 import {defineProps} from "vue"
 import {IconDeviceFloppy, IconArrowLeft} from "@tabler/icons-vue";
-import {useForm, Link} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
 
 
 const props = defineProps({

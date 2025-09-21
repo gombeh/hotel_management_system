@@ -57,7 +57,7 @@
 </template>
 <script setup lang="ts">
 import {IconHome, IconUsers, IconUser, IconShieldLock, IconBuildingSkyscraper, IconWorld} from "@tabler/icons-vue"
-import {Link, usePage} from '@inertiajs/vue3'
+import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
 const page = usePage();
 

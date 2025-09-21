@@ -107,5 +107,4 @@
 
 <script setup>
 import Notifications from "./Notifications.vue";
-import {Link} from "@inertiajs/vue3";
 </script>
