@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Country;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\Permission\PermissionService;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -31,6 +32,8 @@ class DatabaseSeeder extends Seeder
 
          $users->each(fn($user) => $user->assignRole(fake()->randomElements($defaultRoles), mt_rand(1,3)));
 
-         Country::factory(10)->create();
+         PermissionService::syncBaseOnPolicies();
+
+         Country::factory(50)->create();
     }
 }

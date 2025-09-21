@@ -42,7 +42,7 @@ class CountryController extends Controller
             'sorts' => request()->input('sorts'),
             'limit' => request()->integer('limit', config('app.per_page')),
             'can' => [
-                'createUser' => $user->can('create', Country::class),
+                'createCountry' => $user->can('create', Country::class),
             ]
         ]);
     }

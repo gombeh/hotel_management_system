@@ -8,6 +8,7 @@ return [
         'room' => 'Room',
         'roomType' => 'Room Type',
         'service' => 'Service',
+        'country' => 'Country'
     ],
     'actions' => [
         'viewAny' => 'List',
