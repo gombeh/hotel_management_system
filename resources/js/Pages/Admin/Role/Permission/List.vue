@@ -1,4 +1,5 @@
 <template>
+    <Head title="permissions" />
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title text-capitalize">{{ role.name }} Role Permissions</h2>

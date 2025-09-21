@@ -28,6 +28,7 @@ createInertiaApp({
             .component('Head', Head)
             .mount(el)
     },
+    title: title => `Hotel Homa - ${title}`,
     progress: {
         // The delay after which the progress bar will appear, in milliseconds...
         delay: 250,

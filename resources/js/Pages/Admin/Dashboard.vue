@@ -1,4 +1,5 @@
 <template>
+    <Head title="dashboard" />
     <div class=" g-2 align-items-center">
         <div class="page-pretitle">Overview</div>
         <h2 class="page-title">Dashboard</h2>
