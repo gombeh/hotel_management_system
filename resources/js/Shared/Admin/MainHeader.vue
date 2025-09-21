@@ -7,14 +7,18 @@
                         <div class="col">
                             <!-- BEGIN NAVBAR MENU -->
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./">
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><IconHome class="icon" /></span>
-                                        <span class="nav-link-title"> Home </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item active dropdown">
+                                <li class="nav-item" v-for="link in links"
+                                    :class="{'dropdown': link.items !== undefined,'active': checkLinkIsActive(link)}">
+                                    <Link class="nav-link" :href="route(link.routeName)"
+                                          v-if="link.items === undefined">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <Component :is="link.icon" class="icon"/>
+                                        </span>
+                                        <span class="nav-link-title"> {{ link.name }}</span>
+                                    </Link>
+
                                     <a
+                                        v-if="link.items !== undefined"
                                         class="nav-link dropdown-toggle"
                                         href="#navbar-base"
                                         data-bs-toggle="dropdown"
@@ -22,19 +26,22 @@
                                         role="button"
                                         aria-expanded="false"
                                     >
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block"><IconUsers class="icon"/></span>
-                                        <span class="nav-link-title"> People </span>
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <Component :is="link.icon" class="icon"/>
+                                        </span>
+                                        <span class="nav-link-title"> {{ link.name }} </span>
                                     </a>
-                                    <div class="dropdown-menu">
+                                    <div class="dropdown-menu" v-if="link.items !== undefined">
                                         <div class="dropdown-menu-columns">
                                             <div class="dropdown-menu-column">
-                                                <Link class="dropdown-item" :href="route('admin.users.index')">
-                                                    Users
+                                                <Link class="dropdown-item"
+                                                      v-for="item in link.items"
+                                                      :href="route(item.routeName)">
+                                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                        <Component v-if="item.icon" :is="item.icon" class="icon"/>
+                                                    </span>
+                                                    <span class="nav-link-title"> {{ item.name }} </span>
                                                 </Link>
-                                                <Link class="dropdown-item" :href="route('admin.roles.index')">
-                                                    Roles
-                                                </Link>
-                                                <a class="dropdown-item" href="./markdown.html"> Customers </a>
                                             </div>
                                         </div>
                                     </div>
@@ -49,6 +56,48 @@
     </header>
 </template>
 <script setup lang="ts">
-import {IconHome, IconUsers} from "@tabler/icons-vue"
-import { Link } from '@inertiajs/vue3'
+import {IconHome, IconUsers, IconUser, IconShieldLock, IconBuildingSkyscraper, IconWorld} from "@tabler/icons-vue"
+import {Link, usePage} from '@inertiajs/vue3'
+import {h} from "vue";
+const page = usePage();
+
+const links = [
+    {
+        name: "Home",
+        icon: h(IconHome),
+        routeName: 'admin.dashboard',
+    },
+    {
+        name: "People",
+        icon: h(IconUsers),
+        items: [
+            {
+                name: "Users",
+                routeName: 'admin.users.index',
+                icon: h(IconUser)
+            },
+            {
+                name: "Roles",
+                routeName: 'admin.roles.index',
+                icon: h(IconShieldLock)
+            }
+        ]
+    },
+    {
+        name: "Hotel",
+        icon: h(IconBuildingSkyscraper),
+        items: [
+            {
+                name: "Countries",
+                routeName: 'admin.countries.index',
+                icon: h(IconWorld)
+            },
+        ]
+    }
+]
+
+const checkLinkIsActive = (link) => {
+    return page.url === route(link.routeName, {}, false) ||
+        link.items?.some(item => route(item.routeName, {}, false) === page.url)
+}
 </script>
