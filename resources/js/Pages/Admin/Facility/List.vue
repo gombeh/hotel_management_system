@@ -2,7 +2,7 @@
     <Head title="bed types" />
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
-            <h2 class="page-title">Bed Types</h2>
+            <h2 class="page-title">Facilities</h2>
         </div>
         <!-- Page title actions -->
         <div class="col-auto ms-auto d-print-none">
@@ -24,8 +24,8 @@
             <div class="card-header">
                 <div class="row w-full">
                     <div class="col">
-                        <h3 class="card-title mb-0">Bed Types</h3>
-                        <p class="text-secondary m-0">List Bed Types.</p>
+                        <h3 class="card-title mb-0">Facilities</h3>
+                        <p class="text-secondary m-0">List Facilities.</p>
                     </div>
                 </div>
             </div>
@@ -37,36 +37,32 @@
                         <th>
                             name
                         </th>
-                        <th>
-                            capacity
-                        </th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr v-for="bedType in bedTypes" :key="bedType.id">
+                        <tr v-for="facility in facilities" :key="facility.id">
                             <td>
                                 <input class="form-check-input m-0 align-middle table-selectable-check" type="checkbox"
                                        aria-label="Select invoice" value="true">
                             </td>
-                            <td>{{ bedType.name }}</td>
-                            <td>{{ bedType.capacity }}</td>
+                            <td>{{ facility.name }}</td>
                             <td class="text-end">
-                                <div class="dropdown" v-if="Object.values(bedType.can).some((per) => per === true)">
+                                <div class="dropdown" v-if="Object.values(facility.can).some((per) => per === true)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                             data-bs-toggle="dropdown" aria-expanded="true">
                                         Actions
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                         <button class="dropdown-item align-middle"
-                                                @click="openEditModal(bedType)"
-                                                v-if="bedType.can.edit">
+                                                @click="openEditModal(facility)"
+                                                v-if="facility.can.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
-                                                @click="() => confirmDelete(route('admin.bedTypes.destroy', bedType.id))"
-                                                v-if="bedType.can.delete">
+                                                @click="() => confirmDelete(route('admin.facilities.destroy', facility.id))"
+                                                v-if="facility.can.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
@@ -80,7 +76,7 @@
         </div>
     </div>
     <Create v-if="openModal"/>
-    <Update v-if="openModal && editingBedType" :bedType="editingBedType"/>
+    <Update v-if="openModal && editingFacility" :facility="editingFacility"/>
 </template>
 
 <script setup>
@@ -93,20 +89,20 @@ import {useConfirm} from "../../../Composables/useConfirm.js";
 const confirmDelete = useConfirm();
 
 defineProps({
-    bedTypes: Object,
+    facilities: Object,
     can: Object,
 });
 
-let editingBedType = ref(null);
+let editingFacility = ref(null);
 let openModal = ref(false);
 
 provide("closeModal", () => {
     openModal.value = false
-    if(editingBedType) editingBedType.value = null
+    if(editingFacility) editingFacility.value = null
 });
 
-const openEditModal = (bedType) => {
-    editingBedType.value = bedType;
+const openEditModal = (Facility) => {
+    editingFacility.value = Facility;
     openModal.value = true
 }
 

@@ -1,0 +1,37 @@
+<template>
+    <Modal title="Edit Facilities" formId="editFacilityForm">
+        <form @submit.prevent="submitEdit" method="post" id="editFacilityForm">
+            <div class="mb-3">
+                <BaseInput
+                    label="Name"
+                    v-model="form.name"
+                    :error="form.errors.name"
+                    placeholder="name"
+                    required
+                />
+            </div>
+        </form>
+    </Modal>
+</template>
+<script setup lang="ts">
+import Modal from "../../../Components/Modal.vue";
+import {useForm} from "@inertiajs/vue3";
+import BaseInput from "../../../Components/BaseInput.vue";
+import {inject} from "vue";
+
+const {facility} = defineProps({
+    facility: Object
+})
+
+const form = useForm({
+    name: facility.name,
+});
+
+const closeModal = inject('closeModal');
+const submitEdit = () => {
+    form.put(route('admin.facilities.update', facility.id), {
+        onSuccess: () => closeModal()
+    })
+}
+
+</script>

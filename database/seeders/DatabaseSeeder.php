@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\BedType;
 use App\Models\Country;
+use App\Models\Facility;
 use App\Models\User;
 use App\Services\Permission\PermissionService;
 use Illuminate\Database\Seeder;
@@ -47,6 +48,24 @@ class DatabaseSeeder extends Seeder
              BedType::Create([
                  'name' => $type,
                  'capacity' => $capacity,
+             ]);
+         }
+
+         $facilities = [
+             'Private bathroom',
+             'Flat-screen TV',
+             'TerraceFree',
+             'Wifi',
+             'Free toiletries',
+             'Shower',
+             'Toilet',
+             'Hardwood or parquet floors',
+            'Towels',
+         ];
+
+         foreach ($facilities as $facility) {
+             Facility::create([
+                 'name' => $facility,
              ]);
          }
     }
