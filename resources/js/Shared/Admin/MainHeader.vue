@@ -56,7 +56,9 @@
     </header>
 </template>
 <script setup lang="ts">
-import {IconHome, IconUsers, IconUser, IconShieldLock, IconBuildingSkyscraper, IconWorld} from "@tabler/icons-vue"
+import {IconHome, IconUsers, IconUser,
+    IconShieldLock, IconBuildingSkyscraper,
+    IconWorld, IconBed} from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
 const page = usePage();
@@ -91,6 +93,11 @@ const links = [
                 name: "Countries",
                 routeName: 'admin.countries.index',
                 icon: h(IconWorld)
+            },
+            {
+                name: "Bed Type",
+                routeName: 'admin.bedTypes.index',
+                icon: h(IconBed)
             },
         ]
     }

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\BedType;
 use App\Models\Country;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Services\Permission\PermissionService;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -35,5 +35,19 @@ class DatabaseSeeder extends Seeder
          PermissionService::syncBaseOnPolicies();
 
          Country::factory(50)->create();
+
+         $bedTypes = [
+             'Single' => 1,
+             'Standard' => 2,
+             'King' => 2,
+             'Royal' => 2
+         ];
+
+         foreach ($bedTypes as $type => $capacity) {
+             BedType::Create([
+                 'name' => $type,
+                 'capacity' => $capacity,
+             ]);
+         }
     }
 }
