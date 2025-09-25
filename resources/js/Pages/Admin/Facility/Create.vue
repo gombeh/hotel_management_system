@@ -10,6 +10,7 @@
                     required
                 />
             </div>
+            <ImageUploader v-model="form.icon" />
         </form>
     </Modal>
 </template>
@@ -18,9 +19,11 @@ import Modal from "../../../Components/Modal.vue";
 import {useForm} from "@inertiajs/vue3";
 import BaseInput from "../../../Components/BaseInput.vue";
 import {inject} from "vue";
+import ImageUploader from "../../../Components/ImageUploader.vue";
 
 const form = useForm({
     name: '',
+    icon: [],
 });
 
 const closeModal = inject('closeModal');

@@ -19,6 +19,7 @@ class FacilityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'icon' => $this->getFirstMediaUrl() ? [$this->getFirstMediaUrl()] : [],
             'can' => $this->whenNotNull($this->can),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Facility;
 use App\Models\User;
 use App\Policies\RolePolicy;
 use App\Services\Permission\RouteMacroService;
@@ -29,7 +30,8 @@ class AppServiceProvider extends ServiceProvider
         JsonResource::withoutWrapping();
 
         MorphTo::enforceMorphMap([
-            'user' => User::class
+            'user' => User::class,
+            'facility' => Facility::class,
         ]);
 
         Gate::policy(Role::class, RolePolicy::class);

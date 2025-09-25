@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BedTypeController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\UserController;
@@ -28,5 +29,5 @@ Route::middleware(['auth'])->group(function() {
    Route::resource('countries', CountryController::class)->except('show', 'edit', 'create');
    Route::resource('bedTypes', BedTypeController::class)->except('show', 'edit', 'create');
    Route::resource('facilities', FacilityController::class)->except('show', 'edit', 'create');
-
+   Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
 });

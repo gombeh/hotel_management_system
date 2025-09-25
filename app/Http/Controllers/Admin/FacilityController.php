@@ -34,9 +34,15 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name',
+            'icon' => 'nullable|array',
+            'icon.*' => 'required',
         ]);
 
-        Facility::create($data);
+        $facility = Facility::create($data);
+
+        if(isset($data['icon'][0])) {
+            $facility->addMediaFromUrl($data['icon'][0])->toMediaCollection();
+        }
 
         return redirect()->back()->with('message', 'Facility created.');
     }
@@ -45,9 +51,15 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name,' . $facility->id,
+            'icon' => 'nullable|array',
+            'icon.*' => 'required',
         ]);
 
         $facility->update($data);
+
+        if(isset($data['icon'][0])) {
+            $facility->addMediaFromUrl($data['icon'][0])->toMediaCollection();
+        }
 
         return redirect()->back()->with('message', 'Facility updated.');
     }
