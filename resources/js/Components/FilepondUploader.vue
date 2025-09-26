@@ -5,6 +5,8 @@
         v-bind:allow-multiple="true"
         accepted-file-types="image/png, image/jpeg"
         :maxFiles="maxFiles"
+        :allow-reorder="allowReorder"
+        @reorderfiles="handleReorder"
         v-bind:server="{
             url: '',
             timeout: 7000,
@@ -34,7 +36,7 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-import { router } from '@inertiajs/vue3'
+import {router} from '@inertiajs/vue3'
 
 
 const props = defineProps({
@@ -43,6 +45,10 @@ const props = defineProps({
         default: () => [],
     },
     allowMultiple: {
+        type: Boolean,
+        default: false,
+    },
+    allowReorder: {
         type: Boolean,
         default: false,
     },
@@ -73,10 +79,10 @@ const handleFilePondInit = () => {
 
         options: {
             type: 'local',
+            serverId: image.id,
             metadata: {
-                poster: image.url,
+                url: image.url,
             },
-            server_id: image.id,
             path: image.url,
         }
     }))
@@ -97,66 +103,76 @@ const addFormImage = (image) => {
     emit('update:modelValue', [...props.modelValue, image.path])
 }
 
-    const removeFormImage = (image) => {
-        let removedId
-        files.value = files.value.filter(img => {
-            const result = img.options.path.trim() !== image.trim()
+const removeFormImage = (image) => {
+    let removedId
+    files.value = files.value.filter(img => {
+        const result = img.options.path.trim() !== image.trim()
 
-            if (!result) {
-                removedId = img.options.server_id
-            }
-            return result
-        })
-
-        if (removedId) {
-            axios.delete(route('admin.media.delete', removedId), {
-                media: removedId
-            });
-
-            props.hasNeedReload && router.reload();
+        if (!result) {
+            removedId = img.options.server_id
         }
+        return result
+    })
 
-        emit('update:modelValue', props.modelValue.filter(img => img.trim() !== image.trim()))
+    if (removedId) {
+        axios.delete(route('admin.media.delete', removedId), {
+            media: removedId
+        });
+
+        props.hasNeedReload && router.reload();
     }
 
-    const handleFilePondRemove = (source, load, error) => {
-        removeFormImage(source);
-        load();
-    }
+    emit('update:modelValue', props.modelValue.filter(img => img.trim() !== image.trim()))
+}
 
-    const handleFilePondRevert = (uniqueId, load, error) => {
-        removeFormImage(uniqueId);
-        load();
-    }
+const handleFilePondRemove = (source, load, error) => {
+    removeFormImage(source);
+    load();
+}
 
-    const handleFilePondLoad = (response) => {
-        const data = JSON.parse(response);
-        const image = data.file;
-        addFormImage(image);
-        return image.path;
-    }
+const handleFilePondRevert = (uniqueId, load, error) => {
+    removeFormImage(uniqueId);
+    load();
+}
 
-    const handleFilePondLoaded = (source, load, error, progress, abort, headers) => {
-        fetch(source)
-            .then(res => {
-                if (!res.ok) {
-                    error('خطا در بارگیری فایل: ' + res.statusText);
-                    return;
-                }
-                return res.blob();
-            })
-            .then(myBlob => {
-                load(myBlob);
-            })
-            .catch(err => {
-                error(err.message);
-            });
+const handleFilePondLoad = (response) => {
+    const data = JSON.parse(response);
+    const image = data.file;
 
-        return {
-            abort: () => {
-                abort();
+    addFormImage(image);
+
+    return image.path;
+}
+
+const handleReorder = (fileItems) => {
+    const items = fileItems.map(fileItem => {
+        const file = files.value.find(file => file.options.path === fileItem.serverId);
+        return file.options.serverId ?? file.options.path;
+    })
+    emit('update:modelValue', items);
+};
+
+const handleFilePondLoaded = (source, load, error, progress, abort, headers) => {
+    fetch(source)
+        .then(res => {
+            if (!res.ok) {
+                error('خطا در بارگیری فایل: ' + res.statusText);
+                return;
             }
-        };
-    }
+            return res.blob();
+        })
+        .then(myBlob => {
+            load(myBlob);
+        })
+        .catch(err => {
+            error(err.message);
+        });
+
+    return {
+        abort: () => {
+            abort();
+        }
+    };
+}
 
 </script>
