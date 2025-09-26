@@ -11,20 +11,19 @@ class MediaController extends Controller
 {
     public function upload(Request $request)
     {
-        $files = $request->allFiles();
+        $data = $request->validate([
+            'imageFilepond' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048'
+        ]);
+        $file = $data['imageFilepond'];
 
-        $urls = [];
-
-        foreach ($files as $file) {
-            $file = $file->storeAs('temp', $file->getClientOriginalName());
-            $urls[] = [
-                'url' => Storage::url($file),
-                'path' => $file
-            ];
-        }
+        $path = $file->storeAs('temp', $file->getClientOriginalName());
+        $data = [
+            'url' => Storage::url($path),
+            'path' => $path
+        ];
 
         return response()->json([
-            'files' => $urls,
+            'file' => $data,
         ]);
     }
 

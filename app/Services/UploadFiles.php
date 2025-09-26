@@ -16,11 +16,8 @@ class UploadFiles
     {
         $hasDeletedFiles = false;
         foreach ($files as $file) {
-            $isNew = $file['new'] ?? null;
-            $path = $file['id'] ?? null;
-            $url = $file['url'] ?? null;
 
-            if (!$url || !$path || !$isNew) {
+            if(!is_string($file)) {
                 continue;
             }
 
@@ -29,7 +26,11 @@ class UploadFiles
                 $hasDeletedFiles = true;
             }
 
-            $path = Storage::path($path);
+            $path = Storage::path($file);
+
+            if(!file_exists($path)) {
+                continue;
+            }
             $model->addMedia($path)->toMediaCollection($collectionName);
         }
     }

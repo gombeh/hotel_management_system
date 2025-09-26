@@ -35,7 +35,7 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name',
-            'icon' => 'nullable|array',
+            'icon' => 'nullable|array|max:1',
         ]);
 
         $facility = Facility::create($data);
@@ -48,7 +48,7 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name,' . $facility->id,
-            'icon' => 'nullable|array',
+            'icon' => 'nullable|array|max:1',
         ]);
 
         $facility->update($data);
