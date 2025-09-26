@@ -49,3 +49,11 @@
     -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M5 7l3 3l3 -3'/></svg>");
     mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M5 7l3 3l3 -3'/></svg>");
 }
+
+ .dropzone {
+     border-radius: 5px !important;
+     padding: 10px !important;
+     border: var(--tblr-border-width) solid var(--tblr-border-color) !important;
+     border-radius: var(--tblr-border-radius) !important;
+     box-shadow: var(--tblr-shadow-input) !important;
+ }

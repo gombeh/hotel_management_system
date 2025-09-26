@@ -25,6 +25,7 @@ const {facility} = defineProps({
 
 const form = useForm({
     name: facility.name,
+    icon: facility.icon,
 });
 
 const closeModal = inject('closeModal');

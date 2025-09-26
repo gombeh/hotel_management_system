@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FacilityResource;
 use App\Models\Facility;
+use App\Services\UploadFiles;
 use Illuminate\Http\Request;
 
 class FacilityController extends Controller
@@ -34,14 +35,11 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name',
-            'icon' => 'nullable|string',
+            'icon' => 'nullable|array',
         ]);
 
         $facility = Facility::create($data);
-
-        if($data['icon']) {
-            $facility->addMedia($data['icon'])->toMediaCollection();
-        }
+        UploadFiles::handle($facility, $data['icon'],);
 
         return redirect()->back()->with('message', 'Facility created.');
     }
@@ -50,14 +48,11 @@ class FacilityController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|unique:facilities,name,' . $facility->id,
+            'icon' => 'nullable|array',
         ]);
 
-        $facility = $facility->update($data);
-
-        if($data['icon']) {
-            $facility->media->each(fn($media) => $facility->deleteMedia($media->id));
-            $facility->addMedia($data['icon'])->toMediaCollection();
-        }
+        $facility->update($data);
+        UploadFiles::handle($facility, $data['icon'], hasDeleteAllFiles: true);
 
         return redirect()->back()->with('message', 'Facility updated.');
     }

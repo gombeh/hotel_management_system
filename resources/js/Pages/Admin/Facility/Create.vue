@@ -21,6 +21,7 @@ import {inject} from "vue";
 
 const form = useForm({
     name: '',
+    icon: [],
 });
 
 const closeModal = inject('closeModal');
