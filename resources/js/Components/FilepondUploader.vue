@@ -1,4 +1,5 @@
 <template>
+    <label class="form-label">{{label}}</label>
     <file-pond
         name="imageFilepond"
         ref="pond"
@@ -40,6 +41,7 @@ import {router} from '@inertiajs/vue3'
 
 
 const props = defineProps({
+    label: String,
     modelValue: {
         type: Array,
         default: () => [],

@@ -10,7 +10,7 @@
                     required
                 />
             </div>
-            <FilepondUploader v-model="form.icon"/>
+            <FilepondUploader v-model="form.icon" label="Icon"/>
         </form>
     </Modal>
 </template>
