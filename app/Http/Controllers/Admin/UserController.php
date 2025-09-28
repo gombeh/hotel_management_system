@@ -28,6 +28,7 @@ class UserController extends Controller
         $limit = $request->limit;
         $roles = Role::all();
         $users = QueryBuilder::for(User::class)
+            ->with('roles')
             ->allowedFilters([
                 AllowedFilter::custom('search', new FilterSearch(['first_name', 'last_name', 'email']))
             ])->allowedSorts([
