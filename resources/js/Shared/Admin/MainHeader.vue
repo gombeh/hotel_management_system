@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import {IconHome, IconUsers, IconUser,
     IconShieldLock, IconBuildingSkyscraper,
-    IconWorld, IconBed,IconClipboardData} from "@tabler/icons-vue"
+    IconWorld, IconBed,IconClipboardData, IconSofa} from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
 const page = usePage();
@@ -104,6 +104,11 @@ const links = [
                 routeName: 'admin.facilities.index',
                 icon: h(IconClipboardData)
             },
+            {
+                name: "Room Types",
+                routeName: 'admin.roomTypes.index',
+                icon: h(IconSofa)
+            }
         ]
     }
 ]

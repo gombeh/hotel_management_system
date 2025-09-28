@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\BedType;
 use App\Models\Country;
 use App\Models\Facility;
+use App\Models\RoomType;
 use App\Models\User;
 use App\Services\Permission\PermissionService;
 use Illuminate\Database\Seeder;
@@ -68,5 +69,8 @@ class DatabaseSeeder extends Seeder
                  'name' => $facility,
              ]);
          }
+
+         $roomTypes = RoomType::factory(50)->create();
+
     }
 }

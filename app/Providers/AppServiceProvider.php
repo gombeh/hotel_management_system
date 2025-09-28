@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Facility;
+use App\Models\RoomType;
 use App\Models\User;
 use App\Policies\RolePolicy;
 use App\Services\Permission\RouteMacroService;
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         MorphTo::enforceMorphMap([
             'user' => User::class,
             'facility' => Facility::class,
+            'roomType' => RoomType::class,
         ]);
 
         Gate::policy(Role::class, RolePolicy::class);
