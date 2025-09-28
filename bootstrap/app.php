@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsAuthorize;
+use App\Http\Middleware\PaginationValidation;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,7 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'authorize' => IsAuthorize::class
+            'authorize' => IsAuthorize::class,
+            'pagination.validation' => PaginationValidation::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
