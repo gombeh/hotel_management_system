@@ -8,8 +8,13 @@ use App\Http\Requests\Admin\User\EditRequest;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Services\QueryBuilder;
+use App\Services\Filters\FilterSearch;
+use App\Services\Sorts\MultiColumnSort;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -18,33 +23,32 @@ class UserController extends Controller
         $this->authorizeResource(User::class, 'user');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $request->limit;
         $roles = Role::all();
-        $users = QueryBuilder::from(User::class)
-            ->with('roles')
-            ->mixedFilter('search', ['first_name', 'last_name', 'email'])
-            ->sortFields([
-                'full_name' => ['first_name', 'last_name'],
-                'email' => null,
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FilterSearch(['first_name', 'last_name', 'email']))
+            ])->allowedSorts([
+                'email',
+                AllowedSort::custom('full-name', new MultiColumnSort(['first_name', 'last_name'])),
             ])
-            ->hasLimitRecord()
             ->latest()
-            ->paginate()
+            ->paginate($limit)
             ->withQueryString()
             ->through(fn($user) => $user->setAttribute('can', [
                 'edit' => auth()->user()->can('update', $user),
                 'delete' => auth()->user()->can('delete', $user) && $user->id !== 1,
             ]));
 
-
         $resource = UserResource::collection($users);
         return inertia('Admin/User/List', [
             'roles' => RoleResource::collection($roles),
             'users' => $resource,
-            'filters' => request()->only('search'),
-            'sorts' => request()->input('sorts'),
-            'limit' => request()->integer('limit', config('app.per_page')),
+            'filters' => request()->input('filters') ?? (object)[],
+            'sorts' => request()->input('sorts') ?? "",
+            'limit' => $limit,
             'can' => [
                 'createUser' => auth()->user()->can('create', User::class),
             ]

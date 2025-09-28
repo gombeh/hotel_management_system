@@ -7,7 +7,10 @@ use App\Http\Requests\Admin\Country\CreateRequest;
 use App\Http\Requests\Admin\Country\EditRequest;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
-use App\Services\QueryBuilder;
+use App\Services\Filters\FilterSearch;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CountryController extends Controller
 {
@@ -16,18 +19,19 @@ class CountryController extends Controller
         $this->authorizeResource(Country::class, 'country');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $request->limit;
         $user = auth()->user();
-        $countries = QueryBuilder::from(Country::class)
-            ->mixedFilter('search', ['name', 'short'])
-            ->sortFields([
-                'name' => null,
-                'short' => null,
+        $countries = QueryBuilder::for(Country::class)
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FilterSearch(['name', 'short']))
+            ])->allowedSorts([
+                'name',
+                'short'
             ])
-            ->hasLimitRecord()
             ->latest()
-            ->paginate()
+            ->paginate($limit)
             ->withQueryString()
             ->through(fn($country) => $country->setAttribute('can', [
                 'edit' => $user->can('update', $country),
@@ -38,9 +42,9 @@ class CountryController extends Controller
         $resource = CountryResource::collection($countries);
         return inertia('Admin/Country/List', [
             'countries' => $resource,
-            'filters' => request()->only('search'),
-            'sorts' => request()->input('sorts'),
-            'limit' => request()->integer('limit', config('app.per_page')),
+            'filters' => request()->input('filters') ?? (object)[],
+            'sorts' => request()->input('sorts') ?? "",
+            'limit' => $limit,
             'can' => [
                 'createCountry' => $user->can('create', Country::class),
             ]

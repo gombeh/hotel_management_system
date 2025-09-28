@@ -35,10 +35,7 @@
                                   <IconSearch class="icon icon-1"/>
                               </span>
                                 <input id="advanced-table-search" type="text"
-                                       class="form-control" autocomplete="off" v-model="search">
-                                <span class="input-group-text">
-                                <kbd>ctrl + K</kbd>
-                              </span>
+                                       class="form-control" autocomplete="off" v-model="filters.search">
                             </div>
                         </div>
                     </div>
@@ -49,26 +46,8 @@
                     <thead>
                     <tr>
                         <th class="w-1"></th>
-                        <th>
-                            <button class="table-sort d-flex justify-content-between"
-                                    @click="sortColumn('name')"
-                                    :class="{
-                                            'asc': sorts?.name === 'asc',
-                                            'desc': sorts?.name === 'desc'
-                                        }">
-                                 Name
-                            </button>
-                        </th>
-                        <th>
-                            <button class="table-sort d-flex justify-content-between"
-                                    @click="sortColumn('short')"
-                                    :class="{
-                                            'asc': sorts?.short === 'asc',
-                                            'desc': sorts?.short === 'desc'
-                                        }">
-                                Short
-                            </button>
-                        </th>
+                        <sort-head name="name" v-model="sorts" label="Name" />
+                        <sort-head name="short" v-model="sorts" label="Short" />
                         <th></th>
                     </tr>
                     </thead>
@@ -129,23 +108,23 @@ import Create from "./Create.vue";
 import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
+import SortHead from "../../../Components/SortHead.vue";
 
 const confirmDelete = useConfirm();
 
 const props = defineProps({
     'countries': Object,
     'filters': Object,
-    'sorts': Object,
+    'sorts': String,
     'limit': Number,
     'can': Object,
-    'roles': Object
 });
 
 let editingCountry = ref(null);
 let openModal = ref(false);
-const search = ref(props.filters.search);
-const sorts = ref(props.sorts ?? {});
-const limit = ref(props.limit ?? 15)
+const filters = ref(props.filters);
+const sorts = ref(props.sorts);
+const limit = ref(props.limit)
 
 provide("closeModal", () => {
     openModal.value = false
@@ -157,34 +136,19 @@ const openEditModal = (country) => {
     openModal.value = true
 }
 
-
-const sortColumn = (field) => {
-    const value = sorts.value;
-
-    switch (value[field]) {
-        case undefined:
-        case null:
-            value[field] = 'asc'
-            break;
-        case 'asc':
-            value[field] = 'desc'
-            break
-        default:
-            delete (value[field])
-    }
-
-    syncFilters();
-}
-
-watch(search, debounce(() => {
+watch(filters, debounce(() => {
     syncFilters()
-}, 300))
+}, 300), {
+    deep: true
+})
+
+watch(sorts, () => syncFilters());
 
 const syncFilters = () => {
     router.get(route('admin.countries.index'), {
-        sorts: toRaw(sorts.value),
+        sorts: sorts.value,
         limit: limit.value,
-        search: search.value
+        filters: toRaw(filters.value)
     }, {
         preserveState: true,
         replace: true
