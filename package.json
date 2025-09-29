@@ -18,6 +18,7 @@
         "@tabler/core": "^1.4.0",
         "@tabler/icons-vue": "^3.35.0",
         "@vitejs/plugin-vue": "^6.0.1",
+        "@vueup/vue-quill": "^1.2.0",
         "filepond": "^4.32.9",
         "filepond-plugin-file-validate-type": "^1.2.9",
         "filepond-plugin-image-preview": "^4.6.12",
