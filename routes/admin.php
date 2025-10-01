@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('bedTypes', BedTypeController::class)->except('show');
     Route::apiResource('facilities', FacilityController::class)->except('show');
 
-    Route::apiResource('roomTypes', RoomTypeController::class)->except('show')
+    Route::resource('roomTypes', RoomTypeController::class)->except('show')
         ->middlewareFor('index', 'pagination.validation');
 
 

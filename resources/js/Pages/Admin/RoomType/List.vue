@@ -8,7 +8,9 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <Link class="btn btn-primary btn-5 d-none d-sm-inline-block" v-if="can.createRoomType">
+                <Link :href="route('admin.roomTypes.create')"
+                      class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                      v-if="can.createRoomType">
                     <IconPlus class="icon icon-2"/>
                     Create new
                 </Link>

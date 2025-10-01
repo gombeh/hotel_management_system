@@ -3,9 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RoomType\CreateRequest;
+use App\Http\Requests\Admin\RoomType\EditRequest;
+use App\Http\Resources\BedTypeResource;
 use App\Http\Resources\RoomTypeResource;
+use App\Models\BedType;
+use App\Models\Facility;
 use App\Models\RoomType;
+use App\Services\UploadFiles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RoomTypeController extends Controller
@@ -40,15 +47,36 @@ class RoomTypeController extends Controller
 
     public function create()
     {
-        //
+        $bedTypes = BedType::all();
+        $facilities = Facility::all()->pluck('name', 'id');
+
+        return inertia('Admin/RoomType/Create', [
+            'bedTypes' => BedTypeResource::collection($bedTypes),
+            'facilities' => $facilities,
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        DB::transaction(function() use ($data) {
+            $roomType = RoomType::create($data);
+            UploadFiles::handle($roomType, $data['mainImage'], 'main', true);
+            UploadFiles::handle($roomType, $data['gallery'], 'gallery');
+
+            $bedTypes = collect($data['bedTypes'])->mapWithKeys(function($bedType) {
+                return [$bedType['id'] => ['quantity' => $bedType['quantity']]];
+            });
+
+            $roomType->facilities()->sync($data['facilities']);
+            $roomType->bedTypes()->sync($bedTypes);
+        });
+
+        return redirect()->back()->with('message', 'Room type created.');
     }
 
-    public function edit(RoomType $roomType)
+    public function edit(EditRequest $roomType)
     {
         //
     }
