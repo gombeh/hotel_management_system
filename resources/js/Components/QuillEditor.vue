@@ -6,6 +6,7 @@
         theme="snow"
         class="form-control quill"
     />
+    <div class="invalid-feedback d-block" v-if="error">{{ error }}</div>
 </template>
 
 <script setup>
@@ -16,6 +17,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 const props = defineProps({
     modelValue: String,
     label: String,
+    error: String,
 })
 
 const description = ref(props.modelValue)
@@ -49,12 +51,14 @@ const toolbarOptions = [
     border-radius: var(--tblr-border-radius);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border: var(--tblr-border-width) solid var(--tblr-border-color) !important;
 }
 
 .quill {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     min-height: 150px !important;
+    border: var(--tblr-border-width) solid var(--tblr-border-color) !important;
 }
 
 .ql-container {
