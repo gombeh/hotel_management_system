@@ -24,7 +24,7 @@ defineProps({
     },
     placeholder: String,
     autocomplete: String,
-    modelValue: String, // for v-modal
+    modelValue: [Number, String],
     error: String
 })
 
