@@ -73,12 +73,20 @@ class RoomTypeController extends Controller
             $roomType->bedTypes()->sync($bedTypes);
         });
 
-        return redirect()->back()->with('message', 'Room type created.');
+        return redirect()->route('admin.roomTypes.create')->with('message', 'Room type created.');
     }
 
-    public function edit(EditRequest $roomType)
+    public function edit(RoomType $roomType)
     {
-        //
+        $roomType->load('facilities', 'bedTypes');
+        $bedTypes = BedType::all();
+        $facilities = Facility::all()->pluck('name', 'id');
+
+        return inertia('Admin/RoomType/Update', [
+            'roomType' => new RoomTypeResource($roomType),
+            'bedTypes' => BedTypeResource::collection($bedTypes),
+            'facilities' => $facilities,
+        ]);
     }
 
     public function update(Request $request, RoomType $roomType)

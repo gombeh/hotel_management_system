@@ -70,7 +70,7 @@
                         <td>${{ roomType.price.toLocaleString('en-US') }}</td>
                         <td>
                             <span class="badge"
-                                :class="{
+                                  :class="{
                                     'bg-success-lt': roomType.status === 'active',
                                     'bg-danger-lt': roomType.status === 'inactive',
                                 }">
@@ -84,7 +84,9 @@
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                    <Link class="dropdown-item align-middle" v-if="roomType.can.edit">
+                                    <Link :href="route('admin.roomTypes.edit', roomType.id)"
+                                          class="dropdown-item align-middle"
+                                          v-if="roomType.can.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </Link>

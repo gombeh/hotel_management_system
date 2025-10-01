@@ -40,7 +40,7 @@ const convertOptions = Object.entries(props.options).map(([key, value]) => ({
 }))
 
 const selected = ref(props.modelValue.map(value => ({
-    label: convertOptions.value,
+    label: convertOptions.find(option => option.value == value)?.label ?? '',
     value: value
 })));
 

@@ -27,8 +27,12 @@ class RoomTypeResource extends JsonResource
             'max_children' => $this->max_children,
             'max_total_guests' => $this->max_total_guests,
             'price' => $this->price,
+            'extra_bed_price' => $this->extra_bed_price,
             'status' => $this->status,
+            'mainImage' => MediaResource::collection($this->getMedia('main')),
             'gallery' => MediaResource::collection($this->getMedia('gallery')),
+            'facilities' => FacilityResource::collection($this->whenLoaded('facilities')),
+            'bedTypes' => BedTypeResource::collection($this->whenLoaded('bedTypes')),
             'can' => $this->whenNotNull($this->can),
         ];
     }

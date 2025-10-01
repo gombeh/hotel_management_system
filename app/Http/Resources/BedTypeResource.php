@@ -20,6 +20,7 @@ class BedTypeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'capacity' => $this->capacity,
+            'quantity' => $this->whenNotNull($this->pivot?->quantity),
             'can' => $this->whenNotNull($this->can),
         ];
     }

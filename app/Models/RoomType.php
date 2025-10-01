@@ -14,6 +14,7 @@ class RoomType extends Model implements HasMedia
 
     protected $casts = [
         'price' => 'integer',
+        'extra_bed_price' => 'integer'
     ];
 
     protected $fillable = [
@@ -32,7 +33,7 @@ class RoomType extends Model implements HasMedia
 
     public function bedTypes(): BelongsToMany
     {
-        return $this->belongsToMany(BedType::class, 'room_type_beds');
+        return $this->belongsToMany(BedType::class, 'room_type_beds')->withPivot('quantity');
     }
 
     public function facilities(): BelongsToMany
