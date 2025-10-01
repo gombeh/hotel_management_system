@@ -9,25 +9,26 @@
         :allow-reorder="allowReorder"
         @reorderfiles="handleReorder"
         v-bind:server="{
-            url: '',
-            timeout: 7000,
-            process:{
-                url: route('admin.media.upload'),
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $page.props.csrf_token
-                },
-                withCredentials: false,
-                onload: handleFilePondLoad,
+        url: '',
+        timeout: 7000,
+        process:{
+            url: route('admin.media.upload'),
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $page.props.csrf_token
             },
-            load: handleFilePondLoaded,
-            remove: handleFilePondRemove,
-            revert: handleFilePondRevert
-        }"
+            withCredentials: false,
+            onload: handleFilePondLoad,
+        },
+        load: handleFilePondLoaded,
+        remove: handleFilePondRemove,
+        revert: handleFilePondRevert
+    }"
         v-bind:files="files"
         v-on:init="handleFilePondInit"
     >
     </file-pond>
+    <div class="invalid-feedback d-block" v-if="error">{{error}}</div>
 </template>
 
 <script setup>
@@ -61,6 +62,10 @@ const props = defineProps({
     hasNeedReload: {
         type: Boolean,
         default: true
+    },
+    error: {
+        type: String,
+        default: ""
     }
 });
 
@@ -178,3 +183,9 @@ const handleFilePondLoaded = (source, load, error, progress, abort, headers) => 
 }
 
 </script>
+
+<style>
+.filepond--root {
+    margin: 0 !important;
+}
+</style>
