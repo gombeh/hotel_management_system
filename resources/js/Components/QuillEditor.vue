@@ -1,14 +1,11 @@
 <template>
-    <div class="mb-3 position-relative">
-        <label class="form-label">{{ label }}</label>
-
-        <QuillEditor
-            v-model:content="description" contentType="html"
-            :toolbar="toolbarOptions"
-            theme="snow"
-            class="form-control quill"
-        />
-    </div>
+    <label class="form-label">{{ label }}</label>
+    <QuillEditor
+        v-model:content="description" contentType="html"
+        :toolbar="toolbarOptions"
+        theme="snow"
+        class="form-control quill"
+    />
 </template>
 
 <script setup>
