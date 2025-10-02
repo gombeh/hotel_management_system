@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('room_type_beds', function (Blueprint $table) {
-            $table->foreignId('room_type_id')->constrained();
-            $table->foreignId('bed_type_id')->constrained();
+            $table->foreignId('room_type_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('bed_type_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('quantity');
             $table->primary(['room_type_id', 'bed_type_id']);
         });
