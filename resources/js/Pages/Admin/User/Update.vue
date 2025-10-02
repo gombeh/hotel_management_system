@@ -1,8 +1,8 @@
 <template>
     <Modal title="Edit Users" formId="editUserForm">
-        <form @submit.prevent="submitEdit" method="post" id="editUserForm">
+        <form @submit.prevent="submitEdit" method="post" id="editUserForm"  class="d-flex flex-column gap-4">
             <div class="row">
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <BaseInput
                         label="First Name"
                         v-model="form.first_name"
@@ -11,7 +11,7 @@
                         required
                     />
                 </div>
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <BaseInput
                         label="Last Name"
                         v-model="form.last_name"
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <BaseInput
                         label="Email"
                         type= "email"
@@ -32,7 +32,7 @@
                         required
                     />
                 </div>
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <BaseInput
                         label="Password"
                         type= "password"
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <SelectBox v-model="form.roles"
                                name="roles"
                                :errors="form.errors"
@@ -52,7 +52,7 @@
                         <option v-for="role in roles" :value="role.id">{{ role.name }}</option>
                     </SelectBox>
                 </div>
-                <div class="mb-3 col-lg-6">
+                <div class="col-lg-6">
                     <div class="form-label">Sex</div>
                     <RadioButton v-model="form.sex" :options="options" />
                 </div>
