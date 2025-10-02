@@ -1,5 +1,5 @@
 <template>
-    <label class="form-label">{{label}}</label>
+    <label class="form-label">{{ label }}</label>
     <file-pond
         name="imageFilepond"
         ref="pond"
@@ -28,7 +28,7 @@
         v-on:init="handleFilePondInit"
     >
     </file-pond>
-    <div class="invalid-feedback d-block" v-if="error">{{error}}</div>
+    <div class="invalid-feedback d-block" v-if="error">{{ error }}</div>
 </template>
 
 <script setup>
@@ -39,6 +39,7 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import {router} from '@inertiajs/vue3'
+import {isString} from "../Utils/helper.js";
 
 
 const props = defineProps({
@@ -111,7 +112,7 @@ const addFormImage = (image) => {
     emit('update:modelValue', [...props.modelValue, image.path])
 }
 
-const removeFormImage = (image) => {
+const removeFormImage = (image) => {  //todo fix bug sorted image delete and de sort that in create
     let removedId
     files.value = files.value.filter(img => {
         const result = img.options.path.trim() !== image.trim()
@@ -130,7 +131,10 @@ const removeFormImage = (image) => {
         props.hasNeedReload && router.reload();
     }
 
-    emit('update:modelValue', props.modelValue.filter(img => String(img).trim() !== image.trim()))
+    emit('update:modelValue', props.modelValue.filter(img => {
+        if (!isString(image)) return true;
+        return img.trim() !== image.trim()
+    }))
 }
 
 const handleFilePondRemove = (source, load, error) => {
@@ -154,10 +158,11 @@ const handleFilePondLoad = (response) => {
 
 const handleReorder = (fileItems) => {
     const items = fileItems.map(fileItem => {
-        const file = files.value.find(file => file.options.path === fileItem.serverId);
-        return file.options.serverId ?? file.options.path;
-    })
-    emit('update:modelValue', items);
+        const file = files.value.find(file => [file.options.path, file.source].includes(fileItem.serverId));
+        return file?.options.serverId ?? file?.options.path ?? null;
+    }).map(fileItem => fileItem)
+
+    items.length && emit('update:modelValue', items);
 };
 
 const handleFilePondLoaded = (source, load, error, progress, abort, headers) => {
