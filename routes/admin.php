@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');
@@ -36,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roomTypes', RoomTypeController::class)->except('show')
         ->middlewareFor('index', 'pagination.validation');
 
+    Route::apiResource('rooms', RoomController::class)->except('show')
+        ->middlewareFor('index', 'pagination.validation');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\BedType;
 use App\Models\Country;
 use App\Models\Facility;
+use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\User;
 use App\Services\Permission\PermissionService;
@@ -70,6 +71,10 @@ class DatabaseSeeder extends Seeder
          $roomTypes->map(function ($roomType) use ($bedTypes, $facilities) {
              $roomType->bedTypes()->sync([fake()->randomElement($bedTypes)->id => ['quantity' => mt_rand(1,2)]]);
              $roomType->facilities()->sync(fake()->randomElements($facilities, mt_rand(5, 10)));
+         });
+
+         $roomTypes->each(function ($roomType) {
+             Room::factory(mt_rand(10, 30))->create(['room_type_id' => $roomType->id]);
          });
 
     }

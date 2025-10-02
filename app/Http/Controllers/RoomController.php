@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\Admin\Room\CreateRequest;
+use App\Http\Requests\Admin\Room\EditRequest;
+use App\Http\Resources\RoomResource;
+use App\Models\Room;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
+
+class RoomController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->authorizeResource(Room::class, 'room');
+    }
+
+
+    public function index(Request $request)
+    {
+        $limit = $request->limit;
+        $user = auth()->user();
+        $countries = QueryBuilder::for(Room::class)
+            ->allowedFilters([
+                AllowedFilter::exact('room_number'),
+                AllowedFilter::exact('floor_number'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('room_type_id'),
+            ])->allowedSorts([
+                'room_number',
+                'floor_number',
+                'status',
+                'room_type_id',
+                'smoking_preference'
+            ])
+            ->latest()
+            ->paginate($limit)
+            ->withQueryString()
+            ->through(fn($room) => $room->setAttribute('can', [
+                'edit' => $user->can('update', $room),
+                'delete' => $user->can('delete', $room),
+            ]));
+
+
+        $resource = RoomResource::collection($countries);
+        return inertia('Admin/Country/List', [
+            'rooms' => $resource,
+            'filters' => request()->input('filters') ?? (object)[],
+            'sorts' => request()->input('sorts') ?? "",
+            'limit' => $limit,
+            'can' => [
+                'createRoom' => $user->can('create', Room::class),
+            ]
+        ]);
+    }
+
+    public function store(CreateRequest $request)
+    {
+        $data = $request->validated();
+
+        Room::create($data);
+
+        return redirect()->back()->with('message', 'Room created.');
+    }
+
+
+    public function update(EditRequest $request, Room $room)
+    {
+        $data = $request->validated();
+
+        $room->update($data);
+
+        return redirect()->back()->with('message', 'Room updated.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Room $room)
+    {
+        $room->delete();
+
+        return redirect()->back()->with('message', 'Room deleted.');
+    }
+}
