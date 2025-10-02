@@ -232,7 +232,9 @@ watch(
 
 
 const handleCreateRoomType = () => {
-    form.post(route('admin.roomTypes.store'));
+    form.post(route('admin.roomTypes.store'), {
+        onSuccess: () => window.location.reload(),
+    });
 }
 
 </script>
