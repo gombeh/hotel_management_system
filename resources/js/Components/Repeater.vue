@@ -9,7 +9,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, index) in items" :key="index">
+            <tr v-for="(item, index) in items" :key="item._uid">
                 <slot :item="item" :index="index"/>
                 <td>
                     <div class="d-flex gap-2">
@@ -60,18 +60,19 @@ const items = computed(() => {
             }
         });
         value['errors'] = errors;
+        value['_uid'] = Date.now() + Math.random()
         return value;
     });
 });
 
 
 const addRow = () => {
-    localValue.value.push({...props.defaultRow})
+    localValue.value.push({...props.defaultRow, _uid: Date.now() + Math.random()})
     emits('update:modelValue', localValue.value)
 }
 
 const removeRow = (index) => {
-    if (localValue.value.length <= props.minItems) return //todo problem with remove item and change label select
+    if (localValue.value.length <= props.minItems) return
 
     localValue.value.splice(index, 1)
     emits('update:modelValue', localValue.value)
