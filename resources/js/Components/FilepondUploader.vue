@@ -93,6 +93,7 @@ const handleFilePondInit = () => {
             path: image.url,
         }
     }))
+
     emit('update:modelValue', [])
 }
 
@@ -116,7 +117,7 @@ const removeFormImage = (image) => {
         const result = img.options.path.trim() !== image.trim()
 
         if (!result) {
-            removedId = img.options.server_id
+            removedId = img.options.serverId
         }
         return result
     })
