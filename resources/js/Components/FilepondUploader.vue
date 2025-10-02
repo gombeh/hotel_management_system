@@ -197,14 +197,8 @@ const handleFilePondLoaded = (source, load, error, progress, abort, headers) => 
     margin: 0 !important;
 }
 
-.filepond--multiple .filepond--list {
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 10px;
+.filepond--multiple .filepond--item {
+    width: calc(24.99% - 0.5em);
 }
 
-.filepond--multiple .filepond--item {
-    width: 200px !important;
-    height: 200px !important;
-}
 </style>
