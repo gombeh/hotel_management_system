@@ -67,7 +67,7 @@ const items = computed(() => {
 
 
 const addRow = () => {
-    localValue.value.push({...props.defaultRow, _uid: Date.now() + Math.random()})
+    localValue.value.push({...props.defaultRow})
     emits('update:modelValue', localValue.value)
 }
 
