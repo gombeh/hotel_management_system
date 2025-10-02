@@ -210,7 +210,7 @@ const form = useForm({
     size: roomType.size,
     max_adult: roomType.max_adult,
     max_children: roomType.max_children,
-    max_total_guests: roomType.max_children,
+    max_total_guests: roomType.max_total_guests,
     price: roomType.price,
     extra_bed_price: roomType.extra_bed_price,
     facilities: roomType.facilities.map(fac => fac.id),
@@ -233,7 +233,7 @@ watch(
 
 
 const handleCreateRoomType = () => {
-    form.post(route('admin.roomTypes.update', roomType.id));
+    form.put(route('admin.roomTypes.update', roomType.id));
 }
 
 </script>

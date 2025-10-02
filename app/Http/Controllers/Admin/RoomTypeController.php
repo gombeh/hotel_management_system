@@ -89,9 +89,24 @@ class RoomTypeController extends Controller
         ]);
     }
 
-    public function update(Request $request, RoomType $roomType)
+    public function update(EditRequest $request, RoomType $roomType)
     {
-        //
+        $data = $request->validated();
+
+        DB::transaction(function() use ($roomType, $data) {
+            $roomType->update($data);
+            UploadFiles::handle($roomType, $data['mainImage'], 'main', true);
+            UploadFiles::handle($roomType, $data['gallery'], 'gallery');
+
+            $bedTypes = collect($data['bedTypes'])->mapWithKeys(function($bedType) {
+                return [$bedType['id'] => ['quantity' => $bedType['quantity']]];
+            });
+
+            $roomType->facilities()->sync($data['facilities']);
+            $roomType->bedTypes()->sync($bedTypes);
+        });
+
+        return redirect()->back()->with('message', 'Room type updated.');
     }
 
     public function destroy(RoomType $roomType)
