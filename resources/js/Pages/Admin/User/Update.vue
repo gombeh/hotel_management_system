@@ -1,6 +1,6 @@
 <template>
     <Modal title="Edit Users" formId="editUserForm">
-        <form @submit.prevent="submitEdit" method="post" id="editUserForm"  class="d-flex flex-column gap-4">
+        <form @submit.prevent="submitEdit" method="post" id="editUserForm"  class="gap-inputs">
             <div class="row">
                 <div class="col-lg-6">
                     <BaseInput

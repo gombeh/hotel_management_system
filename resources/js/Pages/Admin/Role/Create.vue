@@ -1,7 +1,7 @@
 <template>
     <Modal title="New Roles" formId="createRoleForm">
         <form @submit.prevent="submitCreate" method="post" id="createRoleForm">
-            <div class="mb-3">
+            <div class="row">
                 <BaseInput
                     label="Name"
                     v-model="form.name"

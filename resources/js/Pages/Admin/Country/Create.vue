@@ -1,7 +1,7 @@
 <template>
     <Modal title="New Countries" formId="createCountryForm">
-        <form @submit.prevent="submitCreate" method="post" id="createCountryForm">
-            <div class="mb-3">
+        <form @submit.prevent="submitCreate" method="post" id="createCountryForm" class="gap-inputs">
+            <div class="row">
                 <BaseInput
                     label="Name"
                     v-model="form.name"
@@ -10,7 +10,7 @@
                     required
                 />
             </div>
-            <div class="mb-3">
+            <div class="row">
                 <BaseInput
                     label="Short"
                     v-model="form.short"

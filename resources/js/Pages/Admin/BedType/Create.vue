@@ -1,7 +1,7 @@
 <template>
     <Modal title="New Bed Types" formId="createBedTypeForm">
-        <form @submit.prevent="submitCreate" method="post" id="createBedTypeForm">
-            <div class="mb-3">
+        <form @submit.prevent="submitCreate" method="post" id="createBedTypeForm" class="gap-inputs">
+            <div class="row">
                 <BaseInput
                     label="Name"
                     v-model="form.name"
@@ -10,7 +10,7 @@
                     required
                 />
             </div>
-            <div class="mb-3">
+            <div class="row">
                 <BaseInput
                     label="Capacity"
                     type="number"

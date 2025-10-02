@@ -1,7 +1,7 @@
 <template>
     <Modal title="Edit Roles" formId="editRolesForm">
         <form @submit.prevent="submitEdit" method="post" id="editRolesForm">
-            <div class="mb-3">
+            <div class="row">
                 <BaseInput
                     label="Name"
                     v-model="form.name"

@@ -1,6 +1,6 @@
 <template>
     <Modal title="New Users" formId="createUserForm">
-        <form @submit.prevent="submitCreate" method="post" id="createUserForm" class="d-flex flex-column gap-4">
+        <form @submit.prevent="submitCreate" method="post" id="createUserForm" class="gap-inputs">
             <div class="row">
                 <div class="col-lg-6">
                     <BaseInput

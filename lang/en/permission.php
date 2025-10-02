@@ -10,6 +10,8 @@ return [
         'service' => 'Service',
         'country' => 'Country',
         'bedType' => 'Bed Type',
+        'facility' => 'Facility',
+        'floor' => 'Floor',
     ],
     'actions' => [
         'viewAny' => 'List',

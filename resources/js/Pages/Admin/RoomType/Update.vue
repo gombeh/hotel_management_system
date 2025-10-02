@@ -16,7 +16,7 @@
             <div class="card-header">Update Room Type</div>
             <div class="card-body">
                 <form id="createRoomTypes" method="post" @submit.prevent="handleCreateRoomType"
-                      class="d-flex flex-column gap-4">
+                      class="gap-inputs">
                     <div class="row">
                         <div class="col-6">
                             <base-input

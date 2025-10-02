@@ -1,7 +1,7 @@
 <template>
     <Modal title="Edit Facilities" formId="editFacilityForm">
-        <form @submit.prevent="submitEdit" method="post" id="editFacilityForm">
-            <div class="mb-3">
+        <form @submit.prevent="submitEdit" method="post" id="editFacilityForm" class="gap-inputs">
+            <div class="row">
                 <BaseInput
                     label="Name"
                     v-model="form.name"
@@ -10,7 +10,9 @@
                     required
                 />
             </div>
-            <FilepondUploader v-model="form.icon" label="Icon"/>
+            <div class="row">
+                <FilepondUploader v-model="form.icon" label="Icon"/>
+            </div>
         </form>
     </Modal>
 </template>
