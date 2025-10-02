@@ -1,6 +1,12 @@
 <template>
-    <label v-if="label" class="form-label">{{label}}</label>
+    <label
+        v-if="label"
+        :class="{'required': $attrs.hasOwnProperty('required')}"
+        class="form-label">
+        {{label}}
+    </label>
     <multiselect
+        v-bind="$attrs"
         :options="convertOptions"
         v-model="selected"
         :taggable="true"

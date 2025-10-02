@@ -23,6 +23,7 @@
                                 label="Name"
                                 v-model="form.name"
                                 :error="form.errors.name"
+                                required
                                 placeholder="Your name"/>
                         </div>
 
@@ -31,6 +32,7 @@
                                 label="Slug"
                                 v-model="form.slug"
                                 :error="form.errors.slug"
+                                required
                                 placeholder="Your slug"/>
                         </div>
                     </div>
@@ -40,6 +42,7 @@
                                 label="View"
                                 v-model="form.view"
                                 :error="form.errors.view"
+                                required
                                 placeholder="Your view"/>
                         </div>
                         <div class="col-6">
@@ -49,6 +52,7 @@
                                 min="1"
                                 v-model="form.size"
                                 :error="form.errors.size"
+                                required
                                 placeholder="Your size"/>
                         </div>
                     </div>
@@ -60,6 +64,7 @@
                                 min="1"
                                 v-model="form.max_adult"
                                 :error="form.errors.max_adult"
+                                required
                                 placeholder="Your max adult"/>
                         </div>
                         <div class="col-4">
@@ -69,6 +74,7 @@
                                 min="1"
                                 v-model="form.max_children"
                                 :error="form.errors.max_children"
+                                required
                                 placeholder="Your max children"/>
                         </div>
                         <div class="col-4">
@@ -78,6 +84,7 @@
                                 min="1"
                                 v-model="form.max_total_guests"
                                 :error="form.errors.max_total_guests"
+                                required
                                 placeholder="Your max adult"/>
                         </div>
                     </div>
@@ -89,6 +96,7 @@
                                 min="1"
                                 v-model="form.price"
                                 :error="form.errors.price"
+                                required
                                 placeholder="Your price"/>
                         </div>
                         <div class="col-6">
@@ -98,6 +106,7 @@
                                 min="1"
                                 v-model="form.extra_bed_price"
                                 :error="form.errors.extra_bed_price"
+                                required
                                 placeholder="Your extra bed price"/>
                         </div>
                     </div>
@@ -131,16 +140,6 @@
                         </Repeater>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <multi-select
-                                v-model="form.facilities"
-                                label="Facilities"
-                                :options="facilities"
-                                :error="form.errors.facilities || form.errors['facilities.0']"
-                            />
-                        </div>
-                    </div>
-                    <div class="row">
                         <quill-editor
                             v-model="form.description"
                             :error="form.errors.description"
@@ -150,27 +149,40 @@
                     <div class="row">
                         <div class="col-6">
                             <filepond-uploader
+                                required
                                 label="Main Image"
                                 v-model="form.mainImage"
                                 :error="form.errors.mainImage"
                                 :hasNeedReload="false"/>
                         </div>
                         <div class="col-6">
-                            <filepond-uploader
-                                label="Gallery"
-                                v-model="form.gallery"
-                                allow-multiple
-                                allow-reorder
-                                :max-files="128"
-                                :error="form.errors.gallery"
-                                :hasNeedReload="false"/>
+                            <multi-select
+                                v-model="form.facilities"
+                                label="Facilities"
+                                :options="facilities"
+                                required
+                                :error="form.errors.facilities || form.errors['facilities.0']"
+                            />
                         </div>
                     </div>
+                    <div class="row">
+                        <filepond-uploader
+                            label="Gallery"
+                            v-model="form.gallery"
+                            allow-multiple
+                            allow-reorder
+                            :max-files="128"
+                            :error="form.errors.gallery"
+                            :hasNeedReload="false"/>
 
-                    <base-switch
-                        label="Active"
-                        v-model="form.status"
-                        :rules="{'active': true, 'inactive': false}"/>
+                    </div>
+
+                    <div class="row">
+                        <base-switch
+                            label="Active"
+                            v-model="form.status"
+                            :rules="{'active': true, 'inactive': false}"/>
+                    </div>
                 </form>
             </div>
             <div class="card-footer text-end">

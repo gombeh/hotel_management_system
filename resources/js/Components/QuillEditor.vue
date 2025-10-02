@@ -1,6 +1,7 @@
 <template>
-    <label class="form-label">{{ label }}</label>
+    <label class="form-label" :class="{'required': $attrs.hasOwnProperty('required')}">{{ label }}</label>
     <QuillEditor
+        v-bind="$attrs"
         v-model:content="description" contentType="html"
         :toolbar="toolbarOptions"
         theme="snow"

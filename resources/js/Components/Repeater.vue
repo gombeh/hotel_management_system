@@ -4,7 +4,13 @@
         <table class="table mb-0">
             <thead>
             <tr>
-                <th v-for="head in heads" :key="head">{{ head }}</th>
+                <th v-for="head in heads" :key="head">
+                    {{ head.label ?? head }}
+                    <span class="required"
+                          v-if="head?.required ?? true">
+                        *
+                    </span>
+                </th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -78,4 +84,11 @@ const removeRow = (index) => {
     emits('update:modelValue', localValue.value)
 }
 </script>
+
+<style scoped>
+ .required {
+     margin-left: .25rem;
+     color: #d63939;
+ }
+</style>
 
