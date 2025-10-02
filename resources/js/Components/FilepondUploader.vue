@@ -130,7 +130,7 @@ const removeFormImage = (image) => {
         props.hasNeedReload && router.reload();
     }
 
-    emit('update:modelValue', props.modelValue.filter(img => img.trim() !== image.trim()))
+    emit('update:modelValue', props.modelValue.filter(img => String(img).trim() !== image.trim()))
 }
 
 const handleFilePondRemove = (source, load, error) => {
