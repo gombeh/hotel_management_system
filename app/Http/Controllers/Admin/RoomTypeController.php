@@ -111,6 +111,7 @@ class RoomTypeController extends Controller
 
     public function destroy(RoomType $roomType)
     {
-        //
+        $roomType->delete();
+        return redirect()->back()->with('message', 'Room type deleted.');
     }
 }
