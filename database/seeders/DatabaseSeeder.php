@@ -45,12 +45,8 @@ class DatabaseSeeder extends Seeder
              'Royal' => 2
          ];
 
-         foreach ($bedTypes as $type => $capacity) {
-             BedType::Create([
-                 'name' => $type,
-                 'capacity' => $capacity,
-             ]);
-         }
+         $bedTypes = array_map(fn($name, $quantity) => BedType::create(['name' => $name, 'capacity' => $quantity]),
+             array_keys($bedTypes), $bedTypes);
 
          $facilities = [
              'Private bathroom',
@@ -62,15 +58,19 @@ class DatabaseSeeder extends Seeder
              'Toilet',
              'Hardwood or parquet floors',
             'Towels',
+             'Shopping'
          ];
 
-         foreach ($facilities as $facility) {
-             Facility::create([
-                 'name' => $facility,
-             ]);
-         }
+         $facilities = array_map(fn($name) => Facility::create([
+             'name' => $name,
+         ]), $facilities);
 
          $roomTypes = RoomType::factory(50)->create();
+
+         $roomTypes->map(function ($roomType) use ($bedTypes, $facilities) {
+             $roomType->bedTypes()->sync([fake()->randomElement($bedTypes)->id => ['quantity' => mt_rand(1,2)]]);
+             $roomType->facilities()->sync(fake()->randomElements($facilities, mt_rand(5, 10)));
+         });
 
     }
 }
