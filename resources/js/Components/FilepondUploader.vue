@@ -1,8 +1,10 @@
 <template>
-    <label class="form-label">{{ label }}</label>
+    <label class="form-label" :class="{'required': $attrs.hasOwnProperty('required')}">{{ label }}</label>
     <file-pond
+        v-bind="$attrs"
         name="imageFilepond"
         ref="pond"
+        :class="{'filepond--multiple': allowMultiple}"
         v-bind:allow-multiple="true"
         accepted-file-types="image/png, image/jpeg"
         :maxFiles="maxFiles"
@@ -193,5 +195,16 @@ const handleFilePondLoaded = (source, load, error, progress, abort, headers) => 
 <style>
 .filepond--root {
     margin: 0 !important;
+}
+
+.filepond--multiple .filepond--list {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filepond--multiple .filepond--item {
+    width: 200px !important;
+    height: 200px !important;
 }
 </style>
