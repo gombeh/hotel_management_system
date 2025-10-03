@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal"/>
+    <Create v-if="openModal && !editingBedType"/>
     <Update v-if="openModal && editingBedType" :bedType="editingBedType"/>
 </template>
 

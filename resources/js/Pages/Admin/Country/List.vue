@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal"/>
+    <Create v-if="openModal && !editingCountry"/>
     <Update v-if="openModal && editingCountry" :country="editingCountry"/>
 </template>
 

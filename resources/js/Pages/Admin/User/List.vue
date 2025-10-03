@@ -105,7 +105,7 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal" :roles="roles"/>
+    <Create v-if="openModal && !editingUser" :roles="roles"/>
     <Update v-if="openModal && editingUser" :user="editingUser" :roles="roles"/>
 </template>
 

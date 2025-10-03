@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal"/>
+    <Create v-if="openModal && !editingFacility"/>
     <Update v-if="openModal && editingFacility" :facility="editingFacility"/>
 </template>
 

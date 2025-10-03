@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal"/>
+    <Create v-if="openModal && !editingRole"/>
     <Update v-if="openModal && editingRole" :role="editingRole"/>
 </template>
 
