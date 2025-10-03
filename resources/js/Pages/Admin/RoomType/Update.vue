@@ -1,5 +1,5 @@
 <template>
-    <Head title="permissions"/>
+    <Head title="Edit Room Type"/>
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title text-capitalize">Update Room Type</h2>
@@ -121,11 +121,10 @@
                             <template #default="{ item, index }" :key="index">
                                 <td>
                                     <select-box
+                                        placeholder="Choose Your Bed Type"
+                                        :options="bedTypes"
                                         v-model="item.id"
                                         :error="item.errors?.id">
-                                        <option v-for="bedType in bedTypes" :value="bedType.id" :key="bedType.id">
-                                            {{ bedType.name }}
-                                        </option>
                                     </select-box>
                                 </td>
                                 <td>

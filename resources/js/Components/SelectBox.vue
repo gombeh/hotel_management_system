@@ -5,7 +5,10 @@
             v-bind="$attrs"
             :id="name"
             v-model="localValue">
-        <slot/>
+        <option value="" v-if="placeholder">{{placeholder}}</option>
+        <option v-for="[id, label] in Object.entries(options)" :value="id" :key="id">
+            {{ label }}
+        </option>
     </select>
     <div class="invalid-feedback" v-if="error">
         {{ error }}
@@ -16,6 +19,7 @@
 import {defineProps, ref, watch} from 'vue'
 
 const props = defineProps({
+    options: Object,
     name: String,
     label: {
         type: String,
@@ -25,7 +29,11 @@ const props = defineProps({
         type: [String, Number, Array, null],
         default: null
     },
-    error: String
+    error: String,
+    placeholder: {
+        type: String,
+        default: ""
+    }
 })
 const localValue = ref(props.modelValue);
 const emit = defineEmits(['update:modelValue'])
