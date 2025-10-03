@@ -1,5 +1,9 @@
 <template>
-    <label v-if="label" class="form-label">{{ label }}</label>
+    <label v-if="label"
+           class="form-label"
+           :class="{'required': $attrs.hasOwnProperty('required')}">
+        {{ label }}
+    </label>
     <select class="form-select"
             :class="{ 'is-invalid':error}"
             v-bind="$attrs"
