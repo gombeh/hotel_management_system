@@ -47,11 +47,11 @@ class RoomTypeController extends Controller
 
     public function create()
     {
-        $bedTypes = BedType::all();
+        $bedTypes = BedType::all()->pluck('name', 'id');
         $facilities = Facility::all()->pluck('name', 'id');
 
         return inertia('Admin/RoomType/Create', [
-            'bedTypes' => BedTypeResource::collection($bedTypes),
+            'bedTypes' => $bedTypes,
             'facilities' => $facilities,
         ]);
     }
@@ -79,12 +79,12 @@ class RoomTypeController extends Controller
     public function edit(RoomType $roomType)
     {
         $roomType->load('facilities', 'bedTypes');
-        $bedTypes = BedType::all();
+        $bedTypes = BedType::all()->pluck('name', 'id');
         $facilities = Facility::all()->pluck('name', 'id');
 
         return inertia('Admin/RoomType/Update', [
             'roomType' => new RoomTypeResource($roomType),
-            'bedTypes' => BedTypeResource::collection($bedTypes),
+            'bedTypes' => $bedTypes,
             'facilities' => $facilities,
         ]);
     }

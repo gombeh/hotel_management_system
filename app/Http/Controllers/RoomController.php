@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\Room\CreateRequest;
 use App\Http\Requests\Admin\Room\EditRequest;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -24,6 +25,7 @@ class RoomController extends Controller
         $limit = $request->limit;
         $user = auth()->user();
         $countries = QueryBuilder::for(Room::class)
+            ->with('type')
             ->allowedFilters([
                 AllowedFilter::exact('room_number'),
                 AllowedFilter::exact('floor_number'),
@@ -44,9 +46,11 @@ class RoomController extends Controller
                 'delete' => $user->can('delete', $room),
             ]));
 
-
+        $roomTypes = RoomType::all()->pluck('name', 'id');
         $resource = RoomResource::collection($countries);
-        return inertia('Admin/Country/List', [
+
+        return inertia('Admin/Room/List', [
+            'roomTypes' => $roomTypes,
             'rooms' => $resource,
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",

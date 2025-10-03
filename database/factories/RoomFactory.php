@@ -18,7 +18,7 @@ class RoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'room_number' => fake()->unique()->randomNumber(3),
+            'room_number' => fake()->unique()->randomNumber(4),
             'floor_number' => mt_rand(1, 20),
             'status' => 'available',
             'smoking_preference' => fake()->randomElement(['No_preference','Non_smoking','Smoking'])

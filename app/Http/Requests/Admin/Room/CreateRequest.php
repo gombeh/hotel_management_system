@@ -26,8 +26,8 @@ class CreateRequest extends FormRequest
             'room_number' => ['required', 'integer', 'min:1', 'unique:rooms,room_number'],
             'floor_number' => ['required', 'integer', 'min:1'],
             'room_type_id' => ['required', 'integer', 'exists:room_types,id'],
-            'status' => ['required', 'status', 'in:available', 'occupied', 'maintenance'],
-            'smoking_preference' => ['required', 'string', 'in:No_preference', 'Non_smoking', 'Smoking'],
+            'status' => ['required', 'string', 'in:available,occupied,maintenance'],
+            'smoking_preference' => ['required', 'string', 'in:no_preference,non_smoking,smoking'],
         ];
     }
 

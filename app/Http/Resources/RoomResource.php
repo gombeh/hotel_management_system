@@ -18,9 +18,12 @@ class RoomResource extends JsonResource
         /** @var $this Room | RoomResource */
         return [
             'id' => $this->id,
-            'room_number' => $this->floor_number,
+            'room_number' => $this->room_number,
+            'floor_number' => $this->floor_number,
             'status' => $this->status,
             'smoking_preference' => $this->smoking_preference,
+            'type' => RoomTypeResource::make($this->whenLoaded('type')),
+            'can' => $this->whenNotNull($this->can)
         ];
     }
 }

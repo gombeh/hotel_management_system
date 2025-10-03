@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('room_type_id')->constrained();
             $table->integer('floor_number');
             $table->enum('status', ['available', 'occupied', 'maintenance'])->default('available');
-            $table->enum('smoking_preference', ['No_preference','Non_smoking','Smoking'])->default('No_preference');
+            $table->enum('smoking_preference', ['no_preference','non_smoking','smoking'])->default('no_preference');
             $table->timestamps();
         });
     }
