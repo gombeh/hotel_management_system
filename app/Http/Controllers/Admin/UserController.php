@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateRequest;
 use App\Http\Requests\Admin\User\EditRequest;
-use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\Filters\FilterSearch;
@@ -26,7 +25,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit;
-        $roles = Role::all();
+        $roles = Role::all()->pluck('name', 'id');
         $users = QueryBuilder::for(User::class)
             ->with('roles')
             ->allowedFilters([
@@ -45,7 +44,7 @@ class UserController extends Controller
 
         $resource = UserResource::collection($users);
         return inertia('Admin/User/List', [
-            'roles' => RoleResource::collection($roles),
+            'roles' => $roles,
             'users' => $resource,
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
@@ -62,8 +61,7 @@ class UserController extends Controller
         $data = $request->validated();
 
         $user = User::create($data);
-
-        $user->assignRole($data['roles']);
+        $user->roles()->sync($data['roles']);
 
         return redirect()->back()->with('message', 'User created.');
     }
@@ -76,8 +74,7 @@ class UserController extends Controller
         if (empty($data['password'])) unset($data['password']);
 
         $user->update($data);
-
-        $user->syncRoles($data['roles']);
+        $user->roles()->sync($data['roles']);
 
         return redirect()->back()->with('message', 'User updated.');
     }

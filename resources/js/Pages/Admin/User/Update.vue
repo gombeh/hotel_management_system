@@ -45,11 +45,11 @@
             <div class="row">
                 <div class="col-lg-6">
                     <SelectBox v-model="form.roles"
+                               :options="roles"
                                name="roles"
                                :errors="form.errors"
                                multiple=""
                                label="Select Roles">
-                        <option v-for="role in roles" :value="role.id">{{ role.name }}</option>
                     </SelectBox>
                 </div>
                 <div class="col-lg-6">
