@@ -61,7 +61,8 @@ import SelectBox from "../../../Components/SelectBox.vue";
 
 const {room} = defineProps({
     roomTypes: Object,
-    room: Object
+    room: Object,
+    statuses: Object
 })
 
 const form = useForm({
@@ -71,12 +72,6 @@ const form = useForm({
     status: room.status,
     smoking_preference: room.smoking_preference,
 });
-
-const statuses = {
-    'available': 'Available',
-    'occupied': 'Occupied',
-    'maintenance': 'Maintenance',
-}
 
 const smokingPreference = {
     'no_preference': 'No Preference',

@@ -58,23 +58,19 @@ import BaseInput from "../../../Components/BaseInput.vue";
 import {inject} from "vue";
 import SelectBox from "../../../Components/SelectBox.vue";
 
-defineProps({
+const {defaultStatus} = defineProps({
     roomTypes: Object,
+    statuses: Object,
+    defaultStatus: String,
 })
 
 const form = useForm({
     room_number: '',
     room_type_id: '',
     floor_number: '',
-    status: '',
+    status: defaultStatus,
     smoking_preference: '',
 });
-
-const statuses = {
-    'available': 'Available',
-    'occupied': 'Occupied',
-    'maintenance': 'Maintenance',
-}
 
 const smokingPreference = {
     'no_preference': 'No Preference',

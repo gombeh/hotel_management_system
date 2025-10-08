@@ -1,5 +1,5 @@
 <template>
-    <Head title="rooms" />
+    <Head title="rooms"/>
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title">Rooms</h2>
@@ -46,11 +46,11 @@
                     <thead>
                     <tr>
                         <th class="w-1"></th>
-                        <sort-head name="room_number" v-model="sorts" label="Room Number" />
-                        <sort-head name="type.name" v-model="sorts" label="Type" />
-                        <SortHead name="floor_number" v-model="sorts" label="Floor Number" />
-                        <SortHead name="status" v-model="sorts" label="Status" />
-                        <SortHead name="smoking_preference" v-model="sorts" label="Smoking Preference" />
+                        <sort-head name="room_number" v-model="sorts" label="Room Number"/>
+                        <sort-head name="type.name" v-model="sorts" label="Type"/>
+                        <SortHead name="floor_number" v-model="sorts" label="Floor Number"/>
+                        <SortHead name="status" v-model="sorts" label="Status"/>
+                        <SortHead name="smoking_preference" v-model="sorts" label="Smoking Preference"/>
                         <th></th>
                     </tr>
                     </thead>
@@ -63,8 +63,12 @@
                         <td>{{ room.room_number }}</td>
                         <td>{{ room.type.name }}</td>
                         <td>{{ room.floor_number }}</td>
-                        <td>{{ room.status }}</td>
-                        <td>{{room.smoking_preference}}</td>
+                        <td>
+                            <span class="badge" :class="displayStatus(room.status).bgClass">
+                                {{ displayStatus(room.status).label }}
+                            </span>
+                        </td>
+                        <td>{{ room.smoking_preference }}</td>
                         <td class="text-end">
                             <div class="dropdown" v-if="Object.values(room.can).some((per) => per === true)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
@@ -101,8 +105,14 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal && !editingRoom" :room-types="roomTypes"/>
-    <Update v-if="openModal && editingRoom" :room="editingRoom" :room-types="roomTypes"/>
+    <Create v-if="openModal && !editingRoom"
+            :room-types="roomTypes"
+            :statuses="statusesSelect"
+            :defaultStatus="defaultStatus"/>
+    <Update v-if="openModal && editingRoom"
+            :room="editingRoom"
+            :room-types="roomTypes"
+            :statuses="statusesSelect"/>
 </template>
 
 <script setup>
@@ -115,17 +125,20 @@ import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
+import {useEnum} from "../../../Composables/useEnum.js";
 
-const confirmDelete = useConfirm();
-
-const props = defineProps({
+const {statuses, ...props} = defineProps({
     'roomTypes': Object,
     'rooms': Object,
+    statuses: Array,
     'filters': Object,
     'sorts': String,
     'limit': Number,
     'can': Object,
 });
+
+const confirmDelete = useConfirm();
+const {selectEnum: statusesSelect, defaultEnum: defaultStatus, display: displayStatus} = useEnum(statuses)
 
 let editingRoom = ref(null);
 let openModal = ref(false);
@@ -133,9 +146,10 @@ const filters = ref(props.filters);
 const sorts = ref(props.sorts);
 const limit = ref(props.limit)
 
+
 provide("closeModal", () => {
     openModal.value = false
-    if(editingRoom) editingRoom.value = null
+    if (editingRoom) editingRoom.value = null
 });
 
 const openEditModal = (room) => {
@@ -148,6 +162,7 @@ watch(filters, debounce(() => {
 }, 300), {
     deep: true
 })
+
 
 watch(sorts, () => syncFilters());
 

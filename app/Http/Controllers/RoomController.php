@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoomStatus;
 use App\Http\Requests\Admin\Room\CreateRequest;
 use App\Http\Requests\Admin\Room\EditRequest;
 use App\Http\Resources\RoomResource;
@@ -52,6 +53,7 @@ class RoomController extends Controller
         return inertia('Admin/Room/List', [
             'roomTypes' => $roomTypes,
             'rooms' => $resource,
+            'statuses' => RoomStatus::asSelect(),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
