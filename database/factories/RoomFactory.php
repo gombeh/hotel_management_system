@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\RoomStatus;
+use App\Enums\SmokingPreference;
 use App\Models\Room;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,8 +22,8 @@ class RoomFactory extends Factory
         return [
             'room_number' => fake()->unique()->randomNumber(4),
             'floor_number' => mt_rand(1, 20),
-            'status' => 'available',
-            'smoking_preference' => fake()->randomElement(['No_preference','Non_smoking','Smoking'])
+            'status' => fake()->randomElement(RoomStatus::values()),
+            'smoking_preference' => fake()->randomElement(SmokingPreference::values())
         ];
     }
 }

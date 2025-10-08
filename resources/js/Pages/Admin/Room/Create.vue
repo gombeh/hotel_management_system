@@ -44,7 +44,7 @@
                     label="Smoking Preference"
                     placeholder="Choose Your Smoking Preference"
                     v-model="form.smoking_preference"
-                    :options="smokingPreference"
+                    :options="selectSmoking"
                     required
                     :error="form.errors.smoking_preference" />
             </div>
@@ -58,9 +58,11 @@ import BaseInput from "../../../Components/BaseInput.vue";
 import {inject} from "vue";
 import SelectBox from "../../../Components/SelectBox.vue";
 
-const {defaultStatus} = defineProps({
+const {defaultStatus, defaultSmoking} = defineProps({
     roomTypes: Object,
     statuses: Object,
+    selectSmoking: Object,
+    defaultSmoking: String,
     defaultStatus: String,
 })
 
@@ -69,14 +71,8 @@ const form = useForm({
     room_type_id: '',
     floor_number: '',
     status: defaultStatus,
-    smoking_preference: '',
+    smoking_preference: defaultSmoking,
 });
-
-const smokingPreference = {
-    'no_preference': 'No Preference',
-    'non_smoking': 'Non Smoking',
-    'smoking': 'Smoking',
-}
 
 const closeModal = inject('closeModal');
 const submitCreate = () => {

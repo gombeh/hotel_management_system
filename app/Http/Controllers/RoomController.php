@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RoomStatus;
+use App\Enums\SmokingPreference;
 use App\Http\Requests\Admin\Room\CreateRequest;
 use App\Http\Requests\Admin\Room\EditRequest;
 use App\Http\Resources\RoomResource;
@@ -54,6 +55,7 @@ class RoomController extends Controller
             'roomTypes' => $roomTypes,
             'rooms' => $resource,
             'statuses' => RoomStatus::asSelect(),
+            'smokingPreferences' => SmokingPreference::asSelect(),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,

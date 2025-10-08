@@ -68,7 +68,11 @@
                                 {{ displayStatus(room.status).label }}
                             </span>
                         </td>
-                        <td>{{ room.smoking_preference }}</td>
+                        <td>
+                            <span class="badge" :class="displaySmoking(room.smoking_preference).bgClass">
+                                {{ displaySmoking(room.smoking_preference).label }}
+                            </span>
+                        </td>
                         <td class="text-end">
                             <div class="dropdown" v-if="Object.values(room.can).some((per) => per === true)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
@@ -107,12 +111,15 @@
     </div>
     <Create v-if="openModal && !editingRoom"
             :room-types="roomTypes"
-            :statuses="statusesSelect"
+            :statuses="selectStatuses"
+            :selectSmoking="selectSmoking"
+            :defaultSmoking="defaultSmoking"
             :defaultStatus="defaultStatus"/>
     <Update v-if="openModal && editingRoom"
             :room="editingRoom"
             :room-types="roomTypes"
-            :statuses="statusesSelect"/>
+            :selectSmoking="selectSmoking"
+            :statuses="selectStatuses"/>
 </template>
 
 <script setup>
@@ -127,10 +134,11 @@ import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 
-const {statuses, ...props} = defineProps({
+const props = defineProps({
     'roomTypes': Object,
     'rooms': Object,
     statuses: Array,
+    smokingPreferences: Array,
     'filters': Object,
     'sorts': String,
     'limit': Number,
@@ -138,7 +146,16 @@ const {statuses, ...props} = defineProps({
 });
 
 const confirmDelete = useConfirm();
-const {selectEnum: statusesSelect, defaultEnum: defaultStatus, display: displayStatus} = useEnum(statuses)
+const {
+    selectEnum: selectStatuses,
+    defaultEnum: defaultStatus,
+    display: displayStatus
+} = useEnum(props.statuses)
+const {
+    selectEnum: selectSmoking,
+    defaultEnum: defaultSmoking,
+    display: displaySmoking
+} = useEnum(props.smokingPreferences)
 
 let editingRoom = ref(null);
 let openModal = ref(false);

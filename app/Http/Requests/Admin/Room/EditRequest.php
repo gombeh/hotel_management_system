@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Admin\Room;
 
+use App\Enums\RoomStatus;
+use App\Enums\SmokingPreference;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,8 +28,8 @@ class EditRequest extends FormRequest
             'room_number' => ['required', 'integer', 'min:1', 'unique:rooms,room_number,' . $this->room->id],
             'floor_number' => ['required', 'integer', 'min:1'],
             'room_type_id' => ['required', 'integer', 'exists:room_types,id'],
-            'status' => ['required', 'string', 'in:available,occupied,maintenance'],
-            'smoking_preference' => ['required', 'string', 'in:no_preference,non_smoking,smoking'],
+            'status' => ['required', 'string', 'in:'. RoomStatus::asString()],
+            'smoking_preference' => ['required', 'string', 'in:' . SmokingPreference::asString()],
         ];
     }
 
