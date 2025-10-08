@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\RoomStatus;
 use App\Enums\SmokingPreference;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Room\CreateRequest;
 use App\Http\Requests\Admin\Room\EditRequest;
 use App\Http\Resources\RoomResource;
