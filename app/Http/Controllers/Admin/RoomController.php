@@ -10,8 +10,10 @@ use App\Http\Requests\Admin\Room\EditRequest;
 use App\Http\Resources\RoomResource;
 use App\Models\Room;
 use App\Models\RoomType;
+use App\Services\Sorts\RelatedSort;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RoomController extends Controller
@@ -38,7 +40,7 @@ class RoomController extends Controller
                 'room_number',
                 'floor_number',
                 'status',
-                'room_type_id',
+                AllowedSort::custom('type.name', new RelatedSort),
                 'smoking_preference'
             ])
             ->latest()
