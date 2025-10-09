@@ -35,6 +35,7 @@ class RoomController extends Controller
                 AllowedFilter::exact('room_number'),
                 AllowedFilter::exact('floor_number'),
                 AllowedFilter::exact('status'),
+                AllowedFilter::exact('smoking_preference'),
                 AllowedFilter::exact('room_type_id'),
             ])->allowedSorts([
                 'room_number',

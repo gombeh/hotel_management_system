@@ -22,22 +22,50 @@
 
     <div class="card">
         <div class="card-table">
-            <div class="card-header">
-                <div class="row w-full">
-                    <div class="col">
-                        <h3 class="card-title mb-0">Rooms</h3>
-                        <p class="text-secondary m-0">List Rooms.</p>
-                    </div>
-                    <div class="col-md-auto col-sm-12">
-                        <div class="ms-auto d-flex flex-wrap btn-list">
-                            <div class="input-group input-group-flat w-auto">
+            <div class="card-header d-block">
+                <div class="row">
+                    <h3 class="card-title mb-0">Rooms</h3>
+                    <p class="text-secondary m-0">List Rooms.</p>
+                </div>
+                <div class="row mt-3">
+                    <div class="ms-auto d-flex flex-wrap btn-list">
+                        <div class="input-group input-group-flat w-auto">
                               <span class="input-group-text">
                                   <IconSearch class="icon icon-1"/>
                               </span>
-                                <input id="advanced-table-search" type="text"
-                                       class="form-control" autocomplete="off" v-model="filters.search">
-                            </div>
+                            <input id="advanced-table-search" type="number"
+                                   placeholder="Room Number"
+                                   class="form-control" autocomplete="off" v-model="filters.room_number">
                         </div>
+                        <div class="input-group input-group-flat w-auto">
+                              <span class="input-group-text">
+                                  <IconSearch class="icon icon-1"/>
+                              </span>
+                            <input id="advanced-table-search" type="number"
+                                   placeholder="Floor Number"
+                                   class="form-control" autocomplete="off" v-model="filters.floor_number">
+                        </div>
+                        <div class="w-auto">
+                            <select-box
+                                placeholder="All Room Type"
+                                v-model="filters.room_type_id"
+                                :options="roomTypes"/>
+                        </div>
+                        <div class="w-auto">
+                            <select-box
+                                placeholder="All Status"
+                                v-model="filters.status"
+                                :options="statuses"/>
+                        </div>
+                        <div class="w-auto">
+                            <select-box
+                                placeholder="All Smoking Preference"
+                                v-model="filters.smoking_preference"
+                                :options="smoking"/>
+                        </div>
+                        <Link :href="route('admin.rooms.index')" class="btn btn-primary p-0">
+                            <IconRestore class="icon m-0" />
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -128,11 +156,12 @@ import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
 import Create from "./Create.vue";
-import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconSearch, IconRestore} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
+import SelectBox from "../../../Components/SelectBox.vue";
 
 const props = defineProps({
     'roomTypes': Object,
@@ -151,6 +180,7 @@ const {
     default: defaultStatus,
     display: displayStatus
 } = useEnum(props.statuses)
+
 
 const {
     select: smoking,
