@@ -111,15 +111,15 @@
     </div>
     <Create v-if="openModal && !editingRoom"
             :room-types="roomTypes"
-            :statuses="selectStatuses"
-            :selectSmoking="selectSmoking"
+            :statuses="statuses"
+            :smoking="smoking"
             :defaultSmoking="defaultSmoking"
             :defaultStatus="defaultStatus"/>
     <Update v-if="openModal && editingRoom"
             :room="editingRoom"
             :room-types="roomTypes"
-            :selectSmoking="selectSmoking"
-            :statuses="selectStatuses"/>
+            :smoking="smoking"
+            :statuses="statuses"/>
 </template>
 
 <script setup>
@@ -147,13 +147,14 @@ const props = defineProps({
 
 const confirmDelete = useConfirm();
 const {
-    selectEnum: selectStatuses,
-    defaultEnum: defaultStatus,
+    select: statuses,
+    default: defaultStatus,
     display: displayStatus
 } = useEnum(props.statuses)
+
 const {
-    selectEnum: selectSmoking,
-    defaultEnum: defaultSmoking,
+    select: smoking,
+    default: defaultSmoking,
     display: displaySmoking
 } = useEnum(props.smokingPreferences)
 

@@ -44,7 +44,7 @@
                     label="Smoking Preference"
                     placeholder="Choose Your Smoking Preference"
                     v-model="form.smoking_preference"
-                    :options="selectSmoking"
+                    :options="smoking"
                     required
                     :error="form.errors.smoking_preference"/>
             </div>
@@ -63,7 +63,7 @@ const {room} = defineProps({
     roomTypes: Object,
     room: Object,
     statuses: Object,
-    selectSmoking: Object,
+    smoking: Object,
 })
 
 const form = useForm({

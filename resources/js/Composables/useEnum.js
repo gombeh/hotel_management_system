@@ -10,8 +10,8 @@ export function useEnum(enums) {
     const display = (status) => enums.find(val => val.value === status)
 
     return {
-        selectEnum,
-        defaultEnum,
+        select: selectEnum,
+        'default' : defaultEnum,
         display
     }
 }

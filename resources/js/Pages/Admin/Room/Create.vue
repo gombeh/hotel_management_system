@@ -44,7 +44,7 @@
                     label="Smoking Preference"
                     placeholder="Choose Your Smoking Preference"
                     v-model="form.smoking_preference"
-                    :options="selectSmoking"
+                    :options="smoking"
                     required
                     :error="form.errors.smoking_preference" />
             </div>
@@ -61,7 +61,7 @@ import SelectBox from "../../../Components/SelectBox.vue";
 const {defaultStatus, defaultSmoking} = defineProps({
     roomTypes: Object,
     statuses: Object,
-    selectSmoking: Object,
+    smoking: Object,
     defaultSmoking: String,
     defaultStatus: String,
 })
