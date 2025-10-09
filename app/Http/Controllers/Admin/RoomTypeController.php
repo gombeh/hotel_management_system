@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoomType\CreateRequest;
 use App\Http\Requests\Admin\RoomType\EditRequest;
-use App\Http\Resources\BedTypeResource;
 use App\Http\Resources\RoomTypeResource;
 use App\Models\BedType;
 use App\Models\Facility;
@@ -23,6 +22,7 @@ class RoomTypeController extends Controller
 
         $user = auth()->user();
         $roomTypes = QueryBuilder::for(RoomType::class)
+            ->withCount('rooms')
             ->allowedFilters(['name'])
             ->allowedSorts(['name', 'size', 'max_total_guests', 'price', 'status'])
             ->latest()

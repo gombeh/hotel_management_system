@@ -34,6 +34,7 @@ class RoomTypeResource extends JsonResource
             'facilities' => FacilityResource::collection($this->whenLoaded('facilities')),
             'bedTypes' => BedTypeResource::collection($this->whenLoaded('bedTypes')),
             'can' => $this->whenNotNull($this->can),
+            'rooms_count' => $this->whenNotNull($this->rooms_count),
         ];
     }
 }
