@@ -45,7 +45,7 @@ trait BaseEnum
 
     public static function asString(): string
     {
-        return join(', ', static::values());
+        return join(',', static::values());
     }
 
     public static function default(): object
