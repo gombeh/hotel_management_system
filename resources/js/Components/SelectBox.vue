@@ -31,7 +31,7 @@ const props = defineProps({
     },
     modelValue: {
         type: [String, Number, Array, null],
-        default: null
+        default: ""
     },
     error: String,
     placeholder: {
@@ -39,7 +39,7 @@ const props = defineProps({
         default: ""
     }
 })
-const localValue = ref(props.modelValue);
+const localValue = ref(props.modelValue ?? "");
 const emit = defineEmits(['update:modelValue'])
 
 watch(localValue, (value) => emit('update:modelValue', value))
