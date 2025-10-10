@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoomTypeStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoomType\CreateRequest;
 use App\Http\Requests\Admin\RoomType\EditRequest;
@@ -12,6 +13,7 @@ use App\Models\RoomType;
 use App\Services\UploadFiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RoomTypeController extends Controller
@@ -23,7 +25,7 @@ class RoomTypeController extends Controller
         $user = auth()->user();
         $roomTypes = QueryBuilder::for(RoomType::class)
             ->withCount('rooms')
-            ->allowedFilters(['name'])
+            ->allowedFilters(['name', AllowedFilter::exact('status')])
             ->allowedSorts(['name', 'size', 'max_total_guests', 'price', 'status'])
             ->latest()
             ->paginate($limit)
@@ -36,6 +38,7 @@ class RoomTypeController extends Controller
         $resource = RoomTypeResource::collection($roomTypes);
         return inertia('Admin/RoomType/List', [
             'roomTypes' => $resource,
+            'statuses' => RoomTypeStatus::asSelect(),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
@@ -53,6 +56,7 @@ class RoomTypeController extends Controller
         return inertia('Admin/RoomType/Create', [
             'bedTypes' => $bedTypes,
             'facilities' => $facilities,
+            'statuses' => RoomTypeStatus::asSelect(),
         ]);
     }
 
@@ -86,6 +90,7 @@ class RoomTypeController extends Controller
             'roomType' => new RoomTypeResource($roomType),
             'bedTypes' => $bedTypes,
             'facilities' => $facilities,
+            'statuses' => RoomTypeStatus::asSelect(),
         ]);
     }
 

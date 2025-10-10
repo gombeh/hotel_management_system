@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\RoomType;
 
+use App\Enums\RoomTypeStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -41,7 +42,7 @@ class CreateRequest extends FormRequest
             'description' => 'nullable|string',
             'mainImage' => 'required|array|size:1',
             'gallery' => 'nullable|array',
-            'status' => 'required|in:active,inactive',
+            'status' => 'required|in:'. RoomTypeStatus::asString(),
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\RoomType;
 
+use App\Enums\RoomTypeStatus;
 use App\Rules\HasMedia;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -42,7 +43,7 @@ class EditRequest extends FormRequest
             'description' => 'nullable|string',
             'mainImage' => ['nullable', 'array', 'max:1', new HasMedia($this->roomType, 'main')],
             'gallery' => 'nullable|array',
-            'status' => 'required|in:active,inactive',
+            'status' => 'required|in:' . RoomTypeStatus::asString(),
         ];
     }
 

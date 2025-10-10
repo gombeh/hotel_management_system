@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RoomTypeStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +16,8 @@ class RoomType extends Model implements HasMedia
 
     protected $casts = [
         'price' => 'integer',
-        'extra_bed_price' => 'integer'
+        'extra_bed_price' => 'integer',
+        'status' => RoomTypeStatus::class,
     ];
 
     protected $fillable = [

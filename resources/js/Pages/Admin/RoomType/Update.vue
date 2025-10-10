@@ -178,7 +178,7 @@
                         <base-switch
                             label="Active"
                             v-model="form.status"
-                            :rules="{'active': true, 'inactive': false}"/>
+                            :rules="statusRules"/>
                     </div>
                 </form>
             </div>
@@ -203,14 +203,20 @@ import MultiSelect from "../../../Components/MultiSelect.vue";
 import Repeater from "../../../Components/Repeater.vue";
 import SelectBox from "../../../Components/SelectBox.vue";
 import BaseSwitch from "../../../Components/BaseSwitch.vue";
+import {useEnum} from "../../../Composables/useEnum.js";
 
 const page = usePage();
 
-const {roomType} = defineProps({
+const {roomType, statuses} = defineProps({
     roomType: Object,
     bedTypes: Object,
     facilities: Object,
+    statuses: Array,
 })
+
+const {
+    switch: statusRules,
+} = useEnum(statuses)
 
 const form = useForm({
     name: roomType.name,

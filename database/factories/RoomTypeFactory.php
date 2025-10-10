@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RoomTypeStatus;
 use App\Models\RoomType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -29,7 +30,7 @@ class RoomTypeFactory extends Factory
             'max_total_guests' => $maxAdult + $maxChildren,
             'price' => fake()->randomElement([50, 100, 200, 300, 400, 500, 700, 1000]),
             'extra_bed_price' => 50,
-            'status' => 'active'
+            'status' => fake()->randomElement(RoomTypeStatus::values()),
         ];
     }
 }

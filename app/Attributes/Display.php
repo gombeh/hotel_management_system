@@ -11,5 +11,6 @@ class Display
         public string $label,
         public ?string $bgClass = null,
         public bool $isDefault = false,
+        public bool $asBoolean = false,
     ) {}
 }

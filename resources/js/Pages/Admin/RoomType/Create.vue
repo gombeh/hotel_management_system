@@ -180,7 +180,7 @@
                         <base-switch
                             label="Active"
                             v-model="form.status"
-                            :rules="{'active': true, 'inactive': false}"/>
+                            :rules="statusRules"/>
                     </div>
                 </form>
             </div>
@@ -205,13 +205,21 @@ import MultiSelect from "../../../Components/MultiSelect.vue";
 import Repeater from "../../../Components/Repeater.vue";
 import SelectBox from "../../../Components/SelectBox.vue";
 import BaseSwitch from "../../../Components/BaseSwitch.vue";
+import {useEnum} from "../../../Composables/useEnum.js";
 
 const page = usePage();
 
 const props = defineProps({
     bedTypes: Object,
     facilities: Object,
+    statuses: Array,
 })
+
+const {
+    switch: statusRules,
+    default: defaultStatus
+} = useEnum(props.statuses)
+
 
 const form = useForm({
     name: '',
@@ -231,7 +239,7 @@ const form = useForm({
     description: '',
     mainImage: [],
     gallery: [],
-    status: 'inactive',
+    status: defaultStatus,
 });
 
 

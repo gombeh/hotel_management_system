@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\RoomStatus;
+use App\Enums\SmokingPreference;
 use Database\Factories\RoomFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +20,11 @@ class Room extends Model
         'floor_number',
         'status',
         'smoking_preference'
+    ];
+
+    protected $casts = [
+        'status' => RoomStatus::class,
+        'smoking_preference' => SmokingPreference::class,
     ];
 
     public function type(): BelongsTo

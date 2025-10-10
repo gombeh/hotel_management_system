@@ -28,15 +28,20 @@
                         <h3 class="card-title mb-0">Room Types</h3>
                         <p class="text-secondary m-0">List Room Types.</p>
                     </div>
-                    <div class="col-md-auto col-sm-12">
-                        <div class="ms-auto d-flex flex-wrap btn-list">
-                            <div class="input-group input-group-flat w-auto">
+                    <div class="col-md-auto col-sm-12 d-flex gap-2">
+                        <div class="input-group input-group-flat w-auto">
                               <span class="input-group-text">
                                   <IconSearch class="icon icon-1"/>
                               </span>
-                                <input id="advanced-table-search" type="text"
-                                       class="form-control" autocomplete="off" v-model="filters.name">
-                            </div>
+                            <input id="advanced-table-search" type="text"
+                                   class="form-control" autocomplete="off" v-model="filters.name">
+                        </div>
+                        <div class="w-auto">
+                            <select-box
+                                class="h-full"
+                                placeholder="All Status"
+                                v-model="filters.status"
+                                :options="statuses"/>
                         </div>
                     </div>
                 </div>
@@ -64,17 +69,14 @@
                                    aria-label="Select invoice" value="true">
                         </td>
                         <td>{{ roomType.name }}</td>
-                        <td>{{ roomType.size }}</td>
+                        <td>{{ roomType.size }} m&sup2</td>
                         <td>{{ roomType.max_total_guests }}</td>
-                        <td>10</td>
+                        <td>{{ roomType.rooms_count }}</td>
                         <td>${{ roomType.price.toLocaleString('en-US') }}</td>
                         <td>
                             <span class="badge"
-                                  :class="{
-                                    'bg-success-lt': roomType.status === 'active',
-                                    'bg-danger-lt': roomType.status === 'inactive',
-                                }">
-                                {{ roomType.status }}
+                                  :class="displayStatus(roomType.status).bgClass">
+                                {{ displayStatus(roomType.status).label }}
                             </span>
                         </td>
                         <td class="text-end">
@@ -123,8 +125,8 @@ import Pagination from "../../../Shared/Admin/Pagination.vue";
 import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
-
-const confirmDelete = useConfirm();
+import SelectBox from "../../../Components/SelectBox.vue";
+import {useEnum} from "../../../Composables/useEnum.js";
 
 const props = defineProps({
     'roomTypes': Object,
@@ -132,7 +134,13 @@ const props = defineProps({
     'sorts': String,
     'limit': Number,
     'can': Object,
+    'statuses': Array,
 });
+const confirmDelete = useConfirm();
+const {
+    select: statuses,
+    display: displayStatus
+} = useEnum(props.statuses)
 
 const filters = ref(props.filters);
 const sorts = ref(props.sorts);
