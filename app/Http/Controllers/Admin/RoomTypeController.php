@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\RoomType\EditRequest;
 use App\Http\Resources\RoomTypeResource;
 use App\Models\BedType;
 use App\Models\Facility;
+use App\Models\Room;
 use App\Models\RoomType;
 use App\Services\UploadFiles;
 use Illuminate\Http\Request;
@@ -18,6 +19,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class RoomTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(RoomType::class, 'roomType');
+    }
+
     public function index(Request $request)
     {
         $limit = $request->input('limit');
@@ -31,8 +37,8 @@ class RoomTypeController extends Controller
             ->paginate($limit)
             ->withQueryString()
             ->through(fn($roomType) => $roomType->setAttribute('can', [
-                'edit' => auth()->user()->can('update', $user),
-                'delete' => auth()->user()->can('delete', $user),
+                'edit' => $user->can('update', $roomType),
+                'delete' => $user->can('delete', $roomType),
             ]));
 
         $resource = RoomTypeResource::collection($roomTypes);
@@ -43,7 +49,8 @@ class RoomTypeController extends Controller
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
             'can' => [
-                'createRoomType' => auth()->user()->can('create', RoomType::class),
+                'createRoomType' => $user->can('create', RoomType::class),
+                'viewRooms' => $user->can('viewAny', Room::class),
             ]
         ]);
     }

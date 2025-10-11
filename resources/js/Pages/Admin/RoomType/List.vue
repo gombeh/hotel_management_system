@@ -80,12 +80,18 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(roomType.can).some((per) => per === true)">
+                            <div class="dropdown" v-if="Object.values(roomType.can).some((per) => per === true) || can.viewRooms">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                    <Link :href="route('admin.rooms.index', {'filters[room_type_id]': roomType.id})"
+                                          class="dropdown-item align-middle"
+                                          v-if="can.viewRooms">
+                                        <IconDoor class="icon icon1"/>
+                                        Rooms
+                                    </Link>
                                     <Link :href="route('admin.roomTypes.edit', roomType.id)"
                                           class="dropdown-item align-middle"
                                           v-if="roomType.can.edit">
@@ -122,7 +128,7 @@ import {ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
-import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconSearch, IconDoor} from '@tabler/icons-vue';
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
 import SelectBox from "../../../Components/SelectBox.vue";

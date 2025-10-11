@@ -31,13 +31,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::apiResource('countries', CountryController::class)->except('show')
         ->middlewareFor('index', 'pagination.validation');
-    Route::apiResource('bedTypes', BedTypeController::class)->except('show');
+    Route::camelApiResource('bed-types', BedTypeController::class)->except('show');
+
     Route::apiResource('facilities', FacilityController::class)->except('show');
 
-    Route::resource('roomTypes', RoomTypeController::class)->except('show')
+    Route::camelResource('room-types', RoomTypeController::class)
+        ->except('show')
         ->middlewareFor('index', 'pagination.validation');
 
-    Route::apiResource('rooms', RoomController::class)->except('show')
+    Route::apiResource('rooms', RoomController::class)
+        ->except('show')
         ->middlewareFor('index', 'pagination.validation');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');

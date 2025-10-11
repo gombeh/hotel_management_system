@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Services\Permission\BasePolicy;
+use App\Services\Permission\CrudPolicy;
 
-class RoomPolicy extends BasePolicy
+class RoomPolicy extends CrudPolicy
 {
 }
