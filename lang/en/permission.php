@@ -12,6 +12,7 @@ return [
         'bedType' => 'Bed Type',
         'facility' => 'Facility',
         'floor' => 'Floor',
+        'mealPlan' => 'Meal Plan',
     ],
     'actions' => [
         'viewAny' => 'List',

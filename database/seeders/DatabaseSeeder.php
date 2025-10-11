@@ -6,6 +6,7 @@ use App\Enums\Sex;
 use App\Models\BedType;
 use App\Models\Country;
 use App\Models\Facility;
+use App\Models\MealPlan;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Models\User;
@@ -32,51 +33,63 @@ class DatabaseSeeder extends Seeder
             'is_super_admin' => true,
         ]);
 
-         $users = User::factory(100)->create();
+        $users = User::factory(100)->create();
 
-         $users->each(fn($user) => $user->assignRole(fake()->randomElements($defaultRoles), mt_rand(1,3)));
+        $users->each(fn($user) => $user->assignRole(fake()->randomElements($defaultRoles), mt_rand(1, 3)));
 
-         PermissionService::syncBaseOnPolicies();
+        PermissionService::syncBaseOnPolicies();
 
-         Country::factory(50)->create();
+        Country::factory(50)->create();
 
-         $bedTypes = [
-             'Single' => 1,
-             'Standard' => 2,
-             'King' => 2,
-             'Royal' => 2
-         ];
+        $bedTypes = [
+            'Single' => 1,
+            'Standard' => 2,
+            'King' => 2,
+            'Royal' => 2
+        ];
 
-         $bedTypes = array_map(fn($name, $quantity) => BedType::create(['name' => $name, 'capacity' => $quantity]),
-             array_keys($bedTypes), $bedTypes);
+        $bedTypes = array_map(fn($name, $quantity) => BedType::create(['name' => $name, 'capacity' => $quantity]),
+            array_keys($bedTypes), $bedTypes);
 
-         $facilities = [
-             'Private bathroom',
-             'Flat-screen TV',
-             'TerraceFree',
-             'Wifi',
-             'Free toiletries',
-             'Shower',
-             'Toilet',
-             'Hardwood or parquet floors',
+        $facilities = [
+            'Private bathroom',
+            'Flat-screen TV',
+            'TerraceFree',
+            'Wifi',
+            'Free toiletries',
+            'Shower',
+            'Toilet',
+            'Hardwood or parquet floors',
             'Towels',
-             'Shopping'
-         ];
+            'Shopping'
+        ];
 
-         $facilities = array_map(fn($name) => Facility::create([
-             'name' => $name,
-         ]), $facilities);
+        $facilities = array_map(fn($name) => Facility::create([
+            'name' => $name,
+        ]), $facilities);
 
-         $roomTypes = RoomType::factory(50)->create();
+        $roomTypes = RoomType::factory(50)->create();
 
-         $roomTypes->map(function ($roomType) use ($bedTypes, $facilities) {
-             $roomType->bedTypes()->sync([fake()->randomElement($bedTypes)->id => ['quantity' => mt_rand(1,2)]]);
-             $roomType->facilities()->sync(fake()->randomElements($facilities, mt_rand(5, 10)));
-         });
+        $roomTypes->map(function ($roomType) use ($bedTypes, $facilities) {
+            $roomType->bedTypes()->sync([fake()->randomElement($bedTypes)->id => ['quantity' => mt_rand(1, 2)]]);
+            $roomType->facilities()->sync(fake()->randomElements($facilities, mt_rand(5, 10)));
+        });
 
-         $roomTypes->each(function ($roomType) {
-             Room::factory(mt_rand(10, 30))->create(['room_type_id' => $roomType->id]);
-         });
+        $roomTypes->each(function ($roomType) {
+            Room::factory(mt_rand(10, 30))->create(['room_type_id' => $roomType->id]);
+        });
 
+
+        $mealPlans = [
+            ['code' => 'RO', 'name' => 'Room Only', 'description' => 'No meals included', 'extra_price' => 0.00],
+            ['code' => 'BB', 'name' => 'Bed & Breakfast', 'description' => 'Breakfast included', 'extra_price' => 10.00],
+            ['code' => 'HB', 'name' => 'Half Board', 'description' => 'Breakfast + Dinner', 'extra_price' => 25.00],
+            ['code' => 'FB', 'name' => 'Full Board', 'description' => 'Breakfast + Lunch + Dinner', 'extra_price' => 40.00],
+            ['code' => 'AI', 'name' => 'All Inclusive', 'description' => 'All meals + drinks', 'extra_price' => 65.00]
+        ];
+
+        foreach ($mealPlans as $mealPlan) {
+            MealPlan::create($mealPlan);
+        }
     }
 }

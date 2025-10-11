@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BedTypeController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\MealPlanController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -42,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('rooms', RoomController::class)
         ->except('show')
         ->middlewareFor('index', 'pagination.validation');
+
+    Route::camelApiResource('meal-plans', MealPlanController::class)->except('show');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');
