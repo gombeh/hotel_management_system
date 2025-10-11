@@ -28,45 +28,37 @@
                     <p class="text-secondary m-0">List Rooms.</p>
                 </div>
                 <div class="row mt-3">
-                    <div class="ms-auto d-flex flex-wrap btn-list">
-                        <div class="input-group input-group-flat w-auto">
-                              <span class="input-group-text">
-                                  <IconSearch class="icon icon-1"/>
-                              </span>
-                            <input id="advanced-table-search" type="number"
-                                   placeholder="Room Number"
-                                   class="form-control" autocomplete="off" v-model="filters.room_number">
-                        </div>
-                        <div class="input-group input-group-flat w-auto">
-                              <span class="input-group-text">
-                                  <IconSearch class="icon icon-1"/>
-                              </span>
-                            <input id="advanced-table-search" type="number"
-                                   placeholder="Floor Number"
-                                   class="form-control" autocomplete="off" v-model="filters.floor_number">
-                        </div>
-                        <div class="w-auto">
-                            <select-box
-                                placeholder="All Room Type"
-                                v-model="filters.room_type_id"
-                                :options="roomTypes"/>
-                        </div>
-                        <div class="w-auto">
-                            <select-box
-                                placeholder="All Status"
-                                v-model="filters.status"
-                                :options="statuses"/>
-                        </div>
-                        <div class="w-auto">
-                            <select-box
-                                placeholder="All Smoking Preference"
-                                v-model="filters.smoking_preference"
-                                :options="smoking"/>
-                        </div>
-                        <Link :href="route('admin.rooms.index')" class="btn btn-primary p-0">
-                            <IconRestore class="icon m-0" />
-                        </Link>
+                    <div class="input-group input-group-flat w-auto col-2">
+                        <input id="advanced-table-search" type="number"
+                               placeholder="Room Number"
+                               class="form-control" autocomplete="off" v-model="filters.room_number">
                     </div>
+                    <div class="input-group input-group-flat w-auto col-2">
+                        <input id="advanced-table-search" type="number"
+                               placeholder="Floor Number"
+                               class="form-control" autocomplete="off" v-model="filters.floor_number">
+                    </div>
+                    <div class="col-3">
+                        <select-box
+                            placeholder="All Room Type"
+                            v-model="filters.room_type_id"
+                            :options="roomTypes"/>
+                    </div>
+                    <div class="col-2">
+                        <select-box
+                            placeholder="All Status"
+                            v-model="filters.status"
+                            :options="statuses"/>
+                    </div>
+                    <div class="col-2">
+                        <select-box
+                            placeholder="All Smoking Preference"
+                            v-model="filters.smoking_preference"
+                            :options="smoking"/>
+                    </div>
+                    <Link :href="route('admin.rooms.index')" class="btn btn-primary w-auto">
+                        <IconRestore class="icon m-0"/>
+                    </Link>
                 </div>
             </div>
             <div class="table-responsive">
@@ -138,16 +130,10 @@
         </div>
     </div>
     <Create v-if="openModal && !editingRoom"
-            :room-types="roomTypes"
-            :statuses="statuses"
-            :smoking="smoking"
-            :defaultSmoking="defaultSmoking"
-            :defaultStatus="defaultStatus"/>
+            v-bind="{roomTypes, statuses, smoking, defaultSmoking, defaultStatus}"/>
     <Update v-if="openModal && editingRoom"
             :room="editingRoom"
-            :room-types="roomTypes"
-            :smoking="smoking"
-            :statuses="statuses"/>
+            v-bind="{roomTypes, smoking, statuses}"/>
 </template>
 
 <script setup>

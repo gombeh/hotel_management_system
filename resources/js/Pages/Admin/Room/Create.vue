@@ -33,7 +33,6 @@
             <div class="row">
                 <select-box
                     label="Status"
-                    placeholder="Choose Your Status"
                     v-model="form.status"
                     :options="statuses"
                     required
@@ -42,7 +41,6 @@
             <div class="row">
                 <select-box
                     label="Smoking Preference"
-                    placeholder="Choose Your Smoking Preference"
                     v-model="form.smoking_preference"
                     :options="smoking"
                     required

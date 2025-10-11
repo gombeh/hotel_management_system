@@ -59,3 +59,8 @@
     flex-direction: column !important;
     gap: 1.5rem !important;
 }
+
+.col-2 {
+    flex: 0 0 auto;
+    width: 16.66666667% !important;
+}
