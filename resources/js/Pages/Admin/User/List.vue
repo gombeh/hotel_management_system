@@ -105,8 +105,12 @@
             </div>
         </div>
     </div>
-    <Create v-if="openModal && !editingUser" :roles="roles"/>
-    <Update v-if="openModal && editingUser" :user="editingUser" :roles="roles"/>
+    <Create v-if="openModal && !editingUser"
+            :sexes="sexes"
+            :roles="roles"/>
+    <Update v-if="openModal && editingUser"
+            :sexes="sexes"
+            :user="editingUser" :roles="roles"/>
 </template>
 
 <script setup>
@@ -119,6 +123,7 @@ import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
+import {useEnum} from "../../../Composables/useEnum.js";
 
 const confirmDelete = useConfirm();
 
@@ -128,8 +133,11 @@ const props = defineProps({
     'sorts': String,
     'limit': Number,
     'can': Object,
-    'roles': Object
+    'roles': Object,
+    'sexes': Array,
 });
+
+const {select: sexes} = useEnum(props.sexes);
 
 let editingUser = ref(null);
 let openModal = ref(false);

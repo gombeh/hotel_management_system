@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Sex;
 use App\Models\BedType;
 use App\Models\Country;
 use App\Models\Facility;
@@ -27,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Zinati',
             'email' => 'test@example.com',
             'password' => bcrypt('1234'),
-            'sex' => 'male',
+            'sex' => Sex::Male,
             'is_super_admin' => true,
         ]);
 

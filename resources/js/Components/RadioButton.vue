@@ -1,12 +1,12 @@
 <template>
-    <label class="form-check form-check-inline" v-for="option in options">
+    <label class="form-check form-check-inline" v-for="[id, label] in Object.entries(options)">
         <input
             class="form-check-input"
             type="radio"
             v-model="localValue"
-            :value="option.value"
-            id="male">
-        <span class="form-check-label" :for="option.value">{{option.label}}</span>
+            :value="id"
+            :id="id">
+        <span class="form-check-label" :for="id">{{label}}</span>
     </label>
 </template>
 
@@ -14,7 +14,7 @@
 import {defineProps, ref, watch} from "vue";
 
 const props = defineProps({
-        options: Array,
+        options: Object,
         modelValue: String | Number
     })
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\User;
 
+use App\Enums\Sex;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +28,7 @@ class CreateRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|email|unique:users,email',
             'password' => ['required', 'string', 'max:255'],
-            'sex' => ['nullable', 'string', 'in:male,female'],
+            'sex' => ['nullable', 'string', 'in:'. Sex::asString()],
             'roles' => ['nullable', 'array'],
             'roles.*' => ['nullable', 'integer', 'exists:roles,id'],
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Sex;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -55,6 +56,7 @@ class User extends Authenticatable
     {
         return [
             'password' => 'hashed',
+            'sex' => Sex::class,
         ];
     }
 

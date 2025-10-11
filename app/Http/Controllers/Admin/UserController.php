@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Sex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\CreateRequest;
 use App\Http\Requests\Admin\User\EditRequest;
@@ -48,6 +49,7 @@ class UserController extends Controller
             'users' => $resource,
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
+            'sexes' => Sex::asSelect(),
             'limit' => $limit,
             'can' => [
                 'createUser' => auth()->user()->can('create', User::class),

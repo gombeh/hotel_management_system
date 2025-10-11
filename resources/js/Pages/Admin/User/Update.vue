@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-label">Sex</div>
-                    <RadioButton v-model="form.sex" :options="options" />
+                    <RadioButton v-model="form.sex" :options="sexes" />
                 </div>
             </div>
         </form>
@@ -71,7 +71,8 @@ import SelectBox from "../../../Components/SelectBox.vue";
 
 const {user} = defineProps({
     user: Object,
-    roles: Object
+    roles: Object,
+    sexes: Object
 })
 
 const form = useForm({
@@ -82,11 +83,6 @@ const form = useForm({
     sex: user.sex,
     roles: user.roles.map(role => role.id)
 });
-
-const options = [
-    {label: 'Male', value: 'male'},
-    {label: 'Female', value: 'female'},
-]
 
 const closeModal = inject('closeModal');
 const submitEdit = () => {
