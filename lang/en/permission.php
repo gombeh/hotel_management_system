@@ -13,6 +13,7 @@ return [
         'facility' => 'Facility',
         'floor' => 'Floor',
         'mealPlan' => 'Meal Plan',
+        'cancellationRule' => 'Cancellation Rule',
     ],
     'actions' => [
         'viewAny' => 'List',

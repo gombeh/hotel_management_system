@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Sex;
 use App\Models\BedType;
+use App\Models\CancellationRule;
 use App\Models\Country;
 use App\Models\Facility;
 use App\Models\MealPlan;
@@ -90,6 +91,37 @@ class DatabaseSeeder extends Seeder
 
         foreach ($mealPlans as $mealPlan) {
             MealPlan::create($mealPlan);
+        }
+
+        $cancellationRules = [
+            [
+                'min_days_before' => 0,
+                'max_days_before' => 1,
+                'penalty_percent' => 100,
+                'description' => 'No refund for cancellations made within 1 day before check-in',
+            ],
+            [
+                'min_days_before' => 2,
+                'max_days_before' => 3,
+                'penalty_percent' => 50,
+                'description' => '50% refund for cancellations made 2–3 days before check-in',
+            ],
+            [
+                'min_days_before' => 4,
+                'max_days_before' => 7,
+                'penalty_percent' => 25,
+                'description' => '25% cancellation fee for cancellations 4–7 days before check-in',
+            ],
+            [
+                'min_days_before' => 8,
+                'max_days_before' => 999,
+                'penalty_percent' => 0,
+                'description' => 'Free cancellation for bookings cancelled 8 or more days before check-in',
+            ],
+        ];
+
+        foreach ($cancellationRules as $cancellationRule) {
+            CancellationRule::create($cancellationRule);
         }
     }
 }

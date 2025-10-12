@@ -59,7 +59,7 @@
 import {
     IconHome, IconUsers, IconUser,
     IconShieldLock, IconBuildingSkyscraper,
-    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab,IconMeat
+    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab,IconMeat, IconScale
 } from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
@@ -120,6 +120,11 @@ const links = [
                 name: "Meal Plans",
                 routeName: 'admin.mealPlans.index',
                 icon: h(IconMeat)
+            },
+            {
+                name: "Cancellation Rules",
+                routeName: 'admin.cancellationRules.index',
+                icon: h(IconScale)
             }
         ]
     }
