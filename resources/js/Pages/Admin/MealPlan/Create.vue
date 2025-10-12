@@ -1,5 +1,5 @@
 <template>
-    <Modal title="New MealPlan" formId="createMealPlanForm">
+    <Modal title="New Meal Plan" formId="createMealPlanForm">
         <form @submit.prevent="submitCreate" method="post" id="createMealPlanForm" class="gap-inputs">
             <div class="row">
                 <BaseInput
