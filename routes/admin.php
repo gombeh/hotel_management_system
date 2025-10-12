@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthenticateController;
 use App\Http\Controllers\Admin\BedTypeController;
 use App\Http\Controllers\Admin\CancellationRuleController;
 use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\MealPlanController;
@@ -48,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::camelApiResource('meal-plans', MealPlanController::class)->except('show');
     Route::camelApiResource('cancellation-rules', CancellationRuleController::class)->except('show');
+
+    Route::apiResource('customers', CustomerController::class);
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');
