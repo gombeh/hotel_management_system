@@ -59,7 +59,7 @@
 import {
     IconHome, IconUsers, IconUser,
     IconShieldLock, IconBuildingSkyscraper,
-    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab,IconMeat, IconScale
+    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab,IconMeat, IconScale,IconUserCircle
 } from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
@@ -79,6 +79,11 @@ const links = [
                 name: "Users",
                 routeName: 'admin.users.index',
                 icon: h(IconUser)
+            },
+            {
+                name: "Customers",
+                routeName: 'admin.customers.index',
+                icon: h(IconUserCircle)
             },
             {
                 name: "Roles",

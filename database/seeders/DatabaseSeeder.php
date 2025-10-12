@@ -6,6 +6,7 @@ use App\Enums\Sex;
 use App\Models\BedType;
 use App\Models\CancellationRule;
 use App\Models\Country;
+use App\Models\Customer;
 use App\Models\Facility;
 use App\Models\MealPlan;
 use App\Models\Room;
@@ -40,7 +41,7 @@ class DatabaseSeeder extends Seeder
 
         PermissionService::syncBaseOnPolicies();
 
-        Country::factory(50)->create();
+        $countries = Country::factory(50)->create();
 
         $bedTypes = [
             'Single' => 1,
@@ -123,5 +124,9 @@ class DatabaseSeeder extends Seeder
         foreach ($cancellationRules as $cancellationRule) {
             CancellationRule::create($cancellationRule);
         }
+
+        Customer::factory(200)
+            ->state(fn() => ['national_id' => $countries->random()->id])
+            ->create();
     }
 }
