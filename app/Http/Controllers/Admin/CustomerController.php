@@ -42,7 +42,7 @@ class CustomerController extends Controller
             ->through(fn($customer) => $customer->setAttribute('can', [
                 'edit' => $user->can('update', $customer),
                 'delete' => $user->can('delete', $customer),
-                'show' => $user->can('viewAny', $customer),
+                'show' => $user->can('view', $customer),
             ]));
 
         return inertia('Admin/Customer/List', [

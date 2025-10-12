@@ -30,19 +30,19 @@
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Mobile</div>
-                        <div class="datagrid-content">{{ customer.mobile }}</div>
+                        <div class="datagrid-content">{{ customer.mobile ?? '-' }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Sex</div>
-                        <div class="datagrid-content">{{ customer.sex }}</div>
+                        <div class="datagrid-content">{{ customer.sex ?? '-' }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Birthdate</div>
-                        <div class="datagrid-content">{{ customer.birthdate }}</div>
+                        <div class="datagrid-content">{{ customer.birthdate ?? '–' }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Nationality</div>
-                        <div class="datagrid-content">{{ customer.national?.name }}</div>
+                        <div class="datagrid-content">{{ customer.national?.name ?? '-' }}</div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Status</div>
