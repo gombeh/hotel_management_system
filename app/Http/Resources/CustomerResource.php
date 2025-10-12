@@ -17,8 +17,10 @@ class CustomerResource extends JsonResource
     {
         /** @var $this Customer | CustomerResource */
         return [
+            'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'full_name' => $this->full_name,
             'national' => CountryResource::make($this->whenLoaded('national')),
             'email' => $this->email,
             'mobile' => $this->mobile,
@@ -27,6 +29,7 @@ class CustomerResource extends JsonResource
             'sex' => $this->sex,
             'birthdate' => $this->birthdate,
             'status' => $this->status,
+            'can' => $this->whenNotNull($this->can)
         ];
     }
 }

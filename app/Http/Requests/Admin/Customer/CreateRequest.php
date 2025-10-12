@@ -28,7 +28,7 @@ class CreateRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|email|unique:customers,email',
-            'mobile' => 'required|numeric|digits:11|unique:customers,mobile',
+            'mobile' => 'nullable|numeric|unique:customers,mobile',
             'password' => ['required', 'string', 'max:255'],
             'sex' => ['nullable', 'string', 'in:'. Sex::asString()],
             'status' => ['required', 'string', 'in:' . CustomerStatus::asString()]

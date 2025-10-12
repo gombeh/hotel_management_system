@@ -50,7 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::camelApiResource('meal-plans', MealPlanController::class)->except('show');
     Route::camelApiResource('cancellation-rules', CancellationRuleController::class)->except('show');
 
-    Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('customers', CustomerController::class)
+        ->middlewareFor('index', 'pagination.validation');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');

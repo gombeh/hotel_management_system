@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CustomerStatus;
 use App\Enums\Sex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Customer\CreateRequest;
@@ -27,11 +28,12 @@ class CustomerController extends Controller
         $limit = $request->limit;
         $user = auth()->user();
         $customers = QueryBuilder::for(Customer::class)
-            ->with('roles')
             ->allowedFilters([
+                AllowedFilter::exact('status'),
                 AllowedFilter::custom('search', new FilterSearch(['first_name', 'last_name', 'email']))
             ])->allowedSorts([
                 'email',
+                'status',
                 AllowedSort::custom('full-name', new MultiColumnSort(['first_name', 'last_name'])),
             ])
             ->latest()
@@ -43,13 +45,14 @@ class CustomerController extends Controller
             ]));
 
         return inertia('Admin/Customer/List', [
-            'users' => CustomerResource::collection($customers),
+            'customers' => CustomerResource::collection($customers),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'sexes' => Sex::asSelect(),
+            'statuses' => CustomerStatus::asSelect(),
             'limit' => $limit,
             'can' => [
-                'createUser' => $user->can('create', Customer::class),
+                'createCustomer' => $user->can('create', Customer::class),
             ]
         ]);
     }
@@ -65,6 +68,13 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
 
+
+        $data = [
+            ...$data,
+            'email_verified_at' => now(),
+            'mobile_verified_at' => !empty($data['mobile']) ? now() : null,
+        ];
+
         Customer::create($data);
 
         return redirect()->back()->with('message', 'Customer created.');
@@ -76,6 +86,7 @@ class CustomerController extends Controller
         $data = $request->validated();
 
         if (empty($data['password'])) unset($data['password']);
+        $data['mobile_verified_at'] = !empty($data['mobile']) ? now() : null;
 
         $customer->update($data);
 

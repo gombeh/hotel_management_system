@@ -14,6 +14,7 @@ return [
         'floor' => 'Floor',
         'mealPlan' => 'Meal Plan',
         'cancellationRule' => 'Cancellation Rule',
+        'customer' => 'Customer',
     ],
     'actions' => [
         'viewAny' => 'List',
