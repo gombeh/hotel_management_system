@@ -12,7 +12,7 @@
                         v-if="can.createCountry"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
-                    Create new country
+                    New Record
                 </button>
             </div>
             <!-- BEGIN MODAL -->

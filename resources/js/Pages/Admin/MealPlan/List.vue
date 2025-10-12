@@ -11,7 +11,7 @@
                 <button v-if="can.create" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
-                    Create
+                    New Record
                 </button>
             </div>
             <!-- BEGIN MODAL -->

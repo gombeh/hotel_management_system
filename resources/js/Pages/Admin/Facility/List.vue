@@ -1,5 +1,5 @@
 <template>
-    <Head title="bed types" />
+    <Head title="facilities" />
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
             <h2 class="page-title">Facilities</h2>
@@ -11,7 +11,7 @@
                 <button v-if="can.create" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
-                    Create
+                    New Record
                 </button>
             </div>
             <!-- BEGIN MODAL -->

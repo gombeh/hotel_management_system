@@ -12,7 +12,7 @@
                       class="btn btn-primary btn-5 d-none d-sm-inline-block"
                       v-if="can.createRoomType">
                     <IconPlus class="icon icon-2"/>
-                    Create new
+                    New Record
                 </Link>
             </div>
             <!-- BEGIN MODAL -->

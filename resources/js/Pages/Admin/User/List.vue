@@ -12,7 +12,7 @@
                         v-if="can.createUser"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
-                    Create new user
+                    New Record
                 </button>
             </div>
             <!-- BEGIN MODAL -->
