@@ -42,6 +42,7 @@ class CustomerController extends Controller
             ->through(fn($customer) => $customer->setAttribute('can', [
                 'edit' => $user->can('update', $customer),
                 'delete' => $user->can('delete', $customer),
+                'show' => $user->can('viewAny', $customer),
             ]));
 
         return inertia('Admin/Customer/List', [
@@ -60,7 +61,11 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         $customer->load('national');
-        return CustomerResource::make($customer);
+
+        return inertia('Admin/Customer/Show', [
+            'customer' => new CustomerResource($customer),
+            'statuses' => CustomerStatus::asSelect(),
+        ]);
     }
 
 

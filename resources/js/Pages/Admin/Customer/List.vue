@@ -91,6 +91,11 @@
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
+                                    <Link class="dropdown-item align-middle" :href="route('admin.customers.show', customer.id)"
+                                            v-if="customer.can.show">
+                                        <IconEye class="icon icon1"/>
+                                        Show
+                                    </Link>
                                     <button class="dropdown-item align-middle" @click="openEditModal(customer)"
                                             v-if="customer.can.edit">
                                         <IconEdit class="icon icon1"/>
@@ -132,7 +137,7 @@ import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
 import Create from "./Create.vue";
-import {IconEdit, IconTrash, IconPlus, IconSearch} from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconSearch, IconEye} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
