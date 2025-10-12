@@ -28,7 +28,7 @@ class EditRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|email|unique:customers,email,' . $this->customer->id,
-            'mobile' => 'required|numeric|digits:11|unique:customers,mobile,' . $this->customer->id,
+            'mobile' => 'nullable|numeric|digits:11|unique:customers,mobile,' . $this->customer->id,
             'password' => ['nullable', 'string', 'max:255'],
             'sex' => ['nullable', 'string', 'in:' . Sex::asString()],
             'status' => ['required', 'string', 'in:' . CustomerStatus::asString()]
