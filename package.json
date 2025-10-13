@@ -23,6 +23,7 @@
         "filepond-plugin-file-validate-type": "^1.2.9",
         "filepond-plugin-image-preview": "^4.6.12",
         "sweetalert2": "^11.23.0",
+        "swiper": "^12.0.2",
         "vue": "^3.5.21",
         "vue-filepond": "^7.0.4",
         "vue-multiselect": "^3.3.1",

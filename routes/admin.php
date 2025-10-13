@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\UserController;
-use App\Models\CancellationRule;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');

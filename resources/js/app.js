@@ -1,26 +1,31 @@
 import './bootstrap';
 
-import { createApp, h } from 'vue'
-import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
+import {createApp, h} from 'vue'
+import {createInertiaApp, Link, Head} from '@inertiajs/vue3'
 import '@tabler/core/dist/js/tabler.min.js'
-import Layout from "./Shared/Admin/Layout.vue";
+import {default as AdminLayout} from "./Shared/Admin/Layout.vue";
+import {default as LandingLayout} from "./Shared/Landing/Layout.vue";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import {ZiggyVue} from '../../vendor/tightenco/ziggy';
 
 
 createInertiaApp({
     resolve: name => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
-        const page =  pages[`./Pages/${name}.vue`].default;
+        const pages = import.meta.glob('./Pages/**/*.vue', {eager: true})
+        const page = pages[`./Pages/${name}.vue`].default;
 
-        if (page.layout === undefined) {
-            page.layout = Layout;
+        if (page.layout !== undefined) return page
+
+        if (name.startsWith('Landing')) {
+            page.layout = LandingLayout;
+        } else {
+            page.layout = AdminLayout;
         }
         return page;
     },
-    setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+    setup({el, App, props, plugin}) {
+        createApp({render: () => h(App, props)})
             .use(plugin)
             .use(Toast)
             .use(ZiggyVue)

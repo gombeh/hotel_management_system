@@ -64,3 +64,44 @@
     flex: 0 0 auto;
     width: 16.66666667% !important;
 }
+
+.hotel-hero-bg {
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.7)
+    ),
+    url('/resources/images/bg-hero.webp');
+    background-position: left center;
+}
+
+.hotel-hero .booking-card {
+    background-color:
+        color-mix(in srgb, var(--surface-color), transparent 60%);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.btn-origin {
+    background: var(--accent-color);
+    color: var(--contrast-color);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color), transparent 70%);
+}
+
+.highlight-item i {
+    font-size: 30px;
+    color: #21b98e ;
+}
+
+
+.highlight-item div{
+    font-size: 20px;
+    color: var(--contrast-color);
+}
