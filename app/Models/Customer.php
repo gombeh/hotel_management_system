@@ -6,10 +6,11 @@ use App\Enums\CustomerStatus;
 use App\Enums\Sex;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     use HasFactory;
     protected $fillable = [
@@ -53,6 +54,11 @@ class Customer extends Model
     public function national(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'national_id', 'id');
+    }
+
+    public function verifications(): HasMany
+    {
+        return $this->hasMany(CustomerVerification::class,);
     }
 
     public function fullName(): Attribute

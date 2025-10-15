@@ -105,3 +105,20 @@
     font-size: 20px;
     color: var(--contrast-color);
 }
+
+
+.booking .reservation-form input[type="password"] {
+    color: var(--default-color);
+    background-color: var(--surface-color);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+    border-radius: 4px;
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: var(--tblr-form-invalid-border-color) !important;
+    padding-right: 2.375rem !important;
+}

@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');
-Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('admin.loginForm');
+Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('loginForm');
 Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
 
 Route::middleware(['auth'])->group(function () {

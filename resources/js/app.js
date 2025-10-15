@@ -5,6 +5,7 @@ import {createInertiaApp, Link, Head} from '@inertiajs/vue3'
 import '@tabler/core/dist/js/tabler.min.js'
 import {default as AdminLayout} from "./Shared/Admin/Layout.vue";
 import {default as LandingLayout} from "./Shared/Landing/Layout.vue";
+import {default as AuthLayout} from "./Shared/Auth/Layout.vue";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import {ZiggyVue} from '../../vendor/tightenco/ziggy';
@@ -19,8 +20,10 @@ createInertiaApp({
 
         if (name.startsWith('Landing')) {
             page.layout = LandingLayout;
+        } else if (name.startsWith('Auth')) {
+            page.layout = AuthLayout;
         } else {
-            page.layout = AdminLayout;
+            page.layout = AdminLayout
         }
         return page;
     },

@@ -31,6 +31,8 @@
                         <li><a href="rooms.html">Rooms</a></li>
                         <li><a href="amenities.html">Amenities</a></li>
                         <li><a href="about.html">About</a></li>
+                        <span style="font-size: 20px">|</span>
+                        <li><a :href="route('login')">Login</a></li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
