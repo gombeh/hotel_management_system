@@ -122,3 +122,9 @@
     border-color: var(--tblr-form-invalid-border-color) !important;
     padding-right: 2.375rem !important;
 }
+
+.navmenu .dropdown ul button {
+    font-size: 15px;
+    text-transform: none;
+    color: var(--nav-dropdown-color);
+}

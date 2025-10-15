@@ -15,7 +15,7 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
 
 
 Route::middleware('auth:customer')->group(function () {
-    Route::delete('/logout', [AuthenticateController::class, 'logout'])->name('logout');
+    Route::delete('/logout', [AuthenticateController::class, 'delete'])->name('logout');
 
     Route::get('/verify-code', [RegisterController::class, 'verifyCodeForm'])->name('verifyCodeForm');
     Route::post('/verify-code', [RegisterController::class, 'verifyCode'])->name('verifyCode');

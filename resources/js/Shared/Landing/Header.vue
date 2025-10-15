@@ -32,7 +32,30 @@
                         <li><a href="amenities.html">Amenities</a></li>
                         <li><a href="about.html">About</a></li>
                         <span style="font-size: 20px">|</span>
-                        <li><a :href="route('login')">Login</a></li>
+                        <li v-if="!customer"><a :href="route('login')">Login</a></li>
+                        <li class="dropdown" v-if="customer">
+                            <a href="#profile">
+                            <div class="rounded-5 me-2 mx-1" style="background: #ffb700; round: 100%; overflow: hidden">
+                                <img  width="30" height="30" :src="customer.avatar" alt="avtar" />
+                            </div>
+                            <span class="me-1">{{customer.full_name}}</span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                            </a>
+                            <ul>
+                                <li>
+                                    <Link href="#french" class="d-inline-block">
+                                        <i class="bi bi-person me-2" style="font-size: 18px"></i>
+                                        <span>My Account</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a href="" @click.prevent="logoutHandle" class="d-inline-block">
+                                        <i class="bi bi-box-arrow-left me-2" style="font-size: 18px"></i>
+                                        <span>Sign Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
@@ -46,6 +69,16 @@
 
 
 <script setup>
+import {router, usePage} from "@inertiajs/vue3";
 
+const {props: {auth: {customer}}} = usePage();
+
+const logoutHandle = () => {
+    router.delete(route('logout'), {
+        onSuccess: () => {
+            window.location.reload();
+        }
+    })
+}
 </script>
 

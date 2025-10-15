@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\CustomerResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,6 +40,12 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            'auth.user' => function () {
+                return Auth::guard('web')->check() ? UserResource::make(Auth::user()) : null;
+            },
+            'auth.customer' => function () {
+                return Auth::guard('customer')->check() ? CustomerResource::make(Auth::guard('customer')->user()) : null;
+            },
             'csrf_token' => csrf_token(),
             'flash' => [
                 'message' => fn() => $request->session()->get('message'),

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use App\Models\Facility;
 use App\Models\RoomType;
 use App\Models\User;
@@ -53,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'facility' => Facility::class,
             'roomType' => RoomType::class,
+            'customer' => Customer::class,
         ]);
 
         Gate::policy(Role::class, RolePolicy::class);

@@ -29,7 +29,8 @@ class CustomerResource extends JsonResource
             'sex' => $this->sex,
             'birthdate' => $this->birthdate,
             'status' => $this->status,
-            'can' => $this->whenNotNull($this->can)
+            'avatar' => !empty($this->getFirstMediaUrl('avatar')) ? $this->getFirstMediaUrl('avatar') : \Storage::url('avatar/default.png'), //todo better then
+            'canPermissions' => $this->whenNotNull($this->canPermissions ?? null)
         ];
     }
 }
