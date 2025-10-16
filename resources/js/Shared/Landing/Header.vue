@@ -22,7 +22,11 @@
                 <a href="index.html" class="logo d-flex align-items-center">
                     <!-- Uncomment the line below if you also wish to use an image logo -->
                     <!-- <img src="assets/img/logo.webp" alt=""> -->
-                    <h1 class="sitename">Grandoria</h1>
+                    <h1 class="sitename d-flex align-items-center gap-1">
+                        <img src="/resources/images/Homa.png" alt="logo"
+                             style="width: 50px; height: 50px; filter: brightness(0) invert(1)"/>
+                        <Link class="d-inline-block mt-1" :href="route('home')"> Homa</Link>
+                    </h1>
                 </a>
 
                 <nav id="navmenu" class="navmenu">
@@ -33,13 +37,15 @@
                         <li><a href="about.html">About</a></li>
                         <span style="font-size: 20px">|</span>
                         <li v-if="!customer"><a :href="route('login')">Login</a></li>
+                        <li v-if="!customer"><a :href="route('register')">Register</a></li>
                         <li class="dropdown" v-if="customer">
                             <a href="#profile">
-                            <div class="rounded-5 me-2 mx-1" style="background: #ffb700; round: 100%; overflow: hidden">
-                                <img  width="30" height="30" :src="customer.avatar" alt="avtar" />
-                            </div>
-                            <span class="me-1">{{customer.full_name}}</span>
-                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                <div class="rounded-5 me-2 mx-1"
+                                     style="background: #ffb700; round: 100%; overflow: hidden">
+                                    <img width="30" height="30" :src="customer.avatar" alt="avtar"/>
+                                </div>
+                                <span class="me-1">{{ customer.full_name }}</span>
+                                <i class="bi bi-chevron-down toggle-dropdown"></i>
                             </a>
                             <ul>
                                 <li>
