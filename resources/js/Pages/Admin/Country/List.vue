@@ -9,7 +9,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="can.createCountry"
+                        v-if="access.createCountry"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -60,7 +60,7 @@
                         <td class="sort-full_name">{{ country.name }}</td>
                         <td class="sort-gender">{{ country.short }}</td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(country.can).some((per) => per === true)">
+                            <div class="dropdown" v-if="Object.values(country.access).some(per => per)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
@@ -68,11 +68,11 @@
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                     <button class="dropdown-item align-middle"
                                             @click="openEditModal(country)"
-                                            v-if="country.can.edit">
+                                            v-if="country.access.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </button>
-                                    <button class="dropdown-item" v-if="country.can.delete"
+                                    <button class="dropdown-item" v-if="country.access.delete"
                                             @click="() => confirmDelete(route('admin.countries.destroy', country.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -117,7 +117,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': String,
     'limit': Number,
-    'can': Object,
+    'access': Object,
 });
 
 let editingCountry = ref(null);

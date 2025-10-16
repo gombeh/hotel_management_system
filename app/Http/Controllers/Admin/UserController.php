@@ -38,20 +38,19 @@ class UserController extends Controller
             ->latest()
             ->paginate($limit)
             ->withQueryString()
-            ->through(fn($user) => $user->setAttribute('can', [
+            ->through(fn($user) => $user->setAttribute('access', [
                 'edit' => auth()->user()->can('update', $user),
                 'delete' => auth()->user()->can('delete', $user) && $user->id !== 1,
             ]));
 
-        $resource = UserResource::collection($users);
         return inertia('Admin/User/List', [
             'roles' => $roles,
-            'users' => $resource,
+            'users' => UserResource::collection($users),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'sexes' => Sex::asSelect(),
             'limit' => $limit,
-            'can' => [
+            'access' => [
                 'createUser' => auth()->user()->can('create', User::class),
             ]
         ]);

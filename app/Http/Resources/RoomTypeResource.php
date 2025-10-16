@@ -33,7 +33,7 @@ class RoomTypeResource extends JsonResource
             'gallery' => MediaResource::collection($this->getMedia('gallery')),
             'facilities' => FacilityResource::collection($this->whenLoaded('facilities')),
             'bedTypes' => BedTypeResource::collection($this->whenLoaded('bedTypes')),
-            'can' => $this->whenNotNull($this->can),
+            'access' => $this->whenNotNull($this->access),
             'rooms_count' => $this->whenNotNull($this->rooms_count),
         ];
     }

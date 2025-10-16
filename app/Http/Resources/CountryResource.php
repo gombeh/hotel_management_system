@@ -20,7 +20,7 @@ class CountryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'short' => $this->short,
-            'can' => $this->whenNotNull($this->can)
+            'access' => $this->whenNotNull($this->access)
         ];
     }
 }

@@ -8,7 +8,7 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <button v-if="can.createRole" class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                <button v-if="access.createRole" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -48,7 +48,7 @@
                             </td>
                             <td>{{ role.name }}</td>
                             <td class="text-end">
-                                <div class="dropdown" v-if="Object.values(role.can).some((per) => per === true)">
+                                <div class="dropdown" v-if="Object.values(role.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                             data-bs-toggle="dropdown" aria-expanded="true">
                                         Actions
@@ -56,19 +56,19 @@
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                         <Link class="dropdown-item"
                                               :href="route('admin.roles.permissions.index', role.id)"
-                                              v-if="role.can.permissions">
+                                              v-if="role.access.permissions">
                                             <IconLock class="icon icon1"/>
                                             Permissions
                                         </Link>
                                         <button class="dropdown-item align-middle"
                                                 @click="openEditModal(role)"
-                                                v-if="role.can.edit">
+                                                v-if="role.access.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
                                                 @click="() => confirmDelete(route('admin.roles.destroy', role.id))"
-                                                v-if="role.can.delete">
+                                                v-if="role.access.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
@@ -96,7 +96,7 @@ const confirmDelete = useConfirm();
 
 defineProps({
     roles: Object,
-    can: Object,
+    access: Object,
 });
 
 let editingRole = ref(null);

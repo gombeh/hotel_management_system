@@ -47,7 +47,7 @@ class RoomController extends Controller
             ->latest()
             ->paginate($limit)
             ->withQueryString()
-            ->through(fn($room) => $room->setAttribute('can', [
+            ->through(fn($room) => $room->setAttribute('access', [
                 'edit' => $user->can('update', $room),
                 'delete' => $user->can('delete', $room),
             ]));
@@ -63,7 +63,7 @@ class RoomController extends Controller
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
-            'can' => [
+            'access' => [
                 'createRoom' => $user->can('create', Room::class),
             ]
         ]);

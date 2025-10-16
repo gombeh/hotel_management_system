@@ -39,7 +39,7 @@ class CustomerController extends Controller
             ->latest()
             ->paginate($limit)
             ->withQueryString()
-            ->through(fn($customer) => $customer->setAttribute('can', [
+            ->through(fn($customer) => $customer->setAttribute('access', [
                 'edit' => $user->can('update', $customer),
                 'delete' => $user->can('delete', $customer),
                 'show' => $user->can('view', $customer),
@@ -52,7 +52,7 @@ class CustomerController extends Controller
             'sexes' => Sex::asSelect(),
             'statuses' => CustomerStatus::asSelect(),
             'limit' => $limit,
-            'can' => [
+            'access' => [
                 'createCustomer' => $user->can('create', Customer::class),
             ]
         ]);

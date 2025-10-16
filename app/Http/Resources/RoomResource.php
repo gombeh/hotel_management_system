@@ -23,7 +23,7 @@ class RoomResource extends JsonResource
             'status' => $this->status,
             'smoking_preference' => $this->smoking_preference,
             'type' => RoomTypeResource::make($this->whenLoaded('type')),
-            'can' => $this->whenNotNull($this->can)
+            'access' => $this->whenNotNull($this->access)
         ];
     }
 }

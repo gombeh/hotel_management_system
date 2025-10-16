@@ -22,7 +22,7 @@ class MealPlanResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'extra_price' => $this->extra_price,
-            'can' => $this->whenNotNull($this->can),
+            'access' => $this->whenNotNull($this->access),
         ];
     }
 }

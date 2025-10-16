@@ -20,7 +20,7 @@ class FacilityResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'icon' => MediaResource::collection($this->getMedia()),
-            'can' => $this->whenNotNull($this->can),
+            'access' => $this->whenNotNull($this->access),
         ];
     }
 }

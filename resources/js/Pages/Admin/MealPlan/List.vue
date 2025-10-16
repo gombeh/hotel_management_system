@@ -8,7 +8,7 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <button v-if="can.create" class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                <button v-if="access.createMealPlan" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -56,7 +56,7 @@
                             <td>{{ mealPlan.code }}</td>
                             <td>${{ mealPlan.extra_price }}</td>
                             <td class="text-end">
-                                <div class="dropdown" v-if="Object.values(mealPlan.can).some((per) => per === true)">
+                                <div class="dropdown" v-if="Object.values(mealPlan.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                             data-bs-toggle="dropdown" aria-expanded="true">
                                         Actions
@@ -64,13 +64,13 @@
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                         <button class="dropdown-item align-middle"
                                                 @click="openEditModal(mealPlan)"
-                                                v-if="mealPlan.can.edit">
+                                                v-if="mealPlan.access.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
                                                 @click="() => confirmDelete(route('admin.mealPlans.destroy', mealPlan.id))"
-                                                v-if="mealPlan.can.delete">
+                                                v-if="mealPlan.access.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
@@ -98,7 +98,7 @@ const confirmDelete = useConfirm();
 
 defineProps({
     mealPlans: Object,
-    can: Object,
+    access: Object,
 });
 
 let editingMealPlan = ref(null);

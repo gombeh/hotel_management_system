@@ -9,7 +9,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="can.createCustomer"
+                        v-if="access.createCustomer"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -85,23 +85,23 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(customer.can).some((per) => per === true)">
+                            <div class="dropdown" v-if="Object.values(customer.access).some(per => per)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                     <Link class="dropdown-item align-middle" :href="route('admin.customers.show', customer.id)"
-                                            v-if="customer.can.show">
+                                            v-if="customer.access.show">
                                         <IconEye class="icon icon1"/>
                                         Show
                                     </Link>
                                     <button class="dropdown-item align-middle" @click="openEditModal(customer)"
-                                            v-if="customer.can.edit">
+                                            v-if="customer.access.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </button>
-                                    <button class="dropdown-item" v-if="customer.can.delete"
+                                    <button class="dropdown-item" v-if="customer.access.delete"
                                             @click="() => confirmDelete(route('admin.customers.destroy', customer.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -151,7 +151,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': String,
     'limit': Number,
-    'can': Object,
+    'access': Object,
     'sexes': Array,
     'statuses': Array,
 });

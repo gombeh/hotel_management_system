@@ -10,7 +10,7 @@
 
                 <Link :href="route('admin.roomTypes.create')"
                       class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                      v-if="can.createRoomType">
+                      v-if="access.createRoomType">
                     <IconPlus class="icon icon-2"/>
                     New Record
                 </Link>
@@ -80,7 +80,7 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(roomType.can).some((per) => per === true) || can.viewRooms">
+                            <div class="dropdown" v-if="Object.values(roomType.access).some(per => per) || can.viewRooms">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
@@ -88,17 +88,17 @@
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                     <Link :href="route('admin.rooms.index', {'filters[room_type_id]': roomType.id})"
                                           class="dropdown-item align-middle"
-                                          v-if="can.viewRooms">
+                                          v-if="access.viewRooms">
                                         <IconDoor class="icon icon1"/>
                                         Rooms
                                     </Link>
                                     <Link :href="route('admin.roomTypes.edit', roomType.id)"
                                           class="dropdown-item align-middle"
-                                          v-if="roomType.can.edit">
+                                          v-if="roomType.access.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </Link>
-                                    <button class="dropdown-item" v-if="roomType.can.delete"
+                                    <button class="dropdown-item" v-if="roomType.access.delete"
                                             @click="() => confirmDelete(route('admin.roomTypes.destroy', roomType.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -139,7 +139,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': String,
     'limit': Number,
-    'can': Object,
+    'access': Object,
     'statuses': Array,
 });
 const confirmDelete = useConfirm();

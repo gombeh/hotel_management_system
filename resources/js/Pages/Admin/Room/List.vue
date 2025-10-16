@@ -9,7 +9,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="can.createRoom"
+                        v-if="access.createRoom"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -94,7 +94,7 @@
                             </span>
                         </td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(room.can).some((per) => per === true)">
+                            <div class="dropdown" v-if="Object.values(room.access).some(per => per)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
@@ -102,11 +102,11 @@
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                     <button class="dropdown-item align-middle"
                                             @click="openEditModal(room)"
-                                            v-if="room.can.edit">
+                                            v-if="room.access.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </button>
-                                    <button class="dropdown-item" v-if="room.can.delete"
+                                    <button class="dropdown-item" v-if="room.access.delete"
                                             @click="() => confirmDelete(route('admin.rooms.destroy', room.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -157,7 +157,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': String,
     'limit': Number,
-    'can': Object,
+    'access': Object,
 });
 
 const confirmDelete = useConfirm();

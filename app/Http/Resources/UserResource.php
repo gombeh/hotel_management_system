@@ -25,7 +25,7 @@ class UserResource extends JsonResource
             'sex' => $this->sex,
             'full_name' => $this->full_name,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
-            'canPermissions' => $this->whenNotNull($this->canPermissions),
+            'access' => $this->whenNotNull($this->access),
         ];
     }
 }

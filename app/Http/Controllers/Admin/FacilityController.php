@@ -18,15 +18,15 @@ class FacilityController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $facility = Facility::latest()->get()->map(fn($facility) => $facility->setAttribute('can', [
+        $facility = Facility::latest()->get()->map(fn($facility) => $facility->setAttribute('access', [
             'edit' => $user->can('update', $facility),
             'delete' => $user->can('delete', $facility),
         ]));
 
         return inertia("Admin/Facility/List", [
             'facilities' => FacilityResource::collection($facility),
-            'can' => [
-                'create' => $user->can('create', Facility::class),
+            'access' => [
+                'createFacility' => $user->can('create', Facility::class),
             ]
         ]);
     }

@@ -8,7 +8,7 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <button v-if="can.create" class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                <button v-if="access.createCancelRule" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -56,7 +56,7 @@
                             <td>{{ cancellationRule.max_days_before }}</td>
                             <td>%{{ cancellationRule.penalty_percent }}</td>
                             <td class="text-end">
-                                <div class="dropdown" v-if="Object.values(cancellationRule.can).some((per) => per === true)">
+                                <div class="dropdown" v-if="Object.values(cancellationRule.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                             data-bs-toggle="dropdown" aria-expanded="true">
                                         Actions
@@ -64,13 +64,13 @@
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                         <button class="dropdown-item align-middle"
                                                 @click="openEditModal(cancellationRule)"
-                                                v-if="cancellationRule.can.edit">
+                                                v-if="cancellationRule.access.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
                                                 @click="() => confirmDelete(route('admin.cancellationRules.destroy', cancellationRule.id))"
-                                                v-if="cancellationRule.can.delete">
+                                                v-if="cancellationRule.access.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
@@ -98,7 +98,7 @@ const confirmDelete = useConfirm();
 
 defineProps({
     cancellationRules: Object,
-    can: Object,
+    access: Object,
 });
 
 let editingCancelRule = ref(null);

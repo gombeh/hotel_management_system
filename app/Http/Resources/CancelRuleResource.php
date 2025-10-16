@@ -22,7 +22,7 @@ class CancelRuleResource extends JsonResource
             "max_days_before" => $this->max_days_before,
             "penalty_percent" => $this->penalty_percent,
             "description" => $this->description,
-            "can" => $this->whenNotNull($this->can),
+            "access" => $this->whenNotNull($this->access),
         ];
     }
 }

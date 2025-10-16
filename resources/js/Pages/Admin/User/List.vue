@@ -9,7 +9,7 @@
             <div class="btn-list">
 
                 <button class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="can.createUser"
+                        v-if="access.createUser"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -72,17 +72,17 @@
                         <td class="sort-gender">{{ user.roles.map(role => role.name).join(', ') }}</td>
                         <td class=sort-email>{{ user.email }}</td>
                         <td class="text-end">
-                            <div class="dropdown" v-if="Object.values(user.can).some((per) => per === true)">
+                            <div class="dropdown" v-if="Object.values(user.access).some(per => per)">
                                 <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                         data-bs-toggle="dropdown" aria-expanded="true">
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                    <button class="dropdown-item align-middle" @click="openEditModal(user)" v-if="user.can.edit">
+                                    <button class="dropdown-item align-middle" @click="openEditModal(user)" v-if="user.access.edit">
                                         <IconEdit class="icon icon1"/>
                                         Edit
                                     </button>
-                                    <button class="dropdown-item" v-if="user.can.delete"
+                                    <button class="dropdown-item" v-if="user.access.delete"
                                             @click="() => confirmDelete(route('admin.users.destroy', user.id))">
                                         <IconTrash class="icon icon1"/>
                                         Delete
@@ -132,7 +132,7 @@ const props = defineProps({
     'filters': Object,
     'sorts': String,
     'limit': Number,
-    'can': Object,
+    'access': Object,
     'roles': Object,
     'sexes': Array,
 });

@@ -36,19 +36,18 @@ class RoomTypeController extends Controller
             ->latest()
             ->paginate($limit)
             ->withQueryString()
-            ->through(fn($roomType) => $roomType->setAttribute('can', [
+            ->through(fn($roomType) => $roomType->setAttribute('access', [
                 'edit' => $user->can('update', $roomType),
                 'delete' => $user->can('delete', $roomType),
             ]));
 
-        $resource = RoomTypeResource::collection($roomTypes);
         return inertia('Admin/RoomType/List', [
-            'roomTypes' => $resource,
+            'roomTypes' => RoomTypeResource::collection($roomTypes),
             'statuses' => RoomTypeStatus::asSelect(),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
-            'can' => [
+            'access' => [
                 'createRoomType' => $user->can('create', RoomType::class),
                 'viewRooms' => $user->can('viewAny', Room::class),
             ]

@@ -18,15 +18,15 @@ class MealPlanController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $mealPlans = MealPlan::latest()->get()->map(fn($mealPlan) => $mealPlan->setAttribute('can', [
+        $mealPlans = MealPlan::latest()->get()->map(fn($mealPlan) => $mealPlan->setAttribute('access', [
             'edit' => $user->can('update', $mealPlan),
             'delete' => $user->can('delete', $mealPlan),
         ]));
 
         return inertia("Admin/MealPlan/List", [
             'mealPlans' => MealPlanResource::collection($mealPlans),
-            'can' => [
-                'create' => $user->can('create', MealPlan::class),
+            'access' => [
+                'createMealPlan' => $user->can('create', MealPlan::class),
             ]
         ]);
     }

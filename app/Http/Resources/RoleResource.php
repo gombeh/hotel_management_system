@@ -19,7 +19,7 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'can' => $this->whenNotNull($this->can),
+            'access' => $this->whenNotNull($this->access),
         ];
     }
 }

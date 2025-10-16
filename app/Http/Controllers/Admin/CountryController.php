@@ -33,19 +33,17 @@ class CountryController extends Controller
             ->latest()
             ->paginate($limit)
             ->withQueryString()
-            ->through(fn($country) => $country->setAttribute('can', [
+            ->through(fn($country) => $country->setAttribute('access', [
                 'edit' => $user->can('update', $country),
                 'delete' => $user->can('delete', $country),
             ]));
 
-
-        $resource = CountryResource::collection($countries);
         return inertia('Admin/Country/List', [
-            'countries' => $resource,
+            'countries' => CountryResource::collection($countries),
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
-            'can' => [
+            'access' => [
                 'createCountry' => $user->can('create', Country::class),
             ]
         ]);

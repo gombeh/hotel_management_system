@@ -18,15 +18,15 @@ class BedTypeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $bedTypes = BedType::latest()->get()->map(fn($bedType) => $bedType->setAttribute('can', [
+        $bedTypes = BedType::latest()->get()->map(fn($bedType) => $bedType->setAttribute('access', [
             'edit' => $user->can('update', $bedType),
             'delete' => $user->can('delete', $bedType),
         ]));
 
         return inertia("Admin/BedType/List", [
             'bedTypes' => BedTypeResource::collection($bedTypes),
-            'can' => [
-                'create' => $user->can('create', BedType::class),
+            'access' => [
+                'createBedType' => $user->can('create', BedType::class),
             ]
         ]);
     }

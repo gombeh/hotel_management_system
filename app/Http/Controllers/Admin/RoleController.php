@@ -18,16 +18,15 @@ class RoleController extends Controller
     {
         $user = auth()->user();
         $roles = Role::all()
-                    ->map(fn ($role) => $role->setAttribute('can', [
+                    ->map(fn ($role) => $role->setAttribute('access', [
                         'edit' => $user->can('update', $role),
                         'delete' => $user->can('delete', $role),
                         'permissions' => $user->can('permissions', $role),
                     ]));
 
-        $resource = RoleResource::collection($roles);
         return inertia('Admin/Role/List', [
-            'roles' => $resource,
-            'can' => [
+            'roles' => RoleResource::collection($roles),
+            'access' => [
                 'createRole' => auth()->user()->can('create', Role::class),
             ]
         ]);

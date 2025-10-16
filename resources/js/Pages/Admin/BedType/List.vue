@@ -8,7 +8,7 @@
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
 
-                <button v-if="can.create" class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                <button v-if="access.createBedType" class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -52,7 +52,7 @@
                             <td>{{ bedType.name }}</td>
                             <td>{{ bedType.capacity }}</td>
                             <td class="text-end">
-                                <div class="dropdown" v-if="Object.values(bedType.can).some((per) => per === true)">
+                                <div class="dropdown" v-if="Object.values(bedType.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
                                             data-bs-toggle="dropdown" aria-expanded="true">
                                         Actions
@@ -60,13 +60,13 @@
                                     <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                         <button class="dropdown-item align-middle"
                                                 @click="openEditModal(bedType)"
-                                                v-if="bedType.can.edit">
+                                                v-if="bedType.access.edit">
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
                                         <button class="dropdown-item"
                                                 @click="() => confirmDelete(route('admin.bedTypes.destroy', bedType.id))"
-                                                v-if="bedType.can.delete">
+                                                v-if="bedType.access.delete">
                                             <IconTrash class="icon icon1"/>
                                             Delete
                                         </button>
@@ -94,7 +94,7 @@ const confirmDelete = useConfirm();
 
 defineProps({
     bedTypes: Object,
-    can: Object,
+    access: Object,
 });
 
 let editingBedType = ref(null);

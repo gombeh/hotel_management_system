@@ -18,15 +18,16 @@ class CancellationRuleController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $cancellationRules = CancellationRule::latest()->get()->map(fn($cancellationRule) => $cancellationRule->setAttribute('can', [
+        $cancellationRules = CancellationRule::latest()->get()
+            ->map(fn($cancellationRule) => $cancellationRule->setAttribute('access', [
             'edit' => $user->can('update', $cancellationRule),
             'delete' => $user->can('delete', $cancellationRule),
         ]));
 
         return inertia("Admin/CancellationRule/List", [
             'cancellationRules' => CancelRuleResource::collection($cancellationRules),
-            'can' => [
-                'create' => $user->can('create', CancellationRule::class),
+            'access' => [
+                'createCancelRule' => $user->can('create', CancellationRule::class),
             ]
         ]);
     }
