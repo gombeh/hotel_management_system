@@ -30,13 +30,11 @@ class UploadFiles
                 $hasDeletedFiles = true;
             }
 
-            $path = Storage::path($file);
-
-            if (!file_exists($path)) {
+            if (!Storage::exists($file)) {
                 return null;
             }
 
-            $media = $model->addMedia($path)->toMediaCollection($collectionName);
+            $media = $model->addMediaFromDisk($file, config('media-library.disk_name'))->toMediaCollection($collectionName);
             return $media->id;
         }, $files);
 

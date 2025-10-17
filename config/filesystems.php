@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -59,7 +59,19 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+            'port' => env('FTP_PORT', 21),
+            'root' => env('FTP_ROOT'),
+            'url' => env('FTP_URL'),
+//             'passive' => true,
+//            'ssl' => true,
+            'timeout' => 30000,
 
+        ],
     ],
 
     /*
