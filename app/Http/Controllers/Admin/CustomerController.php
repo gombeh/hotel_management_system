@@ -100,7 +100,7 @@ class CustomerController extends Controller
 
         if($customer->isInActive()){
             $sessions = DB::table('sessions')
-                ->where('user_id', $customer->id)
+                ->where('customer_id', $customer->id)
                 ->get();
 
             foreach ($sessions as $session) {
