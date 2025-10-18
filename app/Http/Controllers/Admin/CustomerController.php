@@ -11,6 +11,7 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Services\Filters\FilterSearch;
 use App\Services\Sorts\MultiColumnSort;
+use DB;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
@@ -28,6 +29,7 @@ class CustomerController extends Controller
         $limit = $request->limit;
         $user = auth()->user();
         $customers = QueryBuilder::for(Customer::class)
+            ->complete()
             ->allowedFilters([
                 AllowedFilter::exact('status'),
                 AllowedFilter::custom('search', new FilterSearch(['first_name', 'last_name', 'email']))
@@ -77,6 +79,7 @@ class CustomerController extends Controller
         $data = [
             ...$data,
             'email_verified_at' => now(),
+            'is_complete' => true,
             'mobile_verified_at' => !empty($data['mobile']) ? now() : null,
         ];
 
@@ -94,6 +97,16 @@ class CustomerController extends Controller
         $data['mobile_verified_at'] = !empty($data['mobile']) ? now() : null;
 
         $customer->update($data);
+
+        if($customer->isInActive()){
+            $sessions = DB::table('sessions')
+                ->where('user_id', $customer->id)
+                ->get();
+
+            foreach ($sessions as $session) {
+                \Session::getHandler()->destroy($session->id);
+            }
+        }
 
         return redirect()->back()->with('message', 'Customer updated.');
     }

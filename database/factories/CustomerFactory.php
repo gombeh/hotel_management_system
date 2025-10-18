@@ -39,6 +39,7 @@ class CustomerFactory extends Factory
             'sex' => fake()->randomElement(Sex::values()),
             'birthdate' => null,
             'status' => fake()->randomElement(CustomerStatus::values()),
+            'is_complete' => true,
             'remember_token' => Str::random(10),
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CustomerIsVerified;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsAuthorize;
 use App\Http\Middleware\PaginationValidation;
@@ -22,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectGuestsTo('/admin/login'); //todo latter become issue panel customer|guest
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
@@ -30,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'authorize' => IsAuthorize::class,
             'pagination.validation' => PaginationValidation::class,
+            'verified.customer' => CustomerIsVerified::class
         ]);
 
         $middleware->redirectGuestsTo(function (Request $request) {

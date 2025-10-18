@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CustomerStatus;
 use App\Enums\Sex;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,6 +29,7 @@ class Customer extends Authenticatable implements HasMedia
         'sex',
         'birthdate',
         'status',
+        'is_complete'
     ];
 
     /**
@@ -69,5 +71,30 @@ class Customer extends Authenticatable implements HasMedia
         return Attribute::make(
             get: fn() => $this->first_name . " " . $this->last_name
         );
+    }
+
+    public function ScopeComplete(Builder $builder): Builder
+    {
+        return $builder->where('is_complete', true);
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
+
+    public function isIncomplete(): bool
+    {
+        return !$this->is_complete && $this->isVerified();
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === CustomerStatus::Active;
+    }
+
+    public function isInActive(): bool
+    {
+        return $this->status === CustomerStatus::Inactive;
     }
 }

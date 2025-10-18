@@ -26,7 +26,7 @@ class RegisterController extends Controller
         $data = $request->validate([
             'email' => [
                 'required', 'email', 'max:255', Rule::unique('customers', 'email')
-                    ->where(fn ($query)  => $query->whereNotNull('email_verified_at'))
+                    ->where(fn($query) => $query->where('is_complete', 1))
             ]
         ]);
 
@@ -65,6 +65,11 @@ class RegisterController extends Controller
                 'code' => 'Code is not valid.',
             ]);
         }
+
+        $customer->update([
+            'email_verified_at' => now(),
+        ]);
+
         return redirect()->intended(route('completeRegisterForm'));
     }
 
@@ -90,14 +95,16 @@ class RegisterController extends Controller
 
     public function completeRegister(CompleteRegisterRequest $request)
     {
-        $data = $request->validated();
-        $data['email_verified_at'] = now();
-        $data['status'] = CustomerStatus::Active;
-
         $customer = auth('customer')->user();
 
-        $customer->update($data);
+        $data = $request->validated();
+        $data = [
+            ...$data,
+            'is_complete' => true,
+            'status' => CustomerStatus::Active,
+        ];
 
+        $customer->update($data);
 
         return redirect()->intended(route('home'));
     }

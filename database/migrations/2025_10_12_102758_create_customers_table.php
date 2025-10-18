@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('sex', Sex::cases())->nullable();
             $table->date('birthdate')->nullable();
             $table->enum('status', CustomerStatus::cases())->default(CustomerStatus::default());
+            $table->boolean('is_complete')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

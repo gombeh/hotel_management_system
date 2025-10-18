@@ -8,17 +8,13 @@ use ReflectionClassConstant;
 
 trait BaseEnum
 {
-    private static function getDisplay(self $enum): array
+    private static function getDisplay(self $enum): ?array
     {
         $ref = new ReflectionClassConstant(static::class, $enum->name);
         $classAttributes = $ref->getAttributes(Display::class);
 
         if (count($classAttributes) === 0) {
-            return [
-                'label' => Str::headline($enum->value),
-                'bgClass' => null,
-                'isDefault' => false,
-            ];
+            return null;
         }
 
         return (array)$classAttributes[0]->newInstance();
@@ -29,11 +25,17 @@ trait BaseEnum
         /** @var array<string,string> $values */
         $values = collect(static::cases())
             ->map(function ($enum) {
+                $data = static::getDisplay($enum);
+
+                if (!$data) return null;
+
                 return [
-                    ...static::getDisplay($enum),
+                    ... $data,
                     'value' => $enum->value,
                 ];
-            })->toArray();
+            })->filter(fn($enum) => $enum)
+            ->values()
+            ->toArray();
 
         return $values;
     }

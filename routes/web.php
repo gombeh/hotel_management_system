@@ -5,7 +5,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing\LandingController;
 
-Route::get('/', LandingController::class)->name('home');
+Route::get('/', LandingController::class)->middleware('verified.customer')->name('home');
+
 
 Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('loginForm');
 Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
@@ -14,7 +15,7 @@ Route::get('/register', [RegisterController::class, 'registerForm'])->name('regi
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 
 
-Route::middleware('auth:customer')->group(function () {
+Route::middleware(['auth:customer', 'verified.customer'])->group(function () {
     Route::delete('/logout', [AuthenticateController::class, 'delete'])->name('logout');
 
     Route::get('/verify-code', [RegisterController::class, 'verifyCodeForm'])->name('verifyCodeForm');
