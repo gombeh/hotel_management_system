@@ -9,7 +9,6 @@ use App\Models\Customer;
 use App\Services\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -37,41 +36,6 @@ class RegisterController extends Controller
         if(!$customer->isVerified()) OtpService::sendVerifyCode($customer);
 
         return redirect()->intended(route('verifyCodeForm'));
-    }
-
-    public function verifyCodeForm()
-    {
-        return inertia('Auth/VerifyCode');
-    }
-
-    public function verifyCode(Request $request)
-    {
-        ['code' => $code] = $request->validate([
-            'code' => 'required|integer',
-        ]);
-
-        $customer = auth('customer')->user();
-
-        if (!OtpService::verifyCode($customer, $code)) {
-            throw ValidationException::withMessages([
-                'code' => 'Code is not valid.',
-            ]);
-        }
-
-        $customer->update([
-            'email_verified_at' => now(),
-        ]);
-
-        return redirect()->intended(route('completeRegisterForm'));
-    }
-
-    public function resendCode()
-    {
-        $customer = auth('customer')->user();
-
-        OtpService::sendVerifyCode($customer);
-
-        return redirect()->back();
     }
 
     public function completeRegisterForm()
