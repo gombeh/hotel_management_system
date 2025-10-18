@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-actions mt-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-door-open me-2" style="font-size: 18px"></i>
+                                <i class="bi bi-shield-lock me-2" style="font-size: 18px"></i>
                                 Verify Code
                             </button>
                         </div>

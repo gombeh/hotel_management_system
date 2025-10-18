@@ -41,7 +41,7 @@
 
                         <div class="form-actions mt-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-door-open me-2" style="font-size: 18px"></i>
+                                <i class="bi bi-unlock me-2" style="font-size: 18px"></i>
                                 Login
                             </button>
                         </div>

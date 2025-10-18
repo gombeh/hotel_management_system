@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class CustomerVerification extends Model
@@ -18,7 +17,7 @@ class CustomerVerification extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'timestamp',
-        'expired_at' => 'timestamp',
+        'created_at' => 'datetime',
+        'expired_at' => 'datetime',
     ];
 }

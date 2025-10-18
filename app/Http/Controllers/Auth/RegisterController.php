@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Enums\CustomerStatus;
-use App\Enums\VerificationType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\CompleteRegisterRequest;
 use App\Models\Customer;
+use App\Services\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -34,13 +34,7 @@ class RegisterController extends Controller
 
         auth('customer')->login($customer);
 
-        $customer->verifications()->create([
-            'code' => $code = fake()->randomNumber(5, true),
-            'type' => VerificationType::Email,
-            'expired_at' => now()->addMinutes(5),
-        ]);
-
-        info('code: ' . $code);
+        if(!$customer->isVerified()) OtpService::sendVerifyCode($customer);
 
         return redirect()->intended(route('verifyCodeForm'));
     }
@@ -58,9 +52,7 @@ class RegisterController extends Controller
 
         $customer = auth('customer')->user();
 
-        $verification = $customer->verifications()->where('code', $code)->first();
-
-        if (!$verification && $verification->expired_at <= now()) {
+        if (!OtpService::verifyCode($customer, $code)) {
             throw ValidationException::withMessages([
                 'code' => 'Code is not valid.',
             ]);
@@ -77,13 +69,7 @@ class RegisterController extends Controller
     {
         $customer = auth('customer')->user();
 
-        $customer->verifications()->create([
-            'code' => $code = fake()->randomNumber(5, true),
-            'type' => VerificationType::Email,
-            'expired_at' => now()->addMinutes(5),
-        ]);
-
-        info('code: ' . $code);
+        OtpService::sendVerifyCode($customer);
 
         return redirect()->back();
     }
