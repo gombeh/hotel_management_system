@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerifyCodeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing\LandingController;
@@ -14,6 +16,12 @@ Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
 
 Route::get('/register', [RegisterController::class, 'registerForm'])->name('registerForm');
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
+
+Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPasswordForm'])->name('password.request');
+Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPassword'])->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 
 Route::middleware(['auth:customer', 'verified.customer'])->group(function () {

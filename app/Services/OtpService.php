@@ -2,13 +2,13 @@
 namespace App\Services;
 
 use App\Enums\VerificationType;
-use App\Mail\sendVerifyCode;
+use App\Mail\SendVerifyCode;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Mail;
 
 class OtpService
 {
-    public static function sendVerifyCode(Customer $customer): void
+    public static function sendVerifyCode(Customer $customer, string $mailClass= SendVerifyCode::class): void
     {
         $customer->verifications()->where('used', false)->update(['used' => true]);
         $customer->verifications()->create([
@@ -17,7 +17,7 @@ class OtpService
             'expired_at' => now()->addMinutes(5),
         ]);
 
-        Mail::to($customer->email)->send(new sendVerifyCode($customer, $code));
+        Mail::to($customer->email)->send(new $mailClass($customer, $code));
     }
 
     public static function verifyCode(Customer $customer, string $code): bool

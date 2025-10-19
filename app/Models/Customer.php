@@ -4,18 +4,20 @@ namespace App\Models;
 
 use App\Enums\CustomerStatus;
 use App\Enums\Sex;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Customer extends Authenticatable implements HasMedia
+class Customer extends Authenticatable implements HasMedia, CanResetPassword
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, Notifiable;
 
     protected $fillable = [
         'first_name',
