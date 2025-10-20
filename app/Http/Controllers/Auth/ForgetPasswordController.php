@@ -12,6 +12,10 @@ class ForgetPasswordController extends Controller
 {
     public function forgetPasswordForm()
     {
+        if (auth('customer')->check()) {
+            return redirect()->route('home');
+        }
+
         return inertia('Auth/ForgetPassword');
     }
 

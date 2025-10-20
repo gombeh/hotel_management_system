@@ -12,7 +12,7 @@
                                     <input type="email" class="form-control" id="email"
                                            v-model="form.email"
                                            :class="{'is-invalid': form.errors.email}"
-                                           placeholder="first name" required="">
+                                           placeholder="test@test.com" required="">
                                     <div class="invalid-feedback" v-show="form.errors.email"
                                          v-text="form.errors.email"></div>
                                 </div>
