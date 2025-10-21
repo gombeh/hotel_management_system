@@ -183,11 +183,11 @@
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-            <div class="row mt-6">
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="row g-3">
+                <a class="col-lg-3 col-sm-6 d-inline-block" :href="route('roomTypes.show', roomType.slug)" v-for="roomType in roomTypes">
                     <div class="minimal-room-card">
                         <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Classic Room" class="img-fluid">
+                            <img :src="roomType.mainImage[0]?.url" alt="Classic Room" class="img-fluid">
                             <div class="hover-overlay">
                                 <a href="room-details.html" class="view-room">
                                     <i class="bi bi-eye"></i>
@@ -195,8 +195,8 @@
                             </div>
                         </div>
                         <div class="room-summary">
-                            <h5>Classic Double</h5>
-                            <div class="price-tag">$189<span>/night</span></div>
+                            <h5>{{ roomType.name}}</h5>
+                            <div class="price-tag">${{ roomType.price }}<span>/night</span></div>
                             <div class="basic-amenities">
                                 <i class="bi bi-wifi"></i>
                                 <i class="bi bi-tv"></i>
@@ -204,171 +204,13 @@
                             </div>
                         </div>
                     </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="450">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Superior Room" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Superior King</h5>
-                            <div class="price-tag">$249<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-wifi"></i>
-                                <i class="bi bi-cup-hot"></i>
-                                <i class="bi bi-snow"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Premium Room" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Premium Ocean View</h5>
-                            <div class="price-tag">$359<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-water"></i>
-                                <i class="bi bi-door-open"></i>
-                                <i class="bi bi-award"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="550">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Luxury Suite" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Luxury Penthouse</h5>
-                            <div class="price-tag">$1,199<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-star"></i>
-                                <i class="bi bi-house"></i>
-                                <i class="bi bi-gem"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
+                </a><!-- End Minimal Room -->
             </div>
-            <div class="row mt-6">
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Classic Room" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Classic Double</h5>
-                            <div class="price-tag">$189<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-wifi"></i>
-                                <i class="bi bi-tv"></i>
-                                <i class="bi bi-telephone"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="450">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Superior Room" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Superior King</h5>
-                            <div class="price-tag">$249<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-wifi"></i>
-                                <i class="bi bi-cup-hot"></i>
-                                <i class="bi bi-snow"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="500">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Premium Room" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Premium Ocean View</h5>
-                            <div class="price-tag">$359<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-water"></i>
-                                <i class="bi bi-door-open"></i>
-                                <i class="bi bi-award"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-                <div class="col-lg-3 col-sm-6" data-aos="fade-up" data-aos-delay="550">
-                    <div class="minimal-room-card">
-                        <div class="room-image">
-                            <img src="/resources/images/room-12.webp" alt="Luxury Suite" class="img-fluid">
-                            <div class="hover-overlay">
-                                <a href="room-details.html" class="view-room">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="room-summary">
-                            <h5>Luxury Penthouse</h5>
-                            <div class="price-tag">$1,199<span>/night</span></div>
-                            <div class="basic-amenities">
-                                <i class="bi bi-star"></i>
-                                <i class="bi bi-house"></i>
-                                <i class="bi bi-gem"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End Minimal Room -->
-
-            </div>
-
             <div class="text-center" data-aos="fade-up" data-aos-delay="600">
-                <a href="rooms.html" class="explore-all-link">
+                <Link :href="route('roomTypes.index')" class="explore-all-link">
                     <span>Explore All Accommodations</span>
                     <i class="bi bi-arrow-right"></i>
-                </a>
+                </Link>
             </div>
 
         </div>
@@ -639,5 +481,8 @@
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 
+defineProps({
+    'roomTypes': Array
+})
 
 </script>

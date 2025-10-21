@@ -29,8 +29,8 @@
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="index.html" class="active">Home</a></li>
-                        <li><a href="rooms.html">Rooms</a></li>
+                        <li><Link :href="route('home')" class="active">Home</Link></li>
+                        <li><Link :href="route('roomTypes.index')">Rooms</Link></li>
                         <li><a href="amenities.html">Amenities</a></li>
                         <li><a href="about.html">About</a></li>
                         <span style="font-size: 20px">|</span>

@@ -3,8 +3,10 @@
 namespace App\Http\Resources;
 
 use App\Models\RoomType;
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class RoomTypeResource extends JsonResource
 {
@@ -21,6 +23,7 @@ class RoomTypeResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'view' => $this->view,
+            'short_description' => Str::words($this->description, 15, '...'),
             'description' => $this->description,
             'size' => $this->size,
             'max_adult' => $this->max_adult,
@@ -29,8 +32,10 @@ class RoomTypeResource extends JsonResource
             'price' => $this->price,
             'extra_bed_price' => $this->extra_bed_price,
             'status' => $this->status,
-            'mainImage' => MediaResource::collection($this->getMedia('main')),
-            'gallery' => MediaResource::collection($this->getMedia('gallery')),
+            'mainImage' => MediaService::resource($this, 'main'),
+            'gallery' => $request->routeIs(['rooms.show', 'admin.roomTypes.*'])
+                ? MediaService::resource($this, 'gallery')
+                : null,
             'facilities' => FacilityResource::collection($this->whenLoaded('facilities')),
             'bedTypes' => BedTypeResource::collection($this->whenLoaded('bedTypes')),
             'access' => $this->whenNotNull($this->access),

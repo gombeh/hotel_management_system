@@ -5,10 +5,13 @@ use App\Http\Controllers\Auth\ForgetPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerifyCodeController;
+use App\Http\Controllers\Landing\RoomTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing\LandingController;
 
 Route::get('/', LandingController::class)->middleware('verified.customer')->name('home');
+Route::get('/rooms', [RoomTypeController::class, 'index'])->name('roomTypes.index');
+Route::get('/rooms/{roomType:slug}', [RoomTypeController::class, 'show'])->name('roomTypes.show');
 
 
 Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('loginForm');

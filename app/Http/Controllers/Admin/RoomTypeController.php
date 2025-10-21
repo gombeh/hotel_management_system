@@ -88,7 +88,7 @@ class RoomTypeController extends Controller
 
     public function edit(RoomType $roomType)
     {
-        $roomType->load('facilities', 'bedTypes');
+        $roomType->load('facilities', 'bedTypes', 'media');
         $bedTypes = BedType::all()->pluck('name', 'id');
         $facilities = Facility::all()->pluck('name', 'id');
 

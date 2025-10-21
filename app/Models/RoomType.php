@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RoomTypeStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -47,5 +48,18 @@ class RoomType extends Model implements HasMedia
     public function rooms(): HasMany
     {
         return $this->hasMany(Room::class);
+    }
+
+    public function scopeActive(Builder $builder): void
+    {
+        $builder->where('status', RoomTypeStatus::Active);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('main')
+            ->useFallbackUrl(url('/assets/images/default-room.webp'))
+            ->useFallbackPath(public_path('assets/images/default-room.webp'));
     }
 }
