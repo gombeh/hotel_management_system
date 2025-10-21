@@ -33,7 +33,7 @@ class RoomTypeResource extends JsonResource
             'extra_bed_price' => $this->extra_bed_price,
             'status' => $this->status,
             'mainImage' => MediaService::resource($this, 'main'),
-            'gallery' => $request->routeIs(['rooms.show', 'admin.roomTypes.*'])
+            'gallery' => $request->routeIs(['roomTypes.show', 'admin.roomTypes.*'])
                 ? MediaService::resource($this, 'gallery')
                 : null,
             'facilities' => FacilityResource::collection($this->whenLoaded('facilities')),

@@ -23,7 +23,7 @@
                     <div class="room-header-image">
                         <img :src="roomType.mainImage[0].url" :alt="roomType.name" class="img-fluid rounded">
                         <div class="room-badge">
-                            <span class="text-white">Premium Suite</span>
+                            <span class="text-white">{{ roomType.view }}</span>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="capacity-item">
                                 <i class="bi bi-bed"></i>
-                                <span>King bed + Sofa bed</span>
+                                <span v-text="roomType.bedTypes.map(rt => rt.name).join(' + ')"></span>
                             </div>
                         </div>
                         <div class="room-price">
@@ -66,28 +66,43 @@
             </div>
 
             <!-- Room Gallery -->
-            <div class="room-gallery mb-5" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="section-subtitle mb-4">Room Gallery</h3>
-                <div class="gallery-grid">
-                    <div class="gallery-main">
-                        <a href="/resources/images/room-12.webp" class="glightbox">
-                            <img src="/resources/images/room-12.webp" alt="Suite Interior" class="img-fluid">
-                        </a>
-                    </div>
-                    <div class="gallery-thumbnails">
-                        <a href="/resources/images/room-12.webp" class="glightbox">
-                            <img src="/resources/images/room-12.webp" alt="Bedroom View" class="img-fluid">
-                        </a>
-                        <a href="/resources/images/room-12.webp" class="glightbox">
-                            <img src="/resources/images/room-12.webp" alt="Living Area" class="img-fluid">
-                        </a>
-                        <a href="/resources/images/room-12.webp" class="glightbox">
-                            <img src="/resources/images/room-12.webp" alt="Ocean View" class="img-fluid">
-                        </a>
-                        <a href="/resources/images/room-12.webp" class="glightbox">
-                            <img src="/resources/images/room-12.webp" alt="Bathroom" class="img-fluid">
-                        </a>
-                    </div>
+            <div class="room-gallery mb-5" v-if="roomType.gallery">
+                <h3 class="section-subtitle mb-4" >Room Gallery</h3>
+                <div class="gallery-carousel swiper init-swiper" data-aos="fade-up" data-aos-delay="200">
+                    <swiper
+                        :slides-per-view="1"
+                        :space-between="20"
+                        loop
+                        :autoplay="{'delay': 3000 }"
+                        centered-slides
+                        :speed="600"
+                        :breakpoints="{
+                        '576': {
+                        'slidesPerView': 2,
+                        'centeredSlides': false
+                        },
+                        '768': {
+                        'slidesPerView': 3,
+                        'centeredSlides': false
+                        },
+                        '992': {
+                        'slidesPerView': 4,
+                        'centeredSlides': false
+                        },
+                        '1200': {
+                        'slidesPerView': 4,
+                        'centeredSlides': false
+                        }
+                    }">
+                        <swiper-slide class="swiper-slide" v-for="gallery in roomType.gallery">
+                            <div class="gallery-item">
+                                <img :src="gallery.url" alt="Luxurious Suite" class="img-fluid"
+                                     loading="lazy">
+                                <a :href="gallery.url" class="gallery-overlay glightbox">
+                                </a>
+                            </div>
+                        </swiper-slide>
+                    </swiper>
                 </div>
             </div>
 
@@ -114,50 +129,10 @@
             <!-- Amenities and Features -->
             <div class="room-amenities mb-5" data-aos="fade-up" data-aos-delay="200">
                 <h3 class="section-subtitle mb-4">Room Amenities</h3>
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="amenity-category">
-                            <h5>Sleeping</h5>
-                            <ul>
-                                <li><i class="bi bi-check2"></i> King size bed</li>
-                                <li><i class="bi bi-check2"></i> Premium linens</li>
-                                <li><i class="bi bi-check2"></i> Memory foam pillows</li>
-                                <li><i class="bi bi-check2"></i> Blackout curtains</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="amenity-category">
-                            <h5>Technology</h5>
-                            <ul>
-                                <li><i class="bi bi-check2"></i> High-speed WiFi</li>
-                                <li><i class="bi bi-check2"></i> 55" Smart TV</li>
-                                <li><i class="bi bi-check2"></i> Bluetooth speakers</li>
-                                <li><i class="bi bi-check2"></i> USB charging ports</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="amenity-category">
-                            <h5>Comfort</h5>
-                            <ul>
-                                <li><i class="bi bi-check2"></i> Climate control</li>
-                                <li><i class="bi bi-check2"></i> Mini refrigerator</li>
-                                <li><i class="bi bi-check2"></i> Coffee machine</li>
-                                <li><i class="bi bi-check2"></i> Safe deposit box</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="amenity-category">
-                            <h5>Bathroom</h5>
-                            <ul>
-                                <li><i class="bi bi-check2"></i> Marble bathroom</li>
-                                <li><i class="bi bi-check2"></i> Rain shower</li>
-                                <li><i class="bi bi-check2"></i> Luxury toiletries</li>
-                                <li><i class="bi bi-check2"></i> Heated floors</li>
-                            </ul>
-                        </div>
+                <div class="d-flex gap-5">
+                    <div class="" v-for="facility in roomType.facilities">
+                        <i class="bi bi-check2 text-success me-1" style="font-size: 18px" />
+                        <span>{{ facility.name }}</span>
                     </div>
                 </div>
             </div>
@@ -301,6 +276,8 @@
 </template>
 
 <script setup>
+import {Swiper, SwiperSlide} from "swiper/vue";
+
 defineProps({
     roomType: Object,
 })

@@ -23,7 +23,7 @@ class RoomTypeController extends Controller
 
     public function show(RoomType $roomType)
     {
-        $roomType->load('bedTypes', 'media');
+        $roomType->load('bedTypes', 'media', 'facilities');
         return inertia('Landing/RoomType/Show',[
             'roomType' => RoomTypeResource::make($roomType),
         ]);

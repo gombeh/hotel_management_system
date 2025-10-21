@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RoomType extends Model implements HasMedia
 {
@@ -61,5 +62,14 @@ class RoomType extends Model implements HasMedia
             ->addMediaCollection('main')
             ->useFallbackUrl(url('/assets/images/default-room.webp'))
             ->useFallbackPath(public_path('assets/images/default-room.webp'));
+    }
+
+    public function registerMediaConversions(Media|null $media = null): void
+    {
+        $this->addMediaConversion('set')
+            ->performOnCollections('gallery')
+            ->width(368)
+            ->height(232)
+            ->nonQueued();
     }
 }
