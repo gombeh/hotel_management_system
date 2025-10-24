@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthenticateController;
 use App\Http\Controllers\Admin\BedTypeController;
+use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\CancellationRuleController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -50,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
     Route::camelApiResource('cancellation-rules', CancellationRuleController::class)->except('show');
 
     Route::apiResource('customers', CustomerController::class)
+        ->middlewareFor('index', 'pagination.validation');
+
+    Route::resource('bookings', BookingController::class)
         ->middlewareFor('index', 'pagination.validation');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');

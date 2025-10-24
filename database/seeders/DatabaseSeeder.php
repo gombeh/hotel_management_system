@@ -83,11 +83,11 @@ class DatabaseSeeder extends Seeder
 
 
         $mealPlans = [
-            ['code' => 'RO', 'name' => 'Room Only', 'description' => 'No meals included', 'extra_price' => 0.00],
-            ['code' => 'BB', 'name' => 'Bed & Breakfast', 'description' => 'Breakfast included', 'extra_price' => 10.00],
-            ['code' => 'HB', 'name' => 'Half Board', 'description' => 'Breakfast + Dinner', 'extra_price' => 25.00],
-            ['code' => 'FB', 'name' => 'Full Board', 'description' => 'Breakfast + Lunch + Dinner', 'extra_price' => 40.00],
-            ['code' => 'AI', 'name' => 'All Inclusive', 'description' => 'All meals + drinks', 'extra_price' => 65.00]
+            ['code' => 'RO', 'name' => 'Room Only', 'description' => 'No meals included', 'adult_price' => 0.00, 'child_price' => 0.00, 'infant_price' => 0.00],
+            ['code' => 'BB', 'name' => 'Bed & Breakfast', 'description' => 'Breakfast included', 'adult_price' => 10.00, 'child_price' => 8.00, 'infant_price' => 0.00],
+            ['code' => 'HB', 'name' => 'Half Board', 'description' => 'Breakfast + Dinner', 'adult_price' => 25.00, 'child_price' => 20, 'infant_price' => 0.00],
+            ['code' => 'FB', 'name' => 'Full Board', 'description' => 'Breakfast + Lunch + Dinner', 'adult_price' => 40.00 ,'child_price' => 30, 'infant_price' => 5.00],
+            ['code' => 'AI', 'name' => 'All Inclusive', 'description' => 'All meals + drinks', 'adult_price' => 65.00, 'child_price' => 50.00, 'infant_price' => 10.00]
         ];
 
         foreach ($mealPlans as $mealPlan) {

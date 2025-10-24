@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('booking_rooms', function (Blueprint $table) {
             $table->foreignId('booking_id')->constrained();
             $table->foreignId('room_id')->constrained();
+            $table->primary(['booking_id', 'room_id']);
         });
     }
 

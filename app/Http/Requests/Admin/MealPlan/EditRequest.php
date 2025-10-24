@@ -26,7 +26,9 @@ class EditRequest extends FormRequest
             'name' => 'required|string|unique:meal_plans,name,' . $this->mealPlan->id,
             'code' => 'required|string|unique:meal_plans,code,' . $this->mealPlan->id,
             'description' => 'nullable',
-            'extra_price' => 'required|numeric|min:0',
+            'adult_price' => 'required|numeric|min:0',
+            'child_price' => 'required|numeric|min:0',
+            'infant_price' => 'required|numeric|min:0',
         ];
     }
 

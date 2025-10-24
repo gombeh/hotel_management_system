@@ -80,6 +80,11 @@ class Customer extends Authenticatable implements HasMedia, CanResetPassword
         return $builder->where('is_complete', true);
     }
 
+    public function ScopeActive(Builder $builder): Builder
+    {
+        return $builder->where('status', CustomerStatus::Active);
+    }
+
     public function isVerified(): bool
     {
         return $this->email_verified_at !== null;

@@ -26,7 +26,9 @@ class CreateRequest extends FormRequest
             'name' => 'required|string|unique:meal_plans,name',
             'code' => 'required|string|unique:meal_plans,code',
             'description' => 'nullable',
-            'extra_price' => 'required|numeric|min:0',
+            'adult_price' => 'required|numeric|min:0',
+            'child_price' => 'required|numeric|min:0',
+            'infant_price' => 'required|numeric|min:0',
         ];
     }
 

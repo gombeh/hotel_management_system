@@ -59,10 +59,12 @@
 import {
     IconHome, IconUsers, IconUser,
     IconShieldLock, IconBuildingSkyscraper,
-    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab,IconMeat, IconScale,IconUserCircle
+    IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab, IconMeat,
+    IconScale, IconUserCircle, IconCalendarWeek, IconCalendarCheck
 } from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
+
 const page = usePage();
 
 const links = [
@@ -131,6 +133,17 @@ const links = [
                 routeName: 'admin.cancellationRules.index',
                 icon: h(IconScale)
             }
+        ]
+    },
+    {
+        name: "Reservation",
+        icon: h(IconCalendarWeek),
+        items: [
+            {
+                name: "Bookings",
+                routeName: 'admin.bookings.index',
+                icon: h(IconCalendarCheck)
+            },
         ]
     }
 ]

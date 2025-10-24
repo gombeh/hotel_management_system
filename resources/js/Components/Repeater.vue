@@ -11,13 +11,13 @@
                         *
                     </span>
                 </th>
-                <th>Actions</th>
+                <th v-if="withActions">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(item, index) in items" :key="item._uid">
                 <slot :item="item" :index="index"/>
-                <td>
+                <td v-if="withActions">
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-danger p-2" @click="removeRow(index)">
                             <IconCopyXFilled class="icon m-0" />
@@ -36,7 +36,7 @@
 
 <script setup>
 
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {IconCopyPlusFilled, IconCopyXFilled} from "@tabler/icons-vue"
 
 const props = defineProps({
@@ -44,11 +44,18 @@ const props = defineProps({
     name: String,
     errors: Object,
     modelValue: Array,
-    defaultRow: Object,
+    defaultRow: {
+        type: Object,
+        default: {}
+    },
     heads: Array,
     minItems: {
         type: Number,
         default: 1
+    },
+    withActions: {
+        type: Boolean,
+        default: true,
     }
 })
 
@@ -83,6 +90,10 @@ const removeRow = (index) => {
     localValue.value.splice(index, 1)
     emits('update:modelValue', localValue.value)
 }
+
+watch(props.modelValue, (value) => {
+    localValue.value = value;
+})
 </script>
 
 <style scoped>

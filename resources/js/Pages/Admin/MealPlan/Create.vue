@@ -30,10 +30,30 @@
 
             <div class="row">
                 <BaseInput
-                    label="Extra Price"
+                    label="Adult Price"
                     type="number"
-                    v-model="form.extra_price"
-                    :error="form.errors.extra_price"
+                    v-model="form.adult_price"
+                    :error="form.errors.adult_price"
+                    placeholder="extra price"
+                    required
+                />
+            </div>
+            <div class="row">
+                <BaseInput
+                    label="Child Price"
+                    type="number"
+                    v-model="form.child_price"
+                    :error="form.errors.child_price"
+                    placeholder="extra price"
+                    required
+                />
+            </div>
+            <div class="row">
+                <BaseInput
+                    label="Infant Price"
+                    type="number"
+                    v-model="form.infant_price"
+                    :error="form.errors.infant_price"
                     placeholder="extra price"
                     required
                 />
@@ -52,7 +72,9 @@ const form = useForm({
     name: '',
     code: '',
     description: '',
-    extra_price: '',
+    adult_price: '',
+    child_price: '',
+    infant_price: '',
 });
 
 const closeModal = inject('closeModal');

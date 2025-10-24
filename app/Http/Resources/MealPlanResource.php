@@ -21,7 +21,9 @@ class MealPlanResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'description' => $this->description,
-            'extra_price' => $this->extra_price,
+            'adult_price' => $this->adult_price,
+            'child_price' => $this->child_price,
+            'infant_price' => $this->infant_price,
             'access' => $this->whenNotNull($this->access),
         ];
     }

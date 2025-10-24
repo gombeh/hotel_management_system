@@ -41,7 +41,7 @@
                             code
                         </th>
                         <th>
-                            price
+                            Adult Price
                         </th>
                         <th></th>
                     </tr>
@@ -54,7 +54,7 @@
                             </td>
                             <td>{{ mealPlan.name }}</td>
                             <td>{{ mealPlan.code }}</td>
-                            <td>${{ mealPlan.extra_price }}</td>
+                            <td>${{ mealPlan.adult_price }}</td>
                             <td class="text-end">
                                 <div class="dropdown" v-if="Object.values(mealPlan.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"

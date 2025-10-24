@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('ref_number')->unique();
             $table->foreignId('customer_id')->constrained();
             $table->unsignedInteger('adults');
-            $table->unsignedInteger('children');
-            $table->text('special_requests');
+            $table->unsignedInteger('children')->default(0);
+            $table->text('special_requests')->nullable();
             $table->enum('smoking_preference', SmokingPreference::cases());
             $table->date('check_in');
             $table->date('check_out');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamp('lock_until_at')->nullable();
             $table->foreignId('meal_plan_id')->nullable()->constrained();
             $table->decimal('total_price', 8, 2)->default(0);
+            $table->decimal('partial_amount', 8, 2)->default(0);
             $table->timestamps();
         });
     }

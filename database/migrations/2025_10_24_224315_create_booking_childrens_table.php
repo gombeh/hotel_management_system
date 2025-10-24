@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\BookingStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_statuses', function (Blueprint $table) {
+        Schema::create('booking_children', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->constrained();
-            $table->enum('status', BookingStatus::cases());
-            $table->text('description')->nullable();
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->unsignedSmallInteger('age');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_statuses');
+        Schema::dropIfExists('booking_children');
     }
 };
