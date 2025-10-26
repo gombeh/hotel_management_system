@@ -56,6 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('bookings', BookingController::class)
         ->middlewareFor('index', 'pagination.validation');
 
+    Route::post('booking/rooms-types', [BookingController::class, 'roomTypes'])->name('booking.roomTypes');
+    Route::post('booking/prices', [BookingController::class, 'prices'])->name('booking.prices');
+
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');
 });

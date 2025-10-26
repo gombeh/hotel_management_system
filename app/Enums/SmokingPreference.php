@@ -9,11 +9,11 @@ enum SmokingPreference: string
     use BaseEnum;
 
     #[Display('No Preference', 'bg-info-lt', true)]
-    case Available = "no_preference";
+    case NO_PREFERENCE = "no_preference";
 
     #[Display('Non Smoking', 'bg-success-lt')]
-    case Occupied = "non_smoking";
+    case NON_SMOKING = "non_smoking";
 
     #[Display('Smoking', 'bg-danger-lt')]
-    case Maintenance = "smoking";
+    case SMOKING = "smoking";
 }

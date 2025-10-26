@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\BookingStatus;
+use App\Enums\ChargeType;
+use App\Enums\RoomStatus;
 use App\Enums\Sex;
 use App\Models\BedType;
+use App\Models\Booking;
 use App\Models\CancellationRule;
 use App\Models\Country;
 use App\Models\Customer;
@@ -70,7 +74,50 @@ class DatabaseSeeder extends Seeder
             'name' => $name,
         ]), $facilities);
 
-        $roomTypes = RoomType::factory(50)->create();
+        $roomTypes = [
+            'Single Room',
+
+            'Double Room',
+
+            'Twin Room',
+
+            'Triple Room',
+
+            'Quad Room',
+
+            'Family Room',
+
+            'King Room',
+
+            'Queen Room',
+
+            'Studio Room',
+
+            'Deluxe Room',
+
+            'Superior Room',
+
+            'Executive Room',
+
+            'Junior Suite',
+
+            'Suite',
+            'Presidential Suite',
+
+            'Connecting Room',
+
+            'Adjacent Room',
+
+            'Accessible Room',
+
+            'Smoking Room',
+
+            'Non-Smoking Room',
+        ];
+
+        $roomTypes = collect($roomTypes)->map(function ($name) {
+            return RoomType::factory()->create(['name' => $name, 'slug' => \Str::slug($name,)]);
+        });
 
         $roomTypes->map(function ($roomType) use ($bedTypes, $facilities) {
             $roomType->bedTypes()->sync([fake()->randomElement($bedTypes)->id => ['quantity' => mt_rand(1, 2)]]);
@@ -86,7 +133,7 @@ class DatabaseSeeder extends Seeder
             ['code' => 'RO', 'name' => 'Room Only', 'description' => 'No meals included', 'adult_price' => 0.00, 'child_price' => 0.00, 'infant_price' => 0.00],
             ['code' => 'BB', 'name' => 'Bed & Breakfast', 'description' => 'Breakfast included', 'adult_price' => 10.00, 'child_price' => 8.00, 'infant_price' => 0.00],
             ['code' => 'HB', 'name' => 'Half Board', 'description' => 'Breakfast + Dinner', 'adult_price' => 25.00, 'child_price' => 20, 'infant_price' => 0.00],
-            ['code' => 'FB', 'name' => 'Full Board', 'description' => 'Breakfast + Lunch + Dinner', 'adult_price' => 40.00 ,'child_price' => 30, 'infant_price' => 5.00],
+            ['code' => 'FB', 'name' => 'Full Board', 'description' => 'Breakfast + Lunch + Dinner', 'adult_price' => 40.00, 'child_price' => 30, 'infant_price' => 5.00],
             ['code' => 'AI', 'name' => 'All Inclusive', 'description' => 'All meals + drinks', 'adult_price' => 65.00, 'child_price' => 50.00, 'infant_price' => 10.00]
         ];
 
@@ -125,8 +172,69 @@ class DatabaseSeeder extends Seeder
             CancellationRule::create($cancellationRule);
         }
 
-        Customer::factory(200)
+        $customers = Customer::factory(200)
             ->state(fn() => ['national_id' => $countries->random()->id])
             ->create();
+
+
+        $roomTypes = $roomTypes->random(mt_rand(2, 5));
+        $allRooms = Room::whereHas('type', function ($query) use ($roomTypes) {
+            $query->whereIn('name', $roomTypes->map(fn($r) => $r->name)->toArray());
+        })
+            ->whereNot('status', RoomStatus::Maintenance)
+            ->get();
+
+        $rooms = Room::with('type')->whereNot('status', RoomStatus::Maintenance)->inRandomOrder()->limit(100)->get();
+
+        $rooms = $rooms->concat($allRooms);
+
+        $rooms->each(function ($room) use ($customers) {
+            $customer = $customers->random(1)->first();
+
+            $now = now();
+            $booking = Booking::create([
+                'customer_id' => $customer->id,
+                'adults' => $room->type->max_adult,
+                'children' => $room->type->max_children,
+                'check_in' => $now->addDays(mt_rand(0, 30)),
+                'check_out' => $now->clone()->addDays(mt_rand(1, 14)),
+                'smoking_preference' => $room->smoking_preference,
+                'status' => BookingStatus::RESERVED,
+                'meal_plan_id' => 1,
+            ]);
+
+            $booking->rooms()->sync($room->id);
+
+            $booking->statuses()->create([
+                'status' => BookingStatus::PENDING,
+            ]);
+
+            $booking->statuses()->create([
+                'status' => BookingStatus::RESERVED,
+            ]);
+
+
+            $mealPlanPrice = 0;
+            $booking->charges()->create([
+                'charge_type' => ChargeType::MEAL_PLAN,
+                'amount' => $mealPlanPrice
+            ]);
+
+            $numberOfDays = $booking->check_in->diffInDays($booking->check_out);
+
+            $roomsPrice = $room->type->price * $numberOfDays;
+            $booking->charges()->create([
+                'charge_type' => ChargeType::ROOM,
+                'amount' => $roomsPrice,
+            ]);
+
+            $tax = ($roomsPrice + $mealPlanPrice) * config('hotel.tax_rate');
+            $booking->charges()->create([
+                'charge_type' => ChargeType::TAX,
+                'amount' => $tax
+            ]);
+
+            $booking->update(['total_price' => $roomsPrice + $mealPlanPrice + $tax]);
+        });
     }
 }
