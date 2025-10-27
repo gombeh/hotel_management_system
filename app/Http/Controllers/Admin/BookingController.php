@@ -9,20 +9,44 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Booking\CreateRequest;
 use App\Http\Requests\Admin\Booking\PricesRequest;
 use App\Http\Requests\Admin\Booking\RoomTypesRequest;
+use App\Http\Resources\BookingResource;
+use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\MealPlan;
 use App\Models\RoomType;
 use App\Services\BookingService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Spatie\QueryBuilder\QueryBuilder;
 
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $limit = $request->limit;
+        $user = auth()->user();
+        $bookings = QueryBuilder::for(Booking::class)
+            ->with('rooms.type', 'customer')
+            ->paginate($limit)
+            ->through(fn($booking) => $booking->setAttribute('access', [
+                'show' => $user->can('show', $booking),
+            ]));
+
+        return inertia('Admin/Booking/List', [
+            'smokingPreferences' => SmokingPreference::asSelect(),
+            'statuses' => BookingStatus::asSelect(),
+            'bookings' => BookingResource::collection($bookings),
+            'filters' => request()->input('filters') ?? (object)[],
+            'sorts' => request()->input('sorts') ?? "",
+            'limit' => $limit,
+            'access' => [
+                'createBookings' => $user->can('create'),
+            ]
+        ]);
     }
 
     public function create()
