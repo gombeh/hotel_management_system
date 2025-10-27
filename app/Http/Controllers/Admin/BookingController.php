@@ -44,7 +44,7 @@ class BookingController extends Controller
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,
             'access' => [
-                'createBookings' => $user->can('create'),
+                'createBookings' => $user->can('create', Booking::class),
             ]
         ]);
     }

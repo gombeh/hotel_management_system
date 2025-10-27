@@ -9,7 +9,7 @@
             <div class="btn-list">
 
                 <Link :href="route('admin.bookings.create')" class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="access.createBooking"
+                        v-if="access.createBookings"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
