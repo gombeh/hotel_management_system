@@ -163,7 +163,7 @@
                 <div class="card mt-4 bg-primary-lt" v-if="prices">
                     <div class="card-body">
                         <div class="card-title">
-                            Prices for {{ prices.days }} Night / {{ prices.days + 1 }} Day
+                            Prices for {{ prices.nights }} Night / {{ prices.nights + 1 }} Day
                         </div>
                         <div class="row mt-4">
                             <div class="col d-flex flex-column gap-4">
@@ -244,7 +244,6 @@ const form = useForm({
     check_in_now: false,
 });
 
-
 const ages = Object.fromEntries(
     Array.from({length: 13}, (_, i) => [i, `${i} years old`])
 );
@@ -287,14 +286,15 @@ watch(
         if (form.some(val => val === "")) return null;
 
         const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = form;
-        const days = diffDays(check_in, check_out);
+        const nights = diffDays(check_in, check_out);
 
-        axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, days})
+        axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, nights})
             .then(res => {
-                    console.log(res)
-                    prices.value = {...res.data, days};
+                    prices.value = {...res.data, nights};
                 }
             )
+    }, {
+        deep: true
     });
 
 watch(() => form.children, (ch) => {

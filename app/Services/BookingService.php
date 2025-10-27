@@ -7,15 +7,11 @@ use App\Enums\ChargeType;
 use App\Models\Booking;
 use App\Models\MealPlan;
 use App\Models\RoomType;
-use Exception;
 use Illuminate\Support\Collection;
 
 class BookingService
 {
 
-    /**
-     * @throws \Exception
-     */
     public static function store (array $data): void
     {
         $data['status'] = $data['check_in_now'] ? BookingStatus::CHECK_IN : BookingStatus::RESERVED;
@@ -49,14 +45,12 @@ class BookingService
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    function getTotalPrice(Booking $booking, Collection $roomTypes, array $data): int|float
+    public static function getTotalPrice(Booking $booking, Collection $roomTypes, array $data): int|float
     {
-        $numberOfDays = $booking->check_in->diffInDays($booking->check_out);
+        $numberONights = $booking->check_in->diffInDays($booking->check_out);
 
-        $roomsPrice = $roomTypes->sum('price') * $numberOfDays;
+
+        $roomsPrice = $roomTypes->sum('price') * $numberONights;
         $booking->charges()->create([
             'charge_type' => ChargeType::ROOM,
             'amount' => $roomsPrice,
@@ -78,7 +72,7 @@ class BookingService
             ]);
         }
 
-        $mealPlanPrice *= $numberOfDays;
+        $mealPlanPrice *= $numberONights;
 
         $booking->charges()->create([
             'charge_type' => ChargeType::MEAL_PLAN,

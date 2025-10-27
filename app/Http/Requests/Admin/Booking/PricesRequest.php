@@ -34,7 +34,7 @@ class PricesRequest extends FormRequest
             'children_age' => 'nullable|array|min:0',
             'children_age.*' => 'required|array',
             'children_age.*.age' => 'required|integer|min:0|max:12',
-            'days' => 'required|integer|min:1',
+            'nights' => 'required|integer|min:1',
         ];
     }
 
