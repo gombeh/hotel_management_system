@@ -39,6 +39,7 @@
                         <SortHead name="children" v-model="sorts" label="Children"/>
                         <SortHead name="check_in" v-model="sorts" label="Check IN"/>
                         <SortHead name="check_out" v-model="sorts" label="Check OUT"/>
+                        <SortHead name="rooms" v-model="sorts" label="Rooms"/>
                         <SortHead name="status" v-model="sorts" label="status"/>
                         <SortHead name="smoking_preference" v-model="sorts" label="Smoking Preference"/>
                         <th></th>
@@ -56,6 +57,7 @@
                         <td>{{ booking.children }}</td>
                         <td>{{ booking.check_in }}</td>
                         <td>{{ booking.check_out }}</td>
+                        <td>{{ booking.rooms.map(r => r.type.name).join(', ')}}</td>
                         <td>
                             <span class="badge" :class="displayStatus(booking.status).bgClass">
                                 {{ displayStatus(booking.status).label }}

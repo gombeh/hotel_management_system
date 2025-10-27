@@ -49,6 +49,16 @@ class BookingController extends Controller
         ]);
     }
 
+    public function show(Booking $booking)
+    {
+        $booking->load('rooms.type', 'customer', 'mealPlan', 'statuses', 'charges');
+        return inertia('Admin/Booking/Show', [
+            'smokingPreferences' => SmokingPreference::asSelect(),
+            'statuses' => BookingStatus::asSelect(),
+            'booking' => BookingResource::make($booking),
+        ]);
+    }
+
     public function create()
     {
         $customers = Customer::active()->get()->pluck('full_name', 'id');

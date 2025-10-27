@@ -27,8 +27,12 @@ class BookingResource extends JsonResource
             'status' => $this->status,
             'customer' => CustomerResource::make($this->whenLoaded('customer')),
             'mealPlan' => MealPlanResource::make($this->whenLoaded('mealPlan')),
+            'rooms' => RoomResource::collection($this->whenLoaded('rooms')),
+            'statuses' => BookingStatusResource::collection($this->whenLoaded('statuses')),
             'special_requests' => $this->special_requests,
             'total_price' => $this->total_price,
+            'partial_amount' => $this->partial_amount,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'access' => $this->whenNotNull($this->access),
         ];
     }

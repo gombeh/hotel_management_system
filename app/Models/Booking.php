@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Booking extends Model
+class   Booking extends Model
 {
     protected $fillable = [
         'ref_number',
@@ -55,6 +55,11 @@ class Booking extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function mealPlan(): BelongsTo
+    {
+        return $this->belongsTo(MealPlan::class);
     }
 
     public static function booted(): void
