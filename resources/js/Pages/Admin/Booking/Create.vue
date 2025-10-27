@@ -67,6 +67,7 @@
                             <base-input
                                 type="date"
                                 label="Check In"
+                                :min="currentDate()"
                                 v-model="form.check_in"
                                 :error="form.errors.check_in"
                                 required
@@ -76,8 +77,10 @@
                             <base-input
                                 type="date"
                                 label="Check Out"
+                                :min="addDays(Date.now(), 1)"
                                 v-model="form.check_out"
                                 :error="form.errors.check_out"
+                                :onchange="changeCheckOut"
                                 required
                             />
                         </div>
@@ -160,21 +163,23 @@
                 <div class="card mt-4 bg-primary-lt" v-if="prices">
                     <div class="card-body">
                         <div class="card-title">
-                            Prices for {{ prices.days }} Night / {{prices.days + 1}} Day
+                            Prices for {{ prices.days }} Night / {{ prices.days + 1 }} Day
                         </div>
                         <div class="row mt-4">
                             <div class="col d-flex flex-column gap-4">
-                                <div>Total Rooms Price: <span class="text-green bold">${{prices.totalRooms}}</span></div>
+                                <div>Total Rooms Price: <span class="text-green bold">${{ prices.totalRooms }}</span>
+                                </div>
                                 <div :title="`${roomType.price} / per night`" v-for="roomType in prices.roomTypes">
-                                    {{ roomType.name }} Room Price (x{{roomType.rooms}}):
+                                    {{ roomType.name }} Room Price (x{{ roomType.rooms }}):
                                     <span class="text-green bold">${{ roomType.totalPrice }}</span>
                                 </div>
                             </div>
                             <div class="col d-flex flex-column gap-4">
-                                <div>Total Meal plan Price: <span class="text-green bold">${{ prices.mealPlan}}</span></div>
+                                <div>Total Meal plan Price: <span class="text-green bold">${{ prices.mealPlan }}</span>
+                                </div>
                                 <div v-for="mealPlan in prices.mealPlanAges" :title="`${mealPlan.price} / per night`">
-                                    {{ capitalize(mealPlan.name) }} Meal plan Price (x{{mealPlan.count}}):
-                                    <span class="text-green bold">${{ mealPlan.totalPrice}}</span>
+                                    {{ capitalize(mealPlan.name) }} Meal plan Price (x{{ mealPlan.count }}):
+                                    <span class="text-green bold">${{ mealPlan.totalPrice }}</span>
                                 </div>
                             </div>
                             <div class="col d-flex flex-column gap-4">
@@ -195,7 +200,7 @@
     </div>
 </template>
 <script setup>
-import {defineProps, reactive, ref, watch} from "vue"
+import {defineProps, ref, watch} from "vue"
 import {IconDeviceFloppy, IconArrowLeft} from "@tabler/icons-vue";
 import BaseInput from "../../../Components/BaseInput.vue";
 import {useForm, usePage} from "@inertiajs/vue3";
@@ -204,7 +209,7 @@ import {useEnum} from "../../../Composables/useEnum.js";
 import Repeater from "../../../Components/Repeater.vue";
 import BaseTextarea from "../../../Components/BaseTextarea.vue";
 import BaseSwitch from "../../../Components/BaseSwitch.vue";
-import {capitalize, diffDays} from "../../../Utils/helper.js";
+import {addDays, capitalize, currentDate, diffDays} from "../../../Utils/helper.js";
 
 const page = usePage();
 
@@ -241,55 +246,73 @@ const form = useForm({
 
 
 const ages = Object.fromEntries(
-    Array.from({ length: 13 }, (_, i) => [i, `${i} years old`])
+    Array.from({length: 13}, (_, i) => [i, `${i} years old`])
 );
 
-watch(() => [form.adults, form.children, form.check_in, form.check_out, form.smoking_preference], (form) => {
-    if(form.some(val => val === "")) {
-        if(roomTypes.value) roomTypes.value = null;
-        return;
+function changeCheckOut () {
+    form.errors.check_out = '';
+    if(!form.check_in) {
+        form.check_out = '';
+         form.errors.check_out= 'You first must select CHECK IN'
     }
 
-    const [adults, children, check_in, check_out, smoking_preference] = form;
+    const diffDay = diffDays(form.check_in, form.check_out, false);
 
-    axios.post(route('admin.booking.roomTypes'), {adults, children, check_in, check_out, smoking_preference})
-        .then(res => {
-            roomTypes.value = res.data.roomTypes;
+    if(diffDay < 1) {
+        form.check_out = '';
+        form.errors.check_out= 'Diff days between checkout and checkin must be equal or greater than ONE';
+    }
+}
+
+watch(
+    () => [form.adults, form.children, form.check_in, form.check_out, form.smoking_preference],
+    (form) => {
+        if (form.some(val => val === "")) {
+            if (roomTypes.value) roomTypes.value = null;
+            return;
         }
-    )
-})
 
-watch(() => [form.adults, form.children, form.rooms, form.meal_plan_id, form.children_age, form.check_in, form.check_out], (form) => {
-    if(form.some(val => val === "")) return null;
+        const [adults, children, check_in, check_out, smoking_preference] = form;
 
-    const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = form;
-    const days = diffDays(check_in, check_out);
+        axios.post(route('admin.booking.roomTypes'), {adults, children, check_in, check_out, smoking_preference})
+            .then(res => {
+                    roomTypes.value = res.data.roomTypes;
+                }
+            )
+    })
 
-    axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, days})
-        .then(res => {
-            console.log(res)
-                prices.value = {...res.data, days};
-            }
-        )
-});
+watch(
+    () => [form.adults, form.children, form.rooms, form.meal_plan_id, form.children_age, form.check_in, form.check_out],
+    (form) => {
+        if (form.some(val => val === "")) return null;
 
+        const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = form;
+        const days = diffDays(check_in, check_out);
+
+        axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, days})
+            .then(res => {
+                    console.log(res)
+                    prices.value = {...res.data, days};
+                }
+            )
+    });
 
 watch(() => form.children, (ch) => {
 
-    let children = ch > 10 ? 10: ch;
+    let children = ch > 10 ? 10 : ch;
 
-    if(!children) {
+    if (!children) {
         form.children_age = [];
         return
     }
 
     const diff = children - form.children_age.length;
 
-    if(diff > 0) {
-        const ages = Array.from({ length: diff }, () => ({age: ''}));
+    if (diff > 0) {
+        const ages = Array.from({length: diff}, () => ({age: ''}));
         form.children_age.push(...ages);
     } else {
-        for(let i = 0; i < Math.abs(diff); i++) {
+        for (let i = 0; i < Math.abs(diff); i++) {
             form.children_age.pop();
         }
     }
