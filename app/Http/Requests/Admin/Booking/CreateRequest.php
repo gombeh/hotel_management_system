@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin\Booking;
 use App\Enums\SmokingPreference;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -26,8 +27,8 @@ class CreateRequest extends FormRequest
         return [
             'adults' => 'required|integer|min:1',
             'children' => 'required|integer|min:0',
-            'check_in' => 'required|date',
-            'check_out' => 'required|date',
+            'check_in' => ['required','date', Rule::date()->todayOrAfter()],
+            'check_out' => 'required|date|after:check_in',
             'customer_id' => 'required|integer|exists:customers,id',
             'smoking_preference' => 'required|string|in:' . SmokingPreference::asString(),
             'rooms' => 'required|array|min:1',
