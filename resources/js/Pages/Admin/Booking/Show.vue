@@ -2,7 +2,7 @@
     <Head title="show booking"/>
     <div class="row g-2 align-items-center mb-4">
         <div class="col">
-            <h2 class="page-title text-capitalize">{{ booking.full_name }} Customer</h2>
+            <h2 class="page-title text-capitalize">{{ booking.full_name }} Booking</h2>
         </div>
         <div class="col-auto ms-auto">
             <Link class="btn btn-1" :href="route('admin.bookings.index')">
@@ -71,13 +71,13 @@
                     <div class="datagrid-item">
                         <div class="datagrid-title">Total Price</div>
                         <div class="datagrid-content">
-                            {{ booking.total_price}}
+                            ${{ booking.total_price }}
                         </div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Partial Amount</div>
                         <div class="datagrid-content">
-                            {{ booking.partial_amount}}
+                            ${{ booking.partial_amount }}
                         </div>
                     </div>
                     <div class="datagrid-item">
@@ -89,8 +89,127 @@
                     <div class="datagrid-item">
                         <div class="datagrid-title">Special Requests</div>
                         <div class="datagrid-content">
-                            {{ booking.special_requests ?? '-'}}
+                            {{ booking.special_requests ?? '-' }}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs nav-fill w-75" data-bs-toggle="tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a href="#rooms" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">
+                            <IconWindow class="icon me-2    "/>
+                            Rooms
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a href="#charges" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
+                           tabindex="-1">
+                            <IconCreditCard class="icon me-2"/>
+                            Charges
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a href="#statuses" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
+                           tabindex="-1">
+                            <IconSquareCheck class="icon me-2"/>
+                            Statuses
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation" v-if="booking.kids.length">
+                        <a href="#children" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
+                           tabindex="-1">
+                            <IconBabyCarriage class="icon me-2"/>
+                            Children
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content py-4 px-2">
+                    <div id="rooms" class="tab-pane active show" role="tabpanel">
+                        <table class="table table-vcenter card-table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Floor</th>
+                                <th>Type</th>
+                                <th>Smoking Preference</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="room in booking.rooms">
+                                <td>{{ room.room_number }}</td>
+                                <td>{{ room.floor_number }}</td>
+                                <td>
+                                    <Link :href="route('admin.roomTypes.edit', room.type.id)">
+                                        {{ room.type.name }}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <span class="badge" :class="displaySmoking(room.smoking_preference).bgClass">
+                                        {{ displaySmoking(room.smoking_preference).label }}
+                                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="charges" class="tab-pane" role="tabpanel">
+                        <table class="table table-vcenter card-table table-striped w-75">
+                            <thead>
+                            <tr>
+                                <th>Charge Type</th>
+                                <th>Amount</th>
+                                <th>Created_at</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="charge in booking.charges">
+                                <td>{{ charge.charge_type }}</td>
+                                <td>${{ charge.amount }}</td>
+                                <td>{{ charge.created_at }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="statuses" class="tab-pane" role="tabpanel">
+                        <table class="table table-vcenter card-table table-striped w-75">
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Description</th>
+                                <th>Created_at</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="status in booking.statuses">
+                                <td>
+                                    <span class="badge" :class="displayStatus(status.status).bgClass">
+                                        {{ displayStatus(status.status).label }}
+                                    </span>
+                                </td>
+                                <td>{{ status.description ?? '-' }}</td>
+                                <td>{{ status.created_at }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="children" class="tab-pane" role="tabpanel" v-if="booking.kids.length">
+                        <table class="table table-vcenter card-table table-striped w-50">
+                            <thead>
+                            <tr>
+                                <th>Age</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="kid in booking.kids">
+                                    <td>{{ kid.age }} years old</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -99,7 +218,7 @@
 </template>
 <script setup>
 import {defineProps} from "vue"
-import {IconArrowLeft} from "@tabler/icons-vue";
+import {IconArrowLeft, IconWindow, IconCreditCard, IconSquareCheck, IconBabyCarriage} from "@tabler/icons-vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 
 

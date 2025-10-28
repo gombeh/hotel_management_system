@@ -21,7 +21,7 @@ class BookingChargeResource extends JsonResource
             'charge_type' => $this->charge_type,
             'amount' => $this->amount,
             'description' => $this->description,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

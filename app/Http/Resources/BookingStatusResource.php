@@ -21,7 +21,7 @@ class BookingStatusResource extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'description' => $this->description,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }

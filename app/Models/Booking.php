@@ -47,7 +47,7 @@ class   Booking extends Model
         return $this->hasMany(BookingCharge::class);
     }
 
-    public function children(): HasMany
+    public function kids(): HasMany
     {
         return $this->hasMany(BookingChildren::class);
     }

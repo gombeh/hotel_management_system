@@ -41,7 +41,6 @@
                         <SortHead name="check_out" v-model="sorts" label="Check OUT"/>
                         <SortHead name="rooms" v-model="sorts" label="Rooms"/>
                         <SortHead name="status" v-model="sorts" label="status"/>
-                        <SortHead name="smoking_preference" v-model="sorts" label="Smoking Preference"/>
                         <th></th>
                     </tr>
                     </thead>
@@ -57,15 +56,10 @@
                         <td>{{ booking.children }}</td>
                         <td>{{ booking.check_in }}</td>
                         <td>{{ booking.check_out }}</td>
-                        <td>{{ booking.rooms.map(r => r.type.name).join(', ')}}</td>
+                        <td>{{ booking.rooms.map(r => r.room_number).join(', ')}}</td>
                         <td>
                             <span class="badge" :class="displayStatus(booking.status).bgClass">
                                 {{ displayStatus(booking.status).label }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge" :class="displaySmoking(booking.smoking_preference).bgClass">
-                                {{ displaySmoking(booking.smoking_preference).label }}
                             </span>
                         </td>
                         <td class="text-end">
@@ -123,11 +117,6 @@ const confirmDelete = useConfirm();
 const {
     display: displayStatus
 } = useEnum(props.statuses)
-
-
-const {
-    display: displaySmoking
-} = useEnum(props.smokingPreferences)
 
 
 const filters = ref(props.filters);

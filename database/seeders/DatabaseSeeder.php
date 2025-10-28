@@ -8,6 +8,7 @@ use App\Enums\RoomStatus;
 use App\Enums\Sex;
 use App\Models\BedType;
 use App\Models\Booking;
+use App\Models\BookingChildren;
 use App\Models\CancellationRule;
 use App\Models\Country;
 use App\Models\Customer;
@@ -195,7 +196,7 @@ class DatabaseSeeder extends Seeder
             $booking = Booking::create([
                 'customer_id' => $customer->id,
                 'adults' => $room->type->max_adult,
-                'children' => $room->type->max_children,
+                'children' => mt_rand(0, $room->type->max_children),
                 'check_in' => $now->addDays(mt_rand(0, 30)),
                 'check_out' => $now->clone()->addDays(mt_rand(1, 14)),
                 'smoking_preference' => $room->smoking_preference,
@@ -233,6 +234,8 @@ class DatabaseSeeder extends Seeder
                 'charge_type' => ChargeType::TAX,
                 'amount' => $tax
             ]);
+
+            BookingChildren::factory($booking->children)->create(['booking_id' => $booking->id]);
 
             $booking->update(['total_price' => $roomsPrice + $mealPlanPrice + $tax]);
         });

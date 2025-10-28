@@ -51,7 +51,8 @@ class BookingController extends Controller
 
     public function show(Booking $booking)
     {
-        $booking->load('rooms.type', 'customer', 'mealPlan', 'statuses', 'charges');
+        $booking->load('rooms.type', 'customer', 'mealPlan', 'statuses', 'charges', 'kids');
+
         return inertia('Admin/Booking/Show', [
             'smokingPreferences' => SmokingPreference::asSelect(),
             'statuses' => BookingStatus::asSelect(),
