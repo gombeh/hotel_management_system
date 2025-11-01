@@ -10,6 +10,6 @@ enum ChargeType: string
     case ROOM ='room';
     case MEAL_PLAN = 'meal_plan';
     case SERVICE = 'service';
-    case CANCELLATION = 'cancellation';
+    case CANCELLATION_FEE = 'cancellation_fee';
     case TAX = 'tax';
 }

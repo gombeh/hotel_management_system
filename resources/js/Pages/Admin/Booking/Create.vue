@@ -169,7 +169,7 @@
                             <div class="col d-flex flex-column gap-4">
                                 <div>Total Rooms Price: <span class="text-green bold">${{ prices.totalRooms }}</span>
                                 </div>
-                                <div :title="`${roomType.price} / per night`" v-for="roomType in prices.roomTypes">
+                                <div :title="`$${roomType.price} / per night`" v-for="roomType in prices.roomTypes">
                                     {{ roomType.name }} Room Price (x{{ roomType.rooms }}):
                                     <span class="text-green bold">${{ roomType.totalPrice }}</span>
                                 </div>
@@ -177,7 +177,7 @@
                             <div class="col d-flex flex-column gap-4">
                                 <div>Total Meal plan Price: <span class="text-green bold">${{ prices.mealPlan }}</span>
                                 </div>
-                                <div v-for="mealPlan in prices.mealPlanAges" :title="`${mealPlan.price} / per night`">
+                                <div v-for="mealPlan in prices.mealPlanAges" :title="`$${mealPlan.price} / per night`">
                                     {{ capitalize(mealPlan.name) }} Meal plan Price (x{{ mealPlan.count }}):
                                     <span class="text-green bold">${{ mealPlan.totalPrice }}</span>
                                 </div>

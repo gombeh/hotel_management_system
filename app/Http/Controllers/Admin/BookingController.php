@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\BookingStatus;
+use App\Enums\ChargeType;
 use App\Enums\RoomStatus;
 use App\Enums\SmokingPreference;
 use App\Http\Controllers\Controller;
@@ -16,10 +17,7 @@ use App\Models\MealPlan;
 use App\Models\RoomType;
 use App\Services\BookingService;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\QueryBuilder;
 
 
@@ -31,6 +29,7 @@ class BookingController extends Controller
         $user = auth()->user();
         $bookings = QueryBuilder::for(Booking::class)
             ->with('rooms.type', 'customer')
+            ->latest()
             ->paginate($limit)
             ->through(fn($booking) => $booking->setAttribute('access', [
                 'show' => $user->can('show', $booking),
@@ -72,48 +71,11 @@ class BookingController extends Controller
         ]);
     }
 
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request, BookingService $bookingService)
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data) {
-            $roomTypes = RoomType::with(['rooms' => function (HasMany $query) use ($data) {
-                $query->when($data['smoking_preference'] !== SmokingPreference::NO_PREFERENCE->value, function (Builder $query) use ($data) {
-                    $query->where('smoking_preference', $data['smoking_preference']);
-                })
-                    ->whereNot('status', RoomStatus::Maintenance)
-                    ->whereDoesntHave('bookings', function (Builder $query) use ($data) {
-                        $query->where(function ($q) use ($data) {
-                            $q->where('check_in', '<', $data['check_out'])
-                                ->where('check_out', '>', $data['check_in'])
-                                ->where('status', BookingStatus::RESERVED);
-                        });
-                    });
-            }])->where('max_adult', '>=', $data['adults'])
-                ->where('max_children', '>=', $data['children'])
-                ->whereIn('id', collect($data['rooms'])->pluck('type_id'))
-                ->get();
-
-            $errors = collect($data['rooms'])->mapWithKeys(function ($room, $i) use ($roomTypes) {
-                $roomType = $roomTypes->where('id', $room['type_id'])->first();
-
-                if (!$roomType) {
-                    return ["rooms.{$i}.type_id" => 'Your Room type is not available'];
-                }
-
-                if ($room['quantity'] > $roomType->rooms->count()) {
-                    return ["rooms.{$i}.quantity" => 'Number of rooms not available'];
-                }
-
-                return [null];
-            })->filter(fn($r) => $r);
-
-            if ($errors->isNotEmpty()) {
-                throw ValidationException::withMessages($errors->toArray());
-            }
-
-            BookingService::store($data);
-        });
+        $bookingService->create($data);
 
         return redirect()->back()->with('success', 'Booking has been created.');
     }
@@ -123,19 +85,18 @@ class BookingController extends Controller
         $data = $request->validated();
 
         $roomTypes = RoomType::whereHas('rooms', function (Builder $query) use ($data) {
-            $query->when($data['smoking_preference'] !== SmokingPreference::NO_PREFERENCE->value, function (Builder $query) use ($data) {
-                $query->where('smoking_preference', $data['smoking_preference']);
-            })
-                ->whereNot('status', RoomStatus::Maintenance)
-                ->whereDoesntHave('bookings', function (Builder $query) use ($data) {
-                    $query->where(function ($q) use ($data) {
-                        $q->where('check_in', '<', $data['check_out'])
-                            ->where('check_out', '>', $data['check_in'])
-                            ->where('status', BookingStatus::RESERVED);
-                    });
-                });
-        })->where('max_adult', '>=', $data['adults'])
-            ->where('max_children', '>=', $data['children'])
+            $query->when(
+                $data['smoking_preference'] !== SmokingPreference::NO_PREFERENCE->value,
+                function (Builder $query) use ($data) {
+                    $query->where('smoking_preference', $data['smoking_preference']);
+                }
+            )->whereNot('status', RoomStatus::Maintenance)
+            ->whereDoesntHave(
+                'bookings',
+                fn(Builder $q) => $q->activeOverlap($data['check_in'], $data['check_out'])
+            );
+        })->active()
+            ->capacity($data['adults'], $data['children'])
             ->get()
             ->pluck('name', 'id');
 
@@ -144,64 +105,13 @@ class BookingController extends Controller
         ]);
     }
 
-    public function prices(PricesRequest $request)
+    public function prices(PricesRequest $request, BookingService $bookingService)
     {
         $data = $request->validated();
 
-        $numberOfNights = $data['nights'];
+        $prices = $bookingService->calculatePrices($data);
 
-        $roomTypes = collect($data['rooms'])->map(function ($room) use ($numberOfNights) {
-            $roomType = RoomType::find($room['type_id']);
-
-
-            $roomType->setAttribute('rooms', (int)$room['quantity']);
-            $roomType->setAttribute('totalPrice', $roomType->price * $roomType->rooms * $numberOfNights);
-
-            return $roomType;
-        });
-
-        $roomsPrice = $roomTypes->sum(fn($rt) => $rt->price * $rt->rooms) * $numberOfNights;
-
-        $mealPlan = MealPlan::find($data['meal_plan_id']);
-        $mealPlanPrice = $mealPlan->adult_price * $data['adults'];
-
-        $mealPlanAges['adults'] = ['price' => $mealPlan->adult_price, 'count' => $data['adults']];
-        foreach ($data['children_age'] as ['age' => $age]) {
-            if ($age >= 0 && $age < 2) {
-                $mealPlanPrice += $mealPlan->infant_price;
-                if (!isset($mealPlanAges['infant'])) {
-                    $mealPlanAges = [...$mealPlanAges, 'infant' => ['price' => $mealPlan->infant_price, 'count' => 1,]];
-                } else {
-                    $mealPlanAges['infant']['count']++;
-                }
-            } else if ($age >= 2 && $age <= 12) {
-                $mealPlanPrice += $mealPlan->child_price;
-                if (!isset($mealPlanAges['children'])) {
-                    $mealPlanAges = [...$mealPlanAges, 'children' => ['price' => $mealPlan->child_price, 'count' => 1]];
-                } else {
-                    $mealPlanAges['children']['count']++;
-                }
-            }
-        }
-
-        $mealPlanAges = array_map(function ($mealPlanAge, $name) use ($numberOfNights) {
-            return ['name' => $name, ...$mealPlanAge, 'totalPrice' => $mealPlanAge['price'] * $mealPlanAge['count'] * $numberOfNights];
-        }, $mealPlanAges, array_keys($mealPlanAges));
-
-        $mealPlanPrice *= $numberOfNights;
-
-
-        $tax = ($roomsPrice + $mealPlanPrice) * config('hotel.tax_rate');
-
-        $totalPrice = $roomsPrice + $mealPlanPrice + $tax;
-
-        return response()->json([
-            'totalRooms' => $roomsPrice,
-            'roomTypes' => $roomTypes->select('name', 'rooms', 'price', 'totalPrice'),
-            'mealPlan' => $mealPlanPrice,
-            'mealPlanAges' => array_values($mealPlanAges),
-            'tax' => $tax,
-            'total' => $totalPrice,
-        ]);
+        return response()->json($prices);
     }
+
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BookingPayment;
 use App\Enums\BookingStatus;
 use App\Enums\SmokingPreference;
 use Illuminate\Database\Migrations\Migration;
@@ -24,10 +25,11 @@ return new class extends Migration
             $table->date('check_in');
             $table->date('check_out');
             $table->enum('status', BookingStatus::cases())->default(BookingStatus::default());
+            $table->enum('payment_status', BookingPayment::cases())->default('pending');
             $table->timestamp('lock_until_at')->nullable();
             $table->foreignId('meal_plan_id')->nullable()->constrained();
             $table->decimal('total_price', 8, 2)->default(0);
-            $table->decimal('partial_amount', 8, 2)->default(0);
+            $table->decimal('deposit_amount', 8, 2)->default(0);
             $table->timestamps();
         });
     }

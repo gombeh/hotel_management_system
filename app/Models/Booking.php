@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use \App\Enums\BookingStatus as BookingStatusEnum;
 
 class   Booking extends Model
 {
@@ -25,7 +26,7 @@ class   Booking extends Model
     ];
 
     protected $casts = [
-        'status' => \App\Enums\BookingStatus::class,
+        'status' => BookingStatusEnum::class,
         'check_in' => 'date',
         'check_out' => 'date',
         'total_price' => 'integer',
@@ -60,6 +61,13 @@ class   Booking extends Model
     public function mealPlan(): BelongsTo
     {
         return $this->belongsTo(MealPlan::class);
+    }
+
+    public function scopeActiveOverlap($query, $checkIn, $checkOut)
+    {
+        return $query->where('check_in', '<', $checkOut)
+            ->where('check_out', '>', $checkIn)
+            ->where('status', [BookingStatusEnum::RESERVED, BookingStatusEnum::CHECK_IN]);
     }
 
     public static function booted(): void

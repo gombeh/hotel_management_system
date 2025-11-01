@@ -56,6 +56,12 @@ class RoomType extends Model implements HasMedia
         $builder->where('status', RoomTypeStatus::Active);
     }
 
+    public function scopeCapacity($query, $adults, $children)
+    {
+        return $query->where('max_adult', '>=', $adults)
+            ->where('max_children', '>=', $children);
+    }
+
     public function registerMediaCollections(): void
     {
         $this
