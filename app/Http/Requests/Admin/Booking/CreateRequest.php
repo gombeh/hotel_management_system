@@ -26,8 +26,17 @@ class CreateRequest extends FormRequest
     {
         return [
             'adults' => 'required|integer|min:1',
-            'children' => 'required|integer|min:0',
-            'check_in' => ['required','date', Rule::date()->todayOrAfter()],
+            'children' => 'required|integer|min:0|',
+            'check_in' => [
+                'required'
+                ,'date',
+                Rule::date()->todayOrAfter(),
+                function($attribute, $value, $fail) {
+                    if ($this->check_in_now && $value !== date('Y-m-d')) {
+                        $fail('Check-in must be today when "check_in_now" is selected.');
+                    }
+                },
+            ],
             'check_out' => 'required|date|after:check_in',
             'customer_id' => 'required|integer|exists:customers,id',
             'smoking_preference' => 'required|string|in:' . SmokingPreference::asString(),
