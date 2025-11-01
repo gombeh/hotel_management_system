@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaController extends Controller
@@ -16,7 +17,9 @@ class MediaController extends Controller
         ]);
         $file = $data['imageFilepond'];
 
-        $path = $file->storeAs('temp', $file->getClientOriginalName());
+        $filename = Str::random(40) . '.' . $file->extension();
+
+        $path = $file->storeAs('temp', $filename);
         $data = [
             'url' => Storage::url($path),
             'path' => $path
