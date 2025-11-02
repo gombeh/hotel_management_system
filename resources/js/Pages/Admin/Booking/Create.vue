@@ -154,6 +154,24 @@
                             :error="form.errors.special_requests">
                         </base-textarea>
                     </div>
+                    <div class="row d-flex align-items-end gap-3">
+                        <div class="col-6">
+                            <base-input
+                                label="Prepayment"
+                                type="number"
+                                :min="prices?.partial_amount ?? 1"
+                                v-model="form.partial_amount"
+                                :error="form.errors.partial_amount"
+                                :disabled="prices === null"
+                                placeholder="amount"
+                            />
+                        </div>
+                        <div class="col-3">
+                            <base-switch
+                                label="Paid"
+                                v-model="form.partial_parid"/>
+                        </div>
+                    </div>
                     <div class="row">
                         <base-switch
                             label="Check In Now"
@@ -203,15 +221,13 @@
 import {defineProps, ref, watch} from "vue"
 import {IconDeviceFloppy, IconArrowLeft} from "@tabler/icons-vue";
 import BaseInput from "../../../Components/BaseInput.vue";
-import {useForm, usePage} from "@inertiajs/vue3";
+import {useForm} from "@inertiajs/vue3";
 import SelectBox from "../../../Components/SelectBox.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 import Repeater from "../../../Components/Repeater.vue";
 import BaseTextarea from "../../../Components/BaseTextarea.vue";
 import BaseSwitch from "../../../Components/BaseSwitch.vue";
 import {addDays, capitalize, currentDate, diffDays} from "../../../Utils/helper.js";
-
-const page = usePage();
 
 const props = defineProps({
     customers: Object,
@@ -242,36 +258,38 @@ const form = useForm({
     meal_plan_id: '',
     special_requests: '',
     check_in_now: false,
+    partial_amount: '',
+    partial_parid: false,
 });
 
 const ages = Object.fromEntries(
     Array.from({length: 13}, (_, i) => [i, `${i} years old`])
 );
 
-function changeCheckOut () {
-    form.errors.check_out = '';
-    if(!form.check_in) {
+function changeCheckOut() {
+    form.setError('check_out', '');
+    if (!form.check_in) {
         form.check_out = '';
-         form.errors.check_out= 'You first must select CHECK IN'
+        form.setError('check_out', 'You first must select check-in');
     }
 
     const diffDay = diffDays(form.check_in, form.check_out, false);
 
-    if(diffDay < 1) {
+    if (diffDay < 1) {
         form.check_out = '';
-        form.errors.check_out= 'Diff days between checkout and checkin must be equal or greater than ONE';
+        form.setError('check_out', 'The check-out date must be after the check-in date');
     }
 }
 
 watch(
     () => [form.adults, form.children, form.check_in, form.check_out, form.smoking_preference],
-    (form) => {
-        if (form.some(val => val === "")) {
+    (inputs) => {
+        if (inputs.some(val => val === "")) {
             if (roomTypes.value) roomTypes.value = null;
             return;
         }
 
-        const [adults, children, check_in, check_out, smoking_preference] = form;
+        const [adults, children, check_in, check_out, smoking_preference] = inputs;
 
         axios.post(route('admin.booking.roomTypes'), {adults, children, check_in, check_out, smoking_preference})
             .then(res => {
@@ -282,15 +300,17 @@ watch(
 
 watch(
     () => [form.adults, form.children, form.rooms, form.meal_plan_id, form.children_age, form.check_in, form.check_out],
-    (form) => {
-        if (form.some(val => val === "")) return null;
+    (inputs) => {
+        if (inputs.some(val => val === "")) return null;
 
-        const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = form;
+        const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = inputs;
         const nights = diffDays(check_in, check_out);
 
         axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, nights})
             .then(res => {
-                    prices.value = {...res.data, nights};
+                    const {partialAmount, ...data} = {...res.data, nights};
+                    form.partial_amount = partialAmount;
+                    prices.value = data;
                 }
             )
     }, {
