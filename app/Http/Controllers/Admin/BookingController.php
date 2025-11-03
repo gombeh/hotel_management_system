@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\BookingStatus;
-use App\Enums\ChargeType;
 use App\Enums\RoomStatus;
 use App\Enums\SmokingPreference;
 use App\Http\Controllers\Controller;
@@ -14,6 +13,7 @@ use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\MealPlan;
+use App\Models\Payment;
 use App\Models\RoomType;
 use App\Services\BookingService;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,15 +23,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Booking::class, 'booking');
+    }
+
     public function index(Request $request)
     {
         $limit = $request->limit;
         $user = auth()->user();
         $bookings = QueryBuilder::for(Booking::class)
-            ->with('rooms.type', 'customer')
+            ->with(['rooms.type', 'customer'])
             ->latest()
             ->paginate($limit)
             ->through(fn($booking) => $booking->setAttribute('access', [
+                'payments' => $user->can('viewAny', [Payment::class, $booking]),
                 'show' => $user->can('show', $booking),
             ]));
 
@@ -75,9 +81,10 @@ class BookingController extends Controller
     {
         $data = $request->validated();
 
-        $bookingService->create($data);
+        $booking = $bookingService->create($data);
 
-        return redirect()->back()->with('success', 'Booking has been created.');
+        return redirect()->intended(route('admin.bookings.payments.index', $booking))
+            ->with('success', 'Booking has been created.');
     }
 
     public function roomTypes(RoomTypesRequest $request)

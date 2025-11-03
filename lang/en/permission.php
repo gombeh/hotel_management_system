@@ -15,6 +15,8 @@ return [
         'mealPlan' => 'Meal Plan',
         'cancellationRule' => 'Cancellation Rule',
         'customer' => 'Customer',
+        'booking' => 'Booking',
+        'payment' => 'Payment',
     ],
     'actions' => [
         'viewAny' => 'List',

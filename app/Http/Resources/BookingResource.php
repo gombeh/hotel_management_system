@@ -31,6 +31,7 @@ class BookingResource extends JsonResource
             'statuses' => BookingStatusResource::collection($this->whenLoaded('statuses')),
             'charges' => BookingChargeResource::collection($this->whenLoaded('charges')),
             'kids' => BookingChildrenResource::collection($this->whenLoaded('kids')),
+            'payments' =>PaymentResource::collection($this->whenLoaded('payments')),
             'special_requests' => $this->special_requests,
             'total_price' => $this->total_price,
             'partial_amount' => $this->partial_amount,

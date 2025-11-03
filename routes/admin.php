@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\BookingPaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');
@@ -54,7 +55,12 @@ Route::middleware(['auth'])->group(function () {
         ->middlewareFor('index', 'pagination.validation');
 
     Route::resource('bookings', BookingController::class)
-        ->middlewareFor('index', 'pagination.validation');
+        ->middlewareFor('index', 'pagination.validation')
+        ->except(['edit', 'update', 'destroy']);
+
+    Route::apiResource('bookings.payments', BookingPaymentController::class)
+        ->except('show')
+        ->shallow();
 
     Route::post('booking/rooms-types', [BookingController::class, 'roomTypes'])->name('booking.roomTypes');
     Route::post('booking/prices', [BookingController::class, 'prices'])->name('booking.prices');

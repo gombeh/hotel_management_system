@@ -63,6 +63,11 @@ class   Booking extends Model
         return $this->belongsTo(MealPlan::class);
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function scopeActiveOverlap($query, $checkIn, $checkOut)
     {
         return $query->where('check_in', '<', $checkOut)

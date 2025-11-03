@@ -73,6 +73,10 @@
                                         <IconEye class="icon icon1"/>
                                         Show
                                     </Link>
+                                    <Link :href="route('admin.bookings.payments.index', booking.id)" class="dropdown-item" v-if="booking.access.payments">
+                                        <IconCreditCard class="icon icon1"/>
+                                        Payments
+                                    </Link>
                                 </div>
                             </div>
                         </td>
@@ -98,7 +102,7 @@ import {ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
-import {IconPlus, IconEye} from '@tabler/icons-vue';
+import {IconPlus, IconEye, IconCreditCard} from '@tabler/icons-vue';
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";

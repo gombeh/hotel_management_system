@@ -154,24 +154,6 @@
                             :error="form.errors.special_requests">
                         </base-textarea>
                     </div>
-                    <div class="row d-flex align-items-end gap-3">
-                        <div class="col-6">
-                            <base-input
-                                label="Prepayment"
-                                type="number"
-                                :min="prices?.partial_amount ?? 1"
-                                v-model="form.partial_amount"
-                                :error="form.errors.partial_amount"
-                                :disabled="prices === null"
-                                placeholder="amount"
-                            />
-                        </div>
-                        <div class="col-3">
-                            <base-switch
-                                label="Paid"
-                                v-model="form.partial_parid"/>
-                        </div>
-                    </div>
                     <div class="row">
                         <base-switch
                             label="Check In Now"
@@ -258,8 +240,6 @@ const form = useForm({
     meal_plan_id: '',
     special_requests: '',
     check_in_now: false,
-    partial_amount: '',
-    partial_parid: false,
 });
 
 const ages = Object.fromEntries(
@@ -295,7 +275,7 @@ watch(
             .then(res => {
                     roomTypes.value = res.data.roomTypes;
                 }
-            )
+            );
     })
 
 watch(
@@ -308,9 +288,7 @@ watch(
 
         axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, nights})
             .then(res => {
-                    const {partialAmount, ...data} = {...res.data, nights};
-                    form.partial_amount = partialAmount;
-                    prices.value = data;
+                    prices.value =  {...res.data, nights};
                 }
             )
     }, {

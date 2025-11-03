@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
 use Illuminate\Database\Migrations\Migration;
@@ -18,11 +19,11 @@ return new class extends Migration
             $table->foreignId('booking_id')->constrained();
             $table->decimal('amount', 8, 2)->default(0);
             $table->enum('type', PaymentType::cases());
-            $table->enum('payment_method', PaymentType::cases());
-            $table->enum('status', PaymentStatus::cases())->default(PaymentType::default());
+            $table->enum('payment_method', PaymentMethod::cases());
+            $table->enum('status', PaymentStatus::cases())->default(PaymentStatus::default());
             $table->string('reference')->nullable();
             $table->text('note')->nullable();
-            $table->timestamps('paid_at');
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }
