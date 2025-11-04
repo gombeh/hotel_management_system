@@ -93,11 +93,8 @@ class BookingService
 
         $totalPrice = round($roomsPrice + $mealPlanPrice + $tax ,2);
 
-        $partialAmount = round($totalPrice  * config('hotel.partial_rate'), 2);
-
         return [
             'totalRooms' => $roomsPrice,
-            'partialAmount' => $partialAmount,
             'roomTypes' => $roomTypes->select('name', 'rooms', 'price', 'totalPrice'),
             'mealPlan' => $mealPlanPrice,
             'mealPlanAges' => $mealPlanAges,
