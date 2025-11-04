@@ -25,6 +25,7 @@ class BookingResource extends JsonResource
             'check_out' => $this->check_out->format('Y-m-d'),
             'smoking_preference' => $this->smoking_preference,
             'status' => $this->status,
+            'payment_status' => $this->payment_status,
             'customer' => CustomerResource::make($this->whenLoaded('customer')),
             'mealPlan' => MealPlanResource::make($this->whenLoaded('mealPlan')),
             'rooms' => RoomResource::collection($this->whenLoaded('rooms')),

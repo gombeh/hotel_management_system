@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\BookingPayment;
 use App\Enums\BookingStatus;
 use App\Enums\RoomStatus;
 use App\Enums\SmokingPreference;
@@ -61,6 +62,7 @@ class BookingController extends Controller
         return inertia('Admin/Booking/Show', [
             'smokingPreferences' => SmokingPreference::asSelect(),
             'statuses' => BookingStatus::asSelect(),
+            'paymentStatuses' => BookingPayment::asSelect(),
             'booking' => BookingResource::make($booking),
         ]);
     }

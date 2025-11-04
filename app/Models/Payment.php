@@ -23,7 +23,7 @@ class Payment extends Model
 
 
     protected $casts = [
-        'amount' => 'integer',
+        'amount' => 'decimal:2',
         'paid_at' => 'datetime',
         'type' => PaymentType::class,
         'payment_method' => PaymentMethod::class,
@@ -42,14 +42,10 @@ class Payment extends Model
             $booking = $payment->booking;
             $paidAmount = $booking->payments()->where('status', PaymentStatus::PAID)->sum('amount');
 
-            $depositAmount = $payment->paid_at
-                ? $payment->amount + $booking->deposit_amount
-                : $paidAmount;
-
             $booking->update([
-                'deposit_amount' => $depositAmount,
+                'deposit_amount' => $paidAmount,
                 'payment_status' =>$paidAmount > 0
-                    ? ($depositAmount === $booking->total_price ? BookingPayment::PAID  : BookingPayment::PARTIALLY_PAID)
+                    ? ($paidAmount === $booking->total_price ? BookingPayment::PAID  : BookingPayment::PARTIALLY_PAID)
                     : BookingPayment::PENDING,
             ]);
         });

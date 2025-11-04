@@ -30,8 +30,8 @@ class   Booking extends Model
         'status' => BookingStatusEnum::class,
         'check_in' => 'date',
         'check_out' => 'date',
-        'total_price' => 'integer',
-        'deposit_amount' => 'integer',
+        'total_price' => 'decimal:2',
+        'deposit_amount' => 'decimal:2',
     ];
 
     public function rooms(): BelongsToMany

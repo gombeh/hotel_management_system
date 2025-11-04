@@ -61,6 +61,16 @@
                         </div>
                     </div>
                     <div class="datagrid-item">
+                        <div class="datagrid-title">Payment Status</div>
+                        <div class="datagrid-content">
+                            <Link :href="route('admin.bookings.payments.index', booking.id)">
+                             <span class="badge" :class="displayPaymentStatus(booking.payment_status).bgClass">
+                                {{ displayPaymentStatus(booking.payment_status).label }}
+                            </span>
+                            </Link>
+                        </div>
+                    </div>
+                    <div class="datagrid-item">
                         <div class="datagrid-title">Smoking Preference</div>
                         <div class="datagrid-content">
                             <span class="badge" :class="displaySmoking(booking.smoking_preference).bgClass">
@@ -75,9 +85,9 @@
                         </div>
                     </div>
                     <div class="datagrid-item">
-                        <div class="datagrid-title">Partial Amount</div>
+                        <div class="datagrid-title">Deposit Amount</div>
                         <div class="datagrid-content">
-                            ${{ booking.partial_amount }}
+                            ${{ booking.deposit_amount }}
                         </div>
                     </div>
                     <div class="datagrid-item">
@@ -220,15 +230,18 @@
 import {defineProps} from "vue"
 import {IconArrowLeft, IconWindow, IconCreditCard, IconSquareCheck, IconBabyCarriage} from "@tabler/icons-vue";
 import {useEnum} from "../../../Composables/useEnum.js";
+import {Link} from "@inertiajs/vue3";
 
 
 const props = defineProps({
     booking: Object,
     statuses: Array,
+    paymentStatuses: Array,
     smokingPreferences: Array,
 })
 
 const {display: displayStatus} = useEnum(props.statuses)
+const {display: displayPaymentStatus} = useEnum(props.paymentStatuses)
 
 const {
     display: displaySmoking
