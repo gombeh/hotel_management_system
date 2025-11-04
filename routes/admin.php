@@ -62,8 +62,8 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'destroy'])
         ->shallow();
 
-    Route::post('booking/rooms-types', [BookingController::class, 'roomTypes'])->name('booking.roomTypes');
-    Route::post('booking/prices', [BookingController::class, 'prices'])->name('booking.prices');
+    Route::post('bookings/rooms-types', [BookingController::class, 'roomTypes'])->name('bookings.roomTypes');
+    Route::post('bookings/prices', [BookingController::class, 'prices'])->name('bookings.prices');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');

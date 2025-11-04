@@ -271,7 +271,7 @@ watch(
 
         const [adults, children, check_in, check_out, smoking_preference] = inputs;
 
-        axios.post(route('admin.booking.roomTypes'), {adults, children, check_in, check_out, smoking_preference})
+        axios.post(route('admin.bookings.roomTypes'), {adults, children, check_in, check_out, smoking_preference})
             .then(res => {
                     roomTypes.value = res.data.roomTypes;
                 }
@@ -286,7 +286,7 @@ watch(
         const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = inputs;
         const nights = diffDays(check_in, check_out);
 
-        axios.post(route('admin.booking.prices'), {adults, children, rooms, meal_plan_id, children_age, nights})
+        axios.post(route('admin.bookings.prices'), {adults, children, rooms, meal_plan_id, children_age, nights})
             .then(res => {
                     prices.value =  {...res.data, nights};
                 }
