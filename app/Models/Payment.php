@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\BookingPayment;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
@@ -27,4 +29,29 @@ class Payment extends Model
         'payment_method' => PaymentMethod::class,
         'status' => PaymentStatus::class,
     ];
+
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class);
+    }
+
+
+    public static function booted(): void
+    {
+        static::saved(function (Payment $payment) {
+            $booking = $payment->booking;
+            $paidAmount = $booking->payments()->where('status', PaymentStatus::PAID)->sum('amount');
+
+            $depositAmount = $payment->paid_at
+                ? $payment->amount + $booking->deposit_amount
+                : $paidAmount;
+
+            $booking->update([
+                'deposit_amount' => $depositAmount,
+                'payment_status' =>$paidAmount > 0
+                    ? ($depositAmount === $booking->total_price ? BookingPayment::PAID  : BookingPayment::PARTIALLY_PAID)
+                    : BookingPayment::PENDING,
+            ]);
+        });
+    }
 }

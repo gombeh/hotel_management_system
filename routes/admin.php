@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
         ->except(['edit', 'update', 'destroy']);
 
     Route::apiResource('bookings.payments', BookingPaymentController::class)
-        ->except('show')
+        ->except(['show', 'destroy'])
         ->shallow();
 
     Route::post('booking/rooms-types', [BookingController::class, 'roomTypes'])->name('booking.roomTypes');

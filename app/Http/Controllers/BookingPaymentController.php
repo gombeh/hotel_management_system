@@ -11,6 +11,8 @@ use App\Http\Resources\BookingResource;
 use App\Http\Resources\PaymentResource;
 use App\Models\Booking;
 use App\Models\Payment;
+use DB;
+use Throwable;
 
 class BookingPaymentController extends Controller
 {
@@ -23,11 +25,10 @@ class BookingPaymentController extends Controller
     {
         $user = auth()->user();
         $booking->load('customer');
-        $payments = $booking->payments()->get();
+        $payments = $booking->payments()->latest()->get();
 
         $payments->map(fn ($payment) => $payment->setAttribute('access', [
             'edit' => $user->can('update', $payment),
-            'delete' => $user->can('delete', $payment),
         ]));
 
         return inertia('Admin/Booking/Payment/List', [
@@ -42,6 +43,9 @@ class BookingPaymentController extends Controller
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(CreateRequest $request, Booking $booking)
     {
         $data = $request->validated();
@@ -49,12 +53,15 @@ class BookingPaymentController extends Controller
         $data['paid_at'] = $data['status'] === PaymentStatus::PAID->value ? now() : null;
         $data['type'] = PaymentType::DEPOSIT;
 
-        $booking->payments()->create($data);
+        DB::Transaction(fn () => $booking->payments()->create($data));
 
         return redirect()->back()->with('message', 'Payment created.');
     }
 
 
+    /**
+     * @throws Throwable
+     */
     public function update(EditRequest $request, Payment $payment)
     {
         $data = $request->validated();
@@ -67,15 +74,9 @@ class BookingPaymentController extends Controller
                 : null;
         }
 
-        $payment->save();
+        DB::Transaction(fn () => $payment->save());
+
 
         return redirect()->back()->with('message', 'Payment updated.');
-    }
-
-
-    public function destroy(Payment $payment)
-    {
-        $payment->delete();
-        return redirect()->back()->with('message', 'Payment deleted.');
     }
 }

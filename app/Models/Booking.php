@@ -22,7 +22,8 @@ class   Booking extends Model
         'meal_plan_id',
         'special_requests',
         'total_price',
-        'partial_amount'
+        'deposit_amount',
+        'payment_status'
     ];
 
     protected $casts = [
@@ -30,7 +31,7 @@ class   Booking extends Model
         'check_in' => 'date',
         'check_out' => 'date',
         'total_price' => 'integer',
-        'partial_amount' => 'integer'
+        'deposit_amount' => 'integer',
     ];
 
     public function rooms(): BelongsToMany

@@ -34,7 +34,7 @@ class BookingResource extends JsonResource
             'payments' =>PaymentResource::collection($this->whenLoaded('payments')),
             'special_requests' => $this->special_requests,
             'total_price' => $this->total_price,
-            'partial_amount' => $this->partial_amount,
+            'deposit_amount' => $this->deposit_amount,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'access' => $this->whenNotNull($this->access),
         ];

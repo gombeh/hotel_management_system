@@ -7,7 +7,8 @@
         <!-- Page title actions -->
         <div class="col-auto ms-auto d-print-none">
             <div class="btn-list">
-                <button v-if="access.createPayment" class="btn btn-primary btn-5 d-none d-sm-inline-block"
+                <button v-if="access.createPayment"
+                        class="btn btn-primary btn-5 d-none d-sm-inline-block"
                         @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
@@ -87,18 +88,16 @@
                                             <IconEdit class="icon icon1"/>
                                             Edit
                                         </button>
-                                        <button class="dropdown-item"
-                                                @click="() => confirmDelete(route('admin.payments.destroy', payment.id))"
-                                                v-if="payment.access.delete">
-                                            <IconTrash class="icon icon1"/>
-                                            Delete
-                                        </button>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         <tr v-else>
-                            <td colspan="7" class="text-center">Payments Record Not exists.</td>
+                            <td colspan="8" class="text-center">Payments Record Not exists.</td>
+                        </tr>
+                        <tr class="border-top-wide">
+                            <td colspan="4" class="text-center">Total Price: ${{ booking.total_price }}</td>
+                            <td colspan="4" class="text-center">Deposit Amount: ${{ booking.deposit_amount }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -112,12 +111,10 @@
 <script setup>
 import {provide, ref} from "vue";
 import Create from "./Create.vue";
-import {IconEdit, IconTrash, IconPlus, IconArrowLeft} from '@tabler/icons-vue';
+import {IconEdit, IconPlus, IconArrowLeft} from '@tabler/icons-vue';
 import Update from "./Update.vue";
-import {useConfirm} from "../../../../Composables/useConfirm.js";
 import {useEnum} from "../../../../Composables/useEnum.js";
 
-const confirmDelete = useConfirm();
 
 const {types,statuses,methods} = defineProps({
     booking: Object,

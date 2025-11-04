@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin\Booking\Payment;
 
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Rules\PriceLessThanTotal;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,7 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|numeric|min:1',
+            'amount' => ['bail','required','numeric','min:1', new PriceLessThanTotal($this->booking)],
             'payment_method' => 'required|string|in:' . PaymentMethod::asString(),
             'status' => 'required|string|in:' . PaymentStatus::asString(),
             'reference' => 'nullable|string',
