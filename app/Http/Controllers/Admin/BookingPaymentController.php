@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Booking\Payment\CreateRequest;
 use App\Http\Requests\Admin\Booking\Payment\EditRequest;
 use App\Http\Resources\BookingResource;

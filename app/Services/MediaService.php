@@ -11,17 +11,15 @@ class MediaService
 {
     public static function resource(JsonResource $model, string $collection = 'default'): AnonymousResourceCollection|array|null
     {
-        if(!$model->relationLoaded('media')) return null;
+        if (!$model->relationLoaded('media')) return null;
 
         return $model->hasMedia($collection)
             ? MediaResource::collection($model->getMedia($collection))
-            : (!Route::is('admin.*')
-                ? [
-                    [
-                        'id' => null,
-                        'url' => $model->getFirstMediaUrl($collection),
-                    ]
+            : [
+                [
+                    'id' => null,
+                    'url' => $model->getFirstMediaUrl($collection),
                 ]
-                : []);
+            ];
     }
 }

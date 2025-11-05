@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,6 +26,7 @@ class UserResource extends JsonResource
             'sex' => $this->sex,
             'full_name' => $this->full_name,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'avatar' => MediaService::resource($this, 'avatar'),
             'access' => $this->whenNotNull($this->access),
         ];
     }

@@ -210,4 +210,30 @@ const handleFilePondLoaded = (source, load, error, progress, abort, headers) => 
     border-radius: 5px;
 }
 
+.filepond--panel-root {
+    background-color: #eee;
+    border: var(--tblr-border-width) solid var(--tblr-border-color);
+    box-shadow: var(--tblr-shadow-input);
+    transition: all 0.3s;
+}
+
+.filepond--drop-label {
+    color: #333;
+}
+
+[data-bs-theme=dark] .filepond--panel-root {
+    background-color: var(--tblr-bg-forms);
+    color: #fff;
+}
+
+
+[data-bs-theme=dark] .filepond--drop-label {
+    color: #ccc;
+}
+
+[data-bs-theme=dark] .filepond--file {
+    background-color: #333;
+    color: #fff;
+}
+
 </style>

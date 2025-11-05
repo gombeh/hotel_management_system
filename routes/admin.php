@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthenticateController;
 use App\Http\Controllers\Admin\BedTypeController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\BookingPaymentController;
 use App\Http\Controllers\Admin\CancellationRuleController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -10,12 +11,13 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\MealPlanController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\PasswordController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\BookingPaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/dashboard');
@@ -29,6 +31,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::apiResource('/users', UserController::class)->except('show')
         ->middlewareFor('index', 'pagination.validation');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/password', [PasswordController::class, 'edit'])->name('password.edit');
+    Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::apiResource('/roles', RoleController::class)->except('show');
     Route::getAuth('roles/{role}/permissions', [RolePermissionController::class, 'index'])->name('roles.permissions.index');
