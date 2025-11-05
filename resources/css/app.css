@@ -131,13 +131,8 @@
     color: var(--nav-dropdown-color);
 }
 
-
-
-@media (prefers-color-scheme: dark) {
-    .element {
-        color: var(--bs-primary-text-emphasis);
-        background-color: var(--bs-primary-bg-subtle);
-    }
+[data-bs-theme=dark] .modal-content {
+    border: 1px solid #424141 !important;
 }
 
 
