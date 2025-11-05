@@ -16,6 +16,7 @@
 
 <script setup>
 import Header from "./Header.vue";
+import "../../../css/bootstrap.min.css"
 import "../../../css/landing.css"
 import "../../../css/bootstrap-icons.css"
 import Footer from "./footer.vue";

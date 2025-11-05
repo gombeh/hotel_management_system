@@ -20,6 +20,8 @@ import Footer from "./Footer.vue";
 import {useToast} from "vue-toastification";
 import {usePage} from "@inertiajs/vue3";
 import {watch} from "vue";
+import "@tabler/core/dist/css/tabler.min.css";
+
 
 const page = usePage();
 const toast = useToast();
