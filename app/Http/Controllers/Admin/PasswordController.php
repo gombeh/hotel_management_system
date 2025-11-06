@@ -32,7 +32,7 @@ class PasswordController extends Controller
         $user->notify(new PasswordChangedNotification(
             request()->ip(),
             request()->header('User-Agent'),
-            url('/password/reset')
+            route('admin.password.request')
         ));
 
         return redirect()->back()->with('message', 'Password changed successfully.');

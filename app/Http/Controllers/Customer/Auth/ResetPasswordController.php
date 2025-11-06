@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Notifications\PasswordChangedNotification;
 use App\Rules\ActiveCustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -40,6 +41,12 @@ class ResetPasswordController extends Controller
                 ])->setRememberToken(Str::random(60));
 
                 $customer->save();
+
+                $customer->notify(new PasswordChangedNotification(
+                    request()->ip(),
+                    request()->header('User-Agent'),
+                    route('password.request')
+                ));
             }
         );
 
