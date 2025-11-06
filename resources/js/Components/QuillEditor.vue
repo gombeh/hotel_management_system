@@ -25,7 +25,7 @@ const description = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
 
-watch(() => description, (value) => {
+watch(description, (value) => {
     emit('update:modelValue', value)
 })
 
