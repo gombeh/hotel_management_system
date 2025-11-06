@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
@@ -18,7 +18,7 @@ class ResetPasswordController extends Controller
             return redirect()->route('home');
         }
 
-        return inertia('Auth/ResetPassword', [
+        return inertia('Customer/Auth/ResetPassword', [
             'email' => $request->email,
             'token' => $token
         ]);

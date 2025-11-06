@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticateController;
-use App\Http\Controllers\Auth\ForgetPasswordController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\VerifyCodeController;
+use App\Http\Controllers\Customer\Auth\AuthenticateController;
+use App\Http\Controllers\Customer\Auth\ForgetPasswordController;
+use App\Http\Controllers\Customer\Auth\RegisterController;
+use App\Http\Controllers\Customer\Auth\ResetPasswordController;
+use App\Http\Controllers\Customer\Auth\VerifyCodeController;
+use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Landing\RoomTypeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Landing\LandingController;
 
 Route::get('/', LandingController::class)->middleware('verified.customer')->name('home');
 Route::get('/rooms', [RoomTypeController::class, 'index'])->name('roomTypes.index');

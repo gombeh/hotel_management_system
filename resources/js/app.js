@@ -18,7 +18,7 @@ createInertiaApp({
         if (name.startsWith('Landing')) {
             const {default: LandingLayout} = await import("./Shared/Landing/Layout.vue")
             page.layout = LandingLayout
-        } else if (name.startsWith('Auth')) {
+        } else if (name.startsWith('Customer/Auth')) {
             const {default: AuthLayout} = await import("./Shared/Auth/Layout.vue")
             page.layout = AuthLayout
         } else {

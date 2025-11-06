@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -12,7 +12,7 @@ class AuthenticateController extends Controller
         if (auth('customer')->check()) {
             return redirect()->route('home');
         }
-        return inertia('Auth/Login');
+        return inertia('Customer/Auth/Login');
     }
 
     public function store(LoginRequest $request)

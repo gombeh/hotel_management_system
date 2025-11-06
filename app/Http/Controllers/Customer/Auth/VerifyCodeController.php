@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\OtpService;
@@ -11,7 +11,7 @@ class VerifyCodeController extends Controller
 {
     public function verifyCodeForm()
     {
-        return inertia('Auth/VerifyCode');
+        return inertia('Customer/Auth/VerifyCode');
     }
 
     public function verifyCode(Request $request)

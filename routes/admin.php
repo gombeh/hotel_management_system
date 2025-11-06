@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthenticateController;
+use App\Http\Controllers\Admin\Auth\AuthenticateController;
+use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
+use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\BedTypeController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BookingPaymentController;
@@ -23,6 +25,12 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/admin/dashboard');
 Route::get('/login', [AuthenticateController::class, 'loginForm'])->name('loginForm');
 Route::post('/login', [AuthenticateController::class, 'store'])->name('login');
+
+Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPasswordForm'])->name('password.request');
+Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPassword'])->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.save');
 
 Route::middleware(['auth'])->group(function () {
 

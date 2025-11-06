@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Facility;
 use App\Models\RoomType;
 use App\Models\User;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Route;
@@ -51,5 +52,11 @@ class AppServiceProvider extends ServiceProvider
             'roomType' => RoomType::class,
             'customer' => Customer::class,
         ]);
+
+        ResetPassword::createUrlUsing(function (Customer|User $user, string $token) {
+            $routeName = $user instanceof User ? 'admin.password.reset' : 'password.reset';
+
+            return route($routeName, ['token' => $token, 'email' => $user->email]);
+        });
     }
 }

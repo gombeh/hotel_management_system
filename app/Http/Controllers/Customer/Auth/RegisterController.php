@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Customer\Auth;
 
 use App\Enums\CustomerStatus;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ class RegisterController extends Controller
         if (auth('customer')->check()) {
             return redirect()->route('home');
         }
-        return inertia('Auth/Register');
+        return inertia('Customer/Auth/Register');
     }
 
     public function store(Request $request)
@@ -40,7 +40,7 @@ class RegisterController extends Controller
 
     public function completeRegisterForm()
     {
-        return inertia('Auth/CompleteRegister');
+        return inertia('Customer/Auth/CompleteRegister');
     }
 
     public function completeRegister(CompleteRegisterRequest $request)

@@ -9,9 +9,11 @@
                     <div class="container-tight">
                         <div class="text-center mb-4">
                             <img width="70" src="/resources/images/Homa.png" alt="logo"/> <span
-                            class="bold h3">Hotel Homa</span>
+                            class="bold h3 brand-color">Hotel Homa</span>
                         </div>
-
+                        <div class="alert alert-success" role="alert" v-if="flash?.message">
+                            {{ flash.message }}
+                        </div>
                         <div class="card card-md">
                             <div class="card-body">
                                 <h2 class="h2 text-center mb-4">Login to your account</h2>
@@ -28,7 +30,7 @@
                                         <label class="form-label">
                                             Password
                                             <span class="form-label-description">
-                                                <a href="./forgot-password.html">I forgot password</a>
+                                                <Link :href="route('admin.password.request')">I forgot password</Link>
                                              </span>
                                         </label>
                                         <div class="input-group input-group-flat">
@@ -83,9 +85,14 @@ import {IconEye} from '@tabler/icons-vue'
 import {useForm} from "@inertiajs/vue3";
 import {ref} from "vue";
 import BaseInput from "../../../Components/BaseInput.vue";
+import "@tabler/core/dist/css/tabler.min.css";
+
 
 defineOptions({ layout: null })
 
+const {flash} = defineProps({
+    flash: {}
+})
 
 let showPassword = ref(false)
 
