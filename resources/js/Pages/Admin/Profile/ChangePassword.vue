@@ -74,7 +74,7 @@ const form = useForm({
 });
 
 const handleForm = () => {
-    form.put(route('admin.password.update'), {
+    form.post(route('admin.password.save'), {
         onSuccess: () => {
             form.reset();
         }

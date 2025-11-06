@@ -30,7 +30,7 @@ Route::get('/forget-password', [ForgetPasswordController::class, 'forgetPassword
 Route::post('/forget-password', [ForgetPasswordController::class, 'forgetPassword'])->name('password.email');
 
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('password.reset');
-Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.save');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/password', [PasswordController::class, 'edit'])->name('password.edit');
-    Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('/password', [PasswordController::class, 'update'])->name('password.save');
 
     Route::apiResource('/roles', RoleController::class)->except('show');
     Route::getAuth('roles/{role}/permissions', [RolePermissionController::class, 'index'])->name('roles.permissions.index');

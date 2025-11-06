@@ -67,7 +67,7 @@ const form = useForm({
 })
 
 const submitForm = () => {
-    form.post(route('admin.password.save'));
+    form.post(route('admin.password.update'));
 }
 </script>
 
