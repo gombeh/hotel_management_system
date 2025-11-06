@@ -91,7 +91,7 @@ const removeRow = (index) => {
     emits('update:modelValue', localValue.value)
 }
 
-watch(props.modelValue, (value) => {
+watch(() => props.modelValue, (value) => {
     localValue.value = value;
 })
 </script>

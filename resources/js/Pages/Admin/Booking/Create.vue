@@ -317,9 +317,7 @@ watch(() => form.children, (ch) => {
 })
 
 const handleCreateRoomType = () => {
-    form.post(route('admin.bookings.store'), {
-        onSuccess: () => window.location.reload(),
-    });
+    form.post(route('admin.bookings.store'));
 }
 
 </script>

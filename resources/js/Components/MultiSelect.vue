@@ -64,4 +64,35 @@ watch(selected, (value) => {
     border: 1px solid;
     border-color: var(--tblr-form-invalid-border-color);
 }
+
+[data-bs-theme=dark] .multiselect .multiselect__tags {
+    background-color: var(--tblr-bg-forms);
+    border: var(--tblr-border-width) solid var(--tblr-border-color);
+    color: #fff;
+}
+
+[data-bs-theme=dark] .multiselect__tags .multiselect__single {
+    background-color: var(--tblr-bg-forms);
+    color: #fff;
+}
+
+[data-bs-theme=dark] .multiselect .multiselect__input {
+    background-color: var(--tblr-bg-forms);
+    color: #fff;
+}
+
+[data-bs-theme=dark] .multiselect .multiselect__input::placeholder {
+    color: #eee !important;
+}
+
+[data-bs-theme=dark] .multiselect .multiselect__content-wrapper {
+    background-color: var(--tblr-bg-forms);
+    color: #fff;
+    border: var(--tblr-border-width) solid var(--tblr-border-color);
+}
+
+[data-bs-theme=dark] .multiselect .multiselect__option--selected {
+    background-color: var(--tblr-gray-700);
+    color: var(--tblr-gray-300);;
+}
 </style>
