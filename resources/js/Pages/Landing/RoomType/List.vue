@@ -64,9 +64,10 @@
                     <div class="col-xl-4 col-lg-6" v-for="roomType in roomTypes.data">
                         <div class="room-card">
                             <div class="room-image">
-                                <img :src="roomType.mainImage[0]?.url" alt="Deluxe Ocean Suite" class="img-fluid">
+                                <img :src="getMediaUrl(roomType.mainImage[0], 'thumb')"
+                                     :alt="roomType.name" class="img-fluid">
                                 <div class="room-features">
-                                    <span class="feature-badge ocean">Ocean View</span>
+                                    <span class="feature-badge ocean">{{ roomType.view }}</span>
                                     <span class="feature-badge popular">Popular</span>
                                 </div>
                             </div>
@@ -116,6 +117,8 @@
 </template>
 
 <script setup>
+import {getMediaUrl} from "../../../Utils/helper.js";
+
 defineProps({
     roomTypes: Object
 })

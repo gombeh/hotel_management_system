@@ -89,15 +89,15 @@ html {
 }
 
 .btn-origin {
-    background: var(--accent-color);
-    color: var(--contrast-color);
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    border-color: var(--accent-color);
-    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color), transparent 70%);
+    background: var(--accent-color)!important;
+    color: var(--contrast-color)!important;
+    border-radius: 8px!important;
+    text-decoration: none!important;
+    font-weight: 600!important;
+    font-size: 1rem!important;
+    transition: all 0.3s ease!important;
+    border-color: var(--accent-color)!important;
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-color), transparent 70%)!important;
 }
 
 .highlight-item i {

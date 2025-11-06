@@ -13,7 +13,7 @@ class MediaController extends Controller
     public function upload(Request $request)
     {
         $data = $request->validate([
-            'imageFilepond' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048'
+            'imageFilepond' => 'required|image|mimes:jpeg,jpg,png,gif,webp|max:2048'
         ]);
         $file = $data['imageFilepond'];
 

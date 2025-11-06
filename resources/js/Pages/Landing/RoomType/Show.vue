@@ -94,11 +94,14 @@
                         'centeredSlides': false
                         }
                     }">
-                        <swiper-slide class="swiper-slide" v-for="gallery in roomType.gallery">
+                        <swiper-slide class="swiper-slide" v-for="(gallery, index) in roomType.gallery">
                             <div class="gallery-item">
-                                <img :src="gallery.url" alt="Luxurious Suite" class="img-fluid"
-                                     loading="lazy">
-                                <a :href="gallery.url" class="gallery-overlay glightbox">
+                                <a :href="gallery.url"
+                                   class="gallery-overlay glightbox"
+                                   :data-gallery="`room-gallery-${roomType.id}`"
+                                   :data-glightbox="`title: Image ${index + 1}`">
+                                    <img :src="getMediaUrl(gallery, 'set')" :alt="roomType.name" class="img-fluid"
+                                         loading="lazy">
                                 </a>
                             </div>
                         </swiper-slide>
@@ -277,8 +280,28 @@
 
 <script setup>
 import {Swiper, SwiperSlide} from "swiper/vue";
+import {getMediaUrl} from "../../../Utils/helper.js";
+import {onMounted, onUpdated} from "vue";
+import GLightbox from "glightbox";
+import 'glightbox/dist/css/glightbox.min.css'
+
 
 defineProps({
     roomType: Object,
+})
+let lightbox = null;
+onMounted(() => {
+    // initialize glightbox once
+    lightbox = GLightbox({
+        selector: '.glightbox',
+        touchNavigation: true,
+        loop: true,
+        autoplayVideos: false,
+    })
+})
+
+// if swiper re-renders (e.g. reactive update)
+onUpdated(() => {
+    lightbox.reload()
 })
 </script>

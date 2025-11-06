@@ -40,7 +40,7 @@
                             <a href="#profile">
                                 <div class="rounded-5 me-2 mx-1"
                                      style="background: #ffb700; round: 100%; overflow: hidden">
-                                    <img width="30" height="30" :src="customer.avatar" alt="avtar"/>
+                                    <img width="30" height="30" :src="getMediaUrl(customer.avatar[0], 'thumb')" alt="avtar"/>
                                 </div>
                                 <span class="me-1">{{ customer.full_name }}</span>
                                 <i class="bi bi-chevron-down toggle-dropdown"></i>
@@ -74,6 +74,7 @@
 
 <script setup>
 import {router, usePage} from "@inertiajs/vue3";
+import {getMediaUrl} from "../../Utils/helper.js";
 
 const {props: {auth: {customer}}} = usePage();
 

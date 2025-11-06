@@ -47,7 +47,7 @@
                   class="nav-link d-flex lh-1 p-0 px-2"
                   data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm">
-                    <img :src="user.avatar[0]?.url" alt="avatar" />
+                    <img :src="getMediaUrl(user.avatar[0], 'thumb')" alt="avatar" />
                 </span>
                 <div class="d-none d-xl-block ps-2">
                     <div>{{ user.full_name }}</div>
@@ -69,6 +69,7 @@ import Notifications from "./Notifications.vue";
 import {useTheme} from "../../Composables/useTheme.js";
 import {IconSun, IconMoon, IconBell, IconBrandGithub, IconHeart} from "@tabler/icons-vue";
 import {usePage} from "@inertiajs/vue3";
+import {getMediaUrl} from "../../Utils/helper.js";
 
 const {theme, toggleTheme} = useTheme()
 const {props:{auth: {user}}} = usePage()

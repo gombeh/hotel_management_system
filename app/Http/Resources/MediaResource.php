@@ -18,7 +18,8 @@ class MediaResource extends JsonResource
         /** @var $this Media | MediaResource */
         return [
             'id' => $this->id,
-            'url' => $this->original_url
+            'url' => $this->original_url,
+            'conversions' => $this->conversions,
         ];
     }
 }

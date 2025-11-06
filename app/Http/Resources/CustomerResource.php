@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Customer;
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,8 +30,8 @@ class CustomerResource extends JsonResource
             'sex' => $this->sex,
             'birthdate' => $this->birthdate,
             'status' => $this->status,
-            'avatar' => !empty($this->getFirstMediaUrl('avatar')) ? $this->getFirstMediaUrl('avatar') : \Storage::url('avatar/default.png'), //todo better then
-            'access' => $this->whenNotNull($this->access ?? null)
+            'avatar' => MediaService::resource($this, 'avatar'),
+            'access' => $this->whenNotNull($this->access ?? null),
         ];
     }
 }

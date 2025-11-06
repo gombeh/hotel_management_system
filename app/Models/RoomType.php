@@ -66,12 +66,21 @@ class RoomType extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('main')
-            ->useFallbackUrl(url('/assets/images/default-room.webp'))
-            ->useFallbackPath(public_path('assets/images/default-room.webp'));
+            ->useFallbackUrl(url('/assets/images/default-room.webp'));
+
+        $this
+            ->addMediaCollection('gallery')
+            ->useFallbackUrl(url('/assets/images/default-room.webp'));
     }
 
     public function registerMediaConversions(Media|null $media = null): void
     {
+        $this->addMediaConversion('thumb')
+            ->performOnCollections('main')
+            ->width(368)
+            ->height(232)
+            ->nonQueued();
+
         $this->addMediaConversion('set')
             ->performOnCollections('gallery')
             ->width(368)

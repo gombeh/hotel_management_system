@@ -10,9 +10,9 @@
                             <p class="hero-subtitle text-white">Experience unparalleled comfort and elegance in the
                                 heart of the city. Where every moment becomes a cherished memory.</p>
                             <div class="hero-actions aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-                                <a href="booking.html" class="btn btn-origin p-5 py-3 mx-3" style="border-radius: 50px">Book
+                                <a href="booking.html" class="btn btn-origin p-5 py-3 mx-3" style="border-radius: 50px !important;">Book
                                     Your Stay</a>
-                                <a href="amenities.html" class="btn btn-outline p-5 py-3" style="border-radius: 50px">Explore
+                                <a href="amenities.html" class="btn btn-outline-light p-5 py-3" style="border-radius: 50px">Explore
                                     Amenities</a>
                             </div>
                         </div>

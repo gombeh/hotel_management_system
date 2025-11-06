@@ -45,3 +45,16 @@ export function addDays(date, days) {
     const newDate = moment(date).add(days, 'days');
     return newDate.format('Y-M-D');
 }
+
+export function getMediaUrl(media, conversion = null) {
+
+    let url =  media.url;
+
+    if(conversion && media.conversions) {
+        const conversionUrl = media.conversions[conversion];
+
+        if(conversion) url = conversionUrl;
+    }
+
+    return url;
+}

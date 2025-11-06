@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Http\Resources\MediaResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaService
 {
@@ -13,13 +13,20 @@ class MediaService
     {
         if (!$model->relationLoaded('media')) return null;
 
-        return $model->hasMedia($collection)
-            ? MediaResource::collection($model->getMedia($collection))
-            : [
-                [
-                    'id' => null,
-                    'url' => $model->getFirstMediaUrl($collection),
-                ]
-            ];
+        if ($model->hasMedia($collection)) {
+            return MediaResource::collection($model->getMedia($collection)->map(function (Media $media) use ($collection) {
+                $conversions = $media->getGeneratedConversions()->keys()->mapWithKeys(fn(string $conversion) => [
+                    $conversion => $media->getUrl($conversion)
+                ]);
+                $media->setAttribute('conversions', $conversions);
+                return $media;
+            }));
+        }
+        return [
+            [
+                'id' => null,
+                'url' => $model->getFirstMediaUrl($collection),
+            ]
+        ];
     }
 }

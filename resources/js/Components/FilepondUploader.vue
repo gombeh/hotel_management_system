@@ -6,7 +6,7 @@
         ref="pond"
         :class="{'filepond--multiple': allowMultiple}"
         v-bind:allow-multiple="true"
-        accepted-file-types="image/png, image/jpeg"
+        accepted-file-types="image/png, image/jpeg, image/webp"
         :maxFiles="maxFiles"
         :allow-reorder="allowReorder"
         @reorderfiles="handleReorder"
@@ -84,9 +84,8 @@ const FilePond = vueFilePond(
 );
 
 const handleFilePondInit = () => {
-    files.value = props.modelValue.map((image) => ({
+    files.value = props.modelValue.filter(image => image.id).map((image) => ({
         source: image.url,
-
         options: {
             type: 'local',
             serverId: image.id,

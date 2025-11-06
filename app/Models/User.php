@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
@@ -74,8 +75,16 @@ class User extends Authenticatable implements HasMedia
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection('avtar')
-            ->useFallbackUrl(url('/assets/images/default-room.webp'))
-            ->useFallbackPath(public_path('assets/images/default-room.webp'));
+            ->addMediaCollection('avatar')
+            ->useFallbackUrl(url('/assets/images/default-user.png'));
+    }
+
+    public function registerMediaConversions(Media|null $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->performOnCollections('avatar')
+            ->width(100)
+            ->height(100)
+            ->nonQueued();
     }
 }

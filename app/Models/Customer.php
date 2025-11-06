@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Customer extends Authenticatable implements HasMedia, CanResetPassword
 {
@@ -103,5 +104,21 @@ class Customer extends Authenticatable implements HasMedia, CanResetPassword
     public function isInActive(): bool
     {
         return $this->status === CustomerStatus::Inactive;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('avatar')
+            ->useFallbackUrl(url('/assets/images/default-user.png'));
+    }
+
+    public function registerMediaConversions(Media|null $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->performOnCollections('avatar')
+            ->width(100)
+            ->height(100)
+            ->nonQueued();
     }
 }
