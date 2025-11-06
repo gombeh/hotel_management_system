@@ -16,10 +16,10 @@
             <!-- END NAVBAR TOGGLER -->
             <!-- BEGIN NAVBAR LOGO -->
             <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <a href=".">
+                <Link :href="route('admin.dashboard')">
                     <img width="38" src="/resources/images/Homa.png" alt="logo"/> <span
                     class="bold h4">Hotel Homa</span>
-                </a>
+                </Link>
             </div>
             <Settings />
         </div>
