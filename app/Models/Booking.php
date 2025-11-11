@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -23,13 +24,15 @@ class   Booking extends Model
         'special_requests',
         'total_price',
         'deposit_amount',
-        'payment_status'
+        'payment_status',
+        'lock_until_at',
     ];
 
     protected $casts = [
         'status' => BookingStatusEnum::class,
         'check_in' => 'date',
         'check_out' => 'date',
+        'lock_until_at' => 'datetime',
         'total_price' => 'decimal:2',
         'deposit_amount' => 'decimal:2',
     ];
@@ -71,9 +74,16 @@ class   Booking extends Model
 
     public function scopeActiveOverlap($query, $checkIn, $checkOut)
     {
-        return $query->where('check_in', '<', $checkOut)
+         $query->where('check_in', '<', $checkOut)
             ->where('check_out', '>', $checkIn)
-            ->where('status', [BookingStatusEnum::RESERVED, BookingStatusEnum::CHECK_IN]);
+            ->where(function (Builder $query) use ($checkIn, $checkOut) {
+                $query->whereIn('status', [BookingStatusEnum::RESERVED, BookingStatusEnum::CHECK_IN]);
+                $query->orWhere(
+                    fn(Builder $query) => $query->where('status', BookingStatusEnum::PENDING)
+                    ->where('lock_until_at', '>=', now())
+                );
+            });
+
     }
 
     public static function booted(): void

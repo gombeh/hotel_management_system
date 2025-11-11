@@ -5,6 +5,7 @@ use App\Http\Controllers\Customer\Auth\ForgetPasswordController;
 use App\Http\Controllers\Customer\Auth\RegisterController;
 use App\Http\Controllers\Customer\Auth\ResetPasswordController;
 use App\Http\Controllers\Customer\Auth\VerifyCodeController;
+use App\Http\Controllers\Landing\BookingController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Landing\RoomTypeController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,7 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPas
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 
-Route::middleware(['auth:customer', 'verified.customer'])->group(function () {
+Route::middleware(['auth:customer', 'verified.customer'])->withoutMiddleware('auth:web')->group(function () {
     Route::delete('/logout', [AuthenticateController::class, 'delete'])->name('logout');
 
     Route::get('/verify-code', [VerifyCodeController::class, 'verifyCodeForm'])->name('verifyCodeForm');
@@ -38,5 +39,8 @@ Route::middleware(['auth:customer', 'verified.customer'])->group(function () {
     Route::post('/complete-register', [RegisterController::class, 'completeRegister'])->name('completeRegister');
 
     Route::post('/back-register', [RegisterController::class, 'backRegister'])->name('backRegister');
+
+    Route::get('/bookings/{roomType:slug}/create', [BookingController::class, 'create'])->name('bookings.create');
+    Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
 });
 

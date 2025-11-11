@@ -61,7 +61,7 @@
                             <span class="price-amount">${{ roomType.price }}</span>
                             <span class="price-period">per night</span>
                         </div>
-                        <a href="booking.html" class="btn btn-book-now">Book Now</a>
+                        <Link :href="route('bookings.create', {filters, roomType: roomType.slug})" class="btn btn-book-now">Book Now</Link>
                     </div>
                 </div>
             </div>
@@ -230,7 +230,7 @@
                                 <span class="price">${{roomType.price}}</span>
                                 <span class="period">per night</span>
                             </div>
-                            <a href="booking.html" class="btn btn-primary btn-lg">Check Availability</a>
+                            <Link :href="route('bookings.create', {filters, roomType: roomType.slug})" class="btn btn-primary btn-lg">Check Availability</Link>
                         </div>
                     </div>
                 </div>

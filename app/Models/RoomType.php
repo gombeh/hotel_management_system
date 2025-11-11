@@ -58,7 +58,7 @@ class RoomType extends Model implements HasMedia
 
     public function scopeCapacity($query, $adults, $children)
     {
-        return $query->where('max_adult', '>=', $adults)
+         $query->where('max_adult', '>=', $adults)
             ->where('max_children', '>=', $children);
     }
 

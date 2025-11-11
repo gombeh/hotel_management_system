@@ -28,11 +28,9 @@ class BookingService
                 throw ValidationException::withMessages($errors->toArray());
             }
 
-            $data['status'] = $data['check_in_now'] ? BookingStatus::CHECK_IN : BookingStatus::RESERVED;
-
             $booking = Booking::create(except_keys($data, ['rooms', 'check_in_now', 'children_ages']));
 
-            $this->attachStatuses($booking, $data['check_in_now']);
+            $this->attachStatuses($booking);
 
             $this->attachRooms($booking, $data['rooms'], $roomTypes);
 
@@ -167,7 +165,7 @@ class BookingService
             )->whereNot('status', RoomStatus::Maintenance)
                 ->whereDoesntHave(
                     'bookings',
-                    fn(Builder $q) => $q->activeOverlap($data['check_in'], $data['check_out'])
+                    fn(Builder|Booking $q) => $q->activeOverlap($data['check_in'], $data['check_out'])
                 );
         }])->active()
             ->capacity($data['adults'], $data['children'])
@@ -211,10 +209,13 @@ class BookingService
             : [$roomTypes, $prices];
     }
 
-    private function attachStatuses(Booking $booking, bool $checkInNow): void
+    private function attachStatuses(Booking $booking): void
     {
-        $statuses = [BookingStatus::PENDING, BookingStatus::RESERVED];
-        $statuses = $checkInNow ? [...$statuses, BookingStatus::CHECK_IN] : $statuses;
+        $statuses = match ($booking->status) {
+             BookingStatus::CHECK_IN => [BookingStatus::PENDING, BookingStatus::RESERVED, BookingStatus::CHECK_IN],
+            BookingStatus::RESERVED => [BookingStatus::PENDING, BookingStatus::RESERVED],
+            BookingStatus::PENDING => [BookingStatus::PENDING],
+        };
 
         foreach ($statuses as $status) {
             $booking->statuses()->create([

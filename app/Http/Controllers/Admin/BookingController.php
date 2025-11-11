@@ -82,7 +82,7 @@ class BookingController extends Controller
     public function store(CreateRequest $request, BookingService $bookingService)
     {
         $data = $request->validated();
-
+        $data['status'] = $data['check_in_now'] ? BookingStatus::CHECK_IN : BookingStatus::RESERVED;
         $booking = $bookingService->create($data);
 
         return redirect()->intended(route('admin.bookings.payments.index', $booking))

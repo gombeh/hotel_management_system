@@ -112,7 +112,7 @@ html {
 }
 
 
-.booking .reservation-form input[type="password"] {
+.booking .reservation-form input[type="password"], .reservation-form input[type="number"] {
     color: var(--default-color);
     background-color: var(--surface-color);
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
