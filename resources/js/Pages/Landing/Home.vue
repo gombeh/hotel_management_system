@@ -22,37 +22,51 @@
                 <div class="row justify-content-center mt-5">
                     <div class="col-lg-10">
                         <div class="booking-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                            <form class="booking-form php-email-form" method="post">
+                            <form class="booking-form php-email-form" @submit.prevent="submitForm" method="get">
                                 <div class="row align-items-end g-3">
                                     <div class="col-md-3">
                                         <label for="checkin" class="form-label">Check-in</label>
-                                        <input type="date" class="form-control" id="checkin" name="checkin" required="">
+                                        <input type="date" v-model="form.check_in" class="form-control" id="checkin" name="checkin" required="">
                                     </div>
                                     <div class="col-md-3">
                                         <label for="checkout" class="form-label">Check-out</label>
-                                        <input type="date" class="form-control" id="checkout" name="checkout"
+                                        <input type="date" v-model="form.check_out" class="form-control" id="checkout" name="checkout"
                                                required="">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-4">
                                         <label for="guests" class="form-label">Guests</label>
-                                        <select class="form-select" id="guests" name="guests" required="">
-                                            <option value="">Select</option>
-                                            <option value="1">1 Guest</option>
-                                            <option value="2">2 Guests</option>
-                                            <option value="3">3 Guests</option>
-                                            <option value="4">4 Guests</option>
-                                            <option value="5">5+ Guests</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="rooms" class="form-label">Rooms</label>
-                                        <select class="form-select" id="rooms" name="rooms" required="">
-                                            <option value="">Select</option>
-                                            <option value="1">1 Room</option>
-                                            <option value="2">2 Rooms</option>
-                                            <option value="3">3 Rooms</option>
-                                            <option value="4">4+ Rooms</option>
-                                        </select>
+                                        <div class="border bg-white rounded px-4 position-relative cursor-pointer" style="padding: .375rem .75rem;">
+                                            <div class="d-flex justify-content-between flex-grow-1" @click="showGuests = !showGuests">
+                                                <i class="bi bi-people-fill"
+                                                   style="font-size: 1rem;font-weight: 400;line-height: 1.5;color: #6e7174;">
+                                                </i>
+                                                <div>
+                                                    {{form.adults}} adults
+                                                </div>
+                                                <div>
+                                                    {{form.children}} children
+                                                </div>
+                                                <div>
+                                                    {{form.rooms}} room
+                                                </div>
+                                                <i class="bi bi-chevron-down mt-1" style="font-size: 13px;font-weight: 700;line-height: 1.2;"></i>
+                                            </div>
+                                            <div class="border shadow position-absolute w-full bg-white rounded p-4 d-flex flex-column gap-3"
+                                                 style="left: 0; top: 45px;" v-if="showGuests">
+                                                <div>
+                                                    <label for="adults" class="form-label">Adults</label>
+                                                    <input type="number" min="1" v-model="form.adults" class="form-control" id="adults" required="">
+                                                </div>
+                                                <div>
+                                                    <label for="children" class="form-label">Children</label>
+                                                    <input type="number" min="0" v-model="form.children" class="form-control" id="children" required="">
+                                                </div>
+                                                <div>
+                                                    <label for="room" class="form-label">Room</label>
+                                                    <input type="number" min="1" v-model="form.rooms" class="form-control" id="room" required="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <button type="submit" class="btn btn-origin">
@@ -480,9 +494,27 @@
 <script setup>
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
+import {ref} from "vue";
+import {useForm} from "@inertiajs/vue3";
 
 defineProps({
     'roomTypes': Array
 })
+
+const showGuests = ref(false)
+
+const  form = useForm({
+    'check_in': '',
+    'check_out': '',
+    'adults': 2,
+    'children': 0,
+    'rooms': 1,
+})
+
+const submitForm = () => {
+    form.transform(data => ({
+        'filters': data
+    })).get(route('roomTypes.index'))
+}
 
 </script>

@@ -5,7 +5,8 @@
             <h1 class="mb-2 mb-lg-0">Room Details</h1>
             <nav class="breadcrumbs">
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><Link :href="route('home')">Home</Link></li>
+                    <li><Link :href="route('roomTypes.index')">Rooms</Link></li>
                     <li class="current">Room Details</li>
                 </ol>
             </nav>
@@ -132,8 +133,8 @@
             <!-- Amenities and Features -->
             <div class="room-amenities mb-5" data-aos="fade-up" data-aos-delay="200">
                 <h3 class="section-subtitle mb-4">Room Amenities</h3>
-                <div class="d-flex gap-5">
-                    <div class="" v-for="facility in roomType.facilities">
+                <div class="grid gap-5" style="--bs-columns: 3;">
+                    <div class="g-col-3 w-full" v-for="facility in roomType.facilities">
                         <i class="bi bi-check2 text-success me-1" style="font-size: 18px" />
                         <span>{{ facility.name }}</span>
                     </div>
@@ -216,44 +217,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Optional Add-ons -->
-            <div class="room-addons mb-5" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="section-subtitle mb-4">Enhance Your Stay</h3>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="addon-card">
-                            <div class="addon-icon">
-                                <i class="bi bi-cup-hot"></i>
-                            </div>
-                            <h5>Breakfast Package</h5>
-                            <p>Start your day with our signature breakfast buffet featuring fresh local ingredients</p>
-                            <div class="addon-price">+$35 per person</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="addon-card">
-                            <div class="addon-icon">
-                                <i class="bi bi-flower1"></i>
-                            </div>
-                            <h5>Spa Access</h5>
-                            <p>Enjoy unlimited access to our luxury spa facilities during your stay</p>
-                            <div class="addon-price">+$75 per day</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="addon-card">
-                            <div class="addon-icon">
-                                <i class="bi bi-airplane"></i>
-                            </div>
-                            <h5>Airport Transfer</h5>
-                            <p>Private luxury vehicle transfer to and from the airport</p>
-                            <div class="addon-price">+$95 round trip</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Booking CTA -->
             <div class="booking-cta" data-aos="fade-up" data-aos-delay="200">
                 <div class="booking-card">
@@ -264,7 +227,7 @@
                         </div>
                         <div class="col-lg-4 text-center text-lg-end">
                             <div class="price-display">
-                                <span class="price">$395</span>
+                                <span class="price">${{roomType.price}}</span>
                                 <span class="period">per night</span>
                             </div>
                             <a href="booking.html" class="btn btn-primary btn-lg">Check Availability</a>
@@ -288,6 +251,7 @@ import 'glightbox/dist/css/glightbox.min.css'
 
 defineProps({
     roomType: Object,
+    filters: Object,
 })
 let lightbox = null;
 onMounted(() => {

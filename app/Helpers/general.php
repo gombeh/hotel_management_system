@@ -41,3 +41,10 @@ if (!function_exists('except_keys')) {
         return array_diff_key($array, array_flip($keys));
     }
 }
+
+if(!function_exists('keys_exists')) {
+    function keys_exists(array $keys, array $arr): bool
+    {
+        return count(array_intersect_key(array_flip($keys), $arr)) === count($keys);
+    }
+}

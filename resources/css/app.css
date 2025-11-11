@@ -154,4 +154,8 @@ html {
     color: #045d7d !important;;
 }
 
+.hotel-hero {
+    overflow: inherit !important;
+}
+
 
