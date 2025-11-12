@@ -24,13 +24,12 @@
                     <div class="row align-items-end g-3">
                         <div class="col-md-3">
                             <label for="checkin" class="form-label">Check-in</label>
-                            <input type="date" v-model="form.check_in" class="form-control" id="checkin" name="checkin"
+                            <input type="date" v-model="form.check_in" class="form-control"  id="checkin" :min="currentDate()"
                                    required="">
                         </div>
                         <div class="col-md-3">
                             <label for="checkout" class="form-label">Check-out</label>
-                            <input type="date" v-model="form.check_out" class="form-control" id="checkout"
-                                   name="checkout"
+                            <input type="date" v-model="form.check_out" class="form-control" id="checkout"  :min="addDays(Date.now(), 1)"
                                    required="">
                         </div>
                         <div class="col-md-4">
@@ -139,7 +138,7 @@
 </template>
 
 <script setup>
-import {getMediaUrl} from "../../../Utils/helper.js";
+import {addDays, currentDate, getMediaUrl} from "../../../Utils/helper.js";
 import {ref} from "vue";
 import {InfiniteScroll, useForm} from "@inertiajs/vue3";
 

@@ -42,5 +42,6 @@ Route::middleware(['auth:customer', 'verified.customer'])->withoutMiddleware('au
 
     Route::get('/bookings/{roomType:slug}/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+    Route::post('/bookings/prices', [BookingController::class, 'prices'])->name('bookings.prices');
 });
 

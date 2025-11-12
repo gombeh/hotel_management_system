@@ -29,8 +29,8 @@
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><Link :href="route('home')" class="active">Home</Link></li>
-                        <li><Link :href="route('roomTypes.index')">Rooms</Link></li>
+                        <li><Link :href="route('home')" :class="{'active': $page.url === '/'}">Home</Link></li>
+                        <li><Link :href="route('roomTypes.index')" :class="{'active': $page.url === route('roomTypes.index')}">Rooms</Link></li>
                         <li><a href="amenities.html">Amenities</a></li>
                         <li><a href="about.html">About</a></li>
                         <span style="font-size: 20px">|</span>

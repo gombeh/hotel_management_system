@@ -17,7 +17,7 @@ class BookingController extends Controller
 {
     public function create(RoomType $roomType)
     {
-        $roomType->load('media');
+        $roomType->load('media', 'bedTypes');
 
         $mealPlans = MealPlan::all()->pluck('name', 'id');
         return inertia('Landing/Booking', [
