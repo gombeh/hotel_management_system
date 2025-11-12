@@ -48,3 +48,12 @@ if(!function_exists('keys_exists')) {
         return count(array_intersect_key(array_flip($keys), $arr)) === count($keys);
     }
 }
+
+if(!function_exists('keys_not_null')) {
+    function keys_not_null(array $keys, array $arr): bool
+    {
+        if(!keys_exists($keys, $arr)) return false;
+
+        return array_every($keys, fn($key) => !is_null($arr[$key]));
+    }
+}

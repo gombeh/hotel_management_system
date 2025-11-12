@@ -15,7 +15,7 @@ class RoomTypeController extends Controller
     {
         $filters = (array) request()->input('filters', []);
 
-        if(!empty($filters) && keys_exists(['check_in', 'check_out', 'rooms', 'adults', 'children'], $filters)) {
+        if(keys_not_null(['check_in', 'check_out', 'rooms', 'adults', 'children'], $filters)) {
             $roomTypes = RoomType::with('media')->has('rooms', '>=', $filters['rooms'])
                 ->whereHas('rooms', function (Builder $query) use ($filters) {
                     $query->whereNot('status', RoomStatus::Maintenance)

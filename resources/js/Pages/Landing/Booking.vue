@@ -278,7 +278,7 @@ import moment from "moment/moment.js";
 const {props: {auth: {customer}}} = usePage();
 
 const {filters, smokingPreferences, roomType, mealPlans} = defineProps({
-    filters: Array,
+    filters: Object,
     smokingPreferences: Array,
     roomType: Object,
     mealPlans: Object,

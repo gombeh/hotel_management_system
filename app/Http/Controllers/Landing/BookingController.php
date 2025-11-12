@@ -24,7 +24,7 @@ class BookingController extends Controller
             'roomType' => RoomTypeResource::make($roomType),
             'smokingPreferences' => SmokingPreference::asSelect(),
             'mealPlans' => $mealPlans,
-            'filters' => (object)request()->input('filters', []),
+            'filters' => (object) request()->input('filters', []),
         ]);
     }
 
