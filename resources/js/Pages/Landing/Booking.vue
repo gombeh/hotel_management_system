@@ -63,24 +63,30 @@
                             </div>
                         </div>
 
-                        <div class="hotel-highlights" v-if="form.adults && form.children !== '' && form.rooms && form.check_in && form.check_out">
+                        <div class="hotel-highlights"
+                             v-if="form.adults && form.children !== '' && form.rooms && form.check_in && form.check_out">
                             <h3 class="text-lg-start m-0">Your booking details</h3>
-                            <div class="d-flex gap-4 mt-4 pb-3" style="border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);">
+                            <div class="d-flex gap-4 mt-4 pb-3"
+                                 style="border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);">
                                 <div class="d-flex flex-column gap-2" style="margin-right: 5px">
                                     <span>Check-in</span>
-                                    <span class="bold text-black" style="font-weight: 700">{{moment(form.check_in).format('ddd, MMM D, Y')}}</span>
+                                    <span class="bold text-black"
+                                          style="font-weight: 700">{{ moment(form.check_in).format('ddd, MMM D, Y') }}</span>
                                     <span class="text-secondary" style="font-size: 14px">4:00 PM – 11:00 PM</span>
                                 </div>
-                                <div class="d-flex flex-column gap-2" style="border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 90%); padding-left: 2rem">
+                                <div class="d-flex flex-column gap-2"
+                                     style="border-left: 1px solid color-mix(in srgb, var(--default-color), transparent 90%); padding-left: 2rem">
                                     <span>Check-out</span>
-                                    <span class="bold text-black" style="font-weight: 700">{{moment(form.check_out).format('ddd, MMM D, Y')}}</span>
+                                    <span class="bold text-black"
+                                          style="font-weight: 700">{{ moment(form.check_out).format('ddd, MMM D, Y') }}</span>
                                     <span class="text-secondary" style="font-size: 14px">4:00 PM – 11:00 PM</span>
                                 </div>
                             </div>
                             <div class="mt-4">
                                 <div class="mb-1">You selected</div>
                                 <div class="bold text-black" style="font-weight: 700">
-                                    {{diffDays(form.check_out, form.check_in)}} nights, {{ form.rooms }} room for {{form.adults}} adults{{form.children > 0 ? `, ${form.children} children` : ''}}
+                                    {{ diffDays(form.check_out, form.check_in) }} nights, {{ form.rooms }} room for
+                                    {{ form.adults }} adults{{ form.children > 0 ? `, ${form.children} children` : '' }}
                                 </div>
                             </div>
                         </div>
@@ -101,7 +107,8 @@
                                     <span>${{ prices.tax }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <span  class="bold text-black" style="font-weight: 700;"><i class="bi bi-wallet2 me-2"></i>Total Price</span>
+                                    <span class="bold text-black" style="font-weight: 700;"><i
+                                        class="bi bi-wallet2 me-2"></i>Total Price</span>
                                     <span class="bold text-black" style="font-weight: 700;">${{ prices.total }}</span>
                                 </div>
                             </div>
@@ -171,6 +178,26 @@
                                                    id="children" required="">
                                             <div class="invalid-feedback" v-if="form.errors.children">
                                                 {{ form.errors.children }}
+                                            </div>
+
+                                            <div class="repeator mt-3" v-if="form.children_age.length">
+                                                <Repeater
+                                                    v-model="form.children_age"
+                                                    :errors="form.errors"
+                                                    name="children_age"
+                                                    :with-actions="false">
+                                                    <template #default="{ item, index }" :key="index">
+                                                        <td class="age">
+                                                            <select-box
+                                                                placeholder="Choose Your Child Age"
+                                                                :options="ages"
+                                                                v-model="item.age"
+                                                                :error="item.errors?.age"
+                                                                required>
+                                                            </select-box>
+                                                        </td>
+                                                    </template>
+                                                </Repeater>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -274,6 +301,8 @@ import {useEnum} from "../../Composables/useEnum.js";
 import {useForm, usePage} from "@inertiajs/vue3";
 import {addDays, currentDate, diffDays} from "../../Utils/helper.js";
 import moment from "moment/moment.js";
+import SelectBox from "../../Components/SelectBox.vue";
+import Repeater from "../../Components/Repeater.vue";
 
 const {props: {auth: {customer}}} = usePage();
 
@@ -301,8 +330,12 @@ const form = useForm({
     room_type_id: roomType.id,
     meal_plan_id: 1,
     special_requests: '',
-    children_age: [],
+    children_age: Array.from({length: filters.children ?? 0}, () => ({age: ''})),
 })
+
+const ages = Object.fromEntries(
+    Array.from({length: 13}, (_, i) => [i, `${i} years old`])
+);
 
 onMounted(() => {
     const {adults, children, rooms, meal_plan_id, children_age, check_in, check_out} = form;
@@ -315,13 +348,35 @@ watch(
     () => [form.adults, form.children, form.rooms, form.meal_plan_id, form.children_age, form.check_in, form.check_out],
     (inputs) => {
         if (inputs.some(val => val === "")) {
-            if(prices) prices.value = null
+            if (prices) prices.value = null
             return;
         }
         showPrices(inputs)
     }, {
         deep: true
     });
+
+
+watch(() => form.children, (ch) => {
+
+    let children = ch > 10 ? 10 : ch;
+
+    if (!children) {
+        form.children_age = [];
+        return
+    }
+
+    const diff = children - form.children_age.length;
+
+    if (diff > 0) {
+        const ages = Array.from({length: diff}, () => ({age: ''}));
+        form.children_age.push(...ages);
+    } else {
+        for (let i = 0; i < Math.abs(diff); i++) {
+            form.children_age.pop();
+        }
+    }
+})
 
 const showPrices = (inputs) => {
     const [adults, children, rooms, meal_plan_id, children_age, check_in, check_out] = inputs;
@@ -357,5 +412,9 @@ const submitForm = () => {
 .hotel-highlights i {
     color: var(--accent-color);
     font-size: 16px;
+}
+
+.age {
+    border: 0;
 }
 </style>

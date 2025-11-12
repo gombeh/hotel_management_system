@@ -1,5 +1,5 @@
 <template>
-    <label class="form-label">{{label}}</label>
+    <label class="form-label" v-if="label">{{label}}</label>
     <div class="table-responsive">
         <table class="table mb-0">
             <thead>
