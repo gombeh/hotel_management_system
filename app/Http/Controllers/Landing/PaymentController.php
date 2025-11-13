@@ -24,7 +24,7 @@ class PaymentController extends Controller
 {
     public function create(Booking $booking)
     {
-        if(!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()){
+        if (!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 
@@ -46,7 +46,7 @@ class PaymentController extends Controller
      */
     public function store(Booking $booking)
     {
-        if(!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()){
+        if (!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
             abort(403);
         }
 
@@ -68,20 +68,27 @@ class PaymentController extends Controller
         return response()->json(['client_secret' => $intent->client_secret]);
     }
 
-    /**
-     * @throws ApiErrorException
-     */
     public function confirmPayment(Request $request)
     {
         $paymentIntentId = $request->input('payment_intent');
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $intent = PaymentIntent::retrieve($paymentIntentId);
+        try {
+            $intent = PaymentIntent::retrieve($paymentIntentId);
+        } catch (\Exception $e) {
+            return redirect()->route('home');
+        }
+
+        $bookingId = $intent['metadata']['booking_id'] ?? null;
+        $booking = $bookingId ? Booking::find($bookingId) : null;
+
+        if (!$booking) {
+            return redirect()->route('home');
+        }
 
         if ($intent->status === 'succeeded') {
-            DB::Transaction(function () use ($intent) {
-                $booking = Booking::find($intent['metadata']['booking_id']);
+            DB::Transaction(function () use ($intent, $booking) {
                 $booking->update([
                     'status' => BookingStatus::RESERVED,
                     'payment_status' => BookingPayment::PAID,
@@ -99,22 +106,22 @@ class PaymentController extends Controller
                 ]);
             });
 
-            return redirect()->intended(route('bookings.success', $intent['metadata']['booking_id']));
+            return redirect()->intended(route('bookings.success', $booking));
         }
 
-        return redirect()->intended(route('payments.failed'));
+        return redirect()->intended(route('bookings.failed', $booking));
     }
 
     public function success(Booking $booking)
     {
-        if(
+        if (
             $booking->payment_status !== BookingPayment::PAID->value ||
             $booking->customer_id !== auth('customer')->id()
         ) {
             abort(403);
         }
 
-        $roomType = RoomType::whereHas('rooms.bookings', fn ($query) => $query->whereKey($booking->id))->first();
+        $roomType = RoomType::whereHas('rooms.bookings', fn($query) => $query->whereKey($booking->id))->first();
         $roomType->load('media', 'bedTypes');
 
         $booking->load(['charges', 'mealPlan', 'customer', 'rooms', 'payments'])->loadCount('rooms');
@@ -122,8 +129,8 @@ class PaymentController extends Controller
             'booking' => BookingResource::make($booking),
             'roomType' => RoomTypeResource::make($roomType),
             'charges' => ChargeType::asSelect(),
-            'statuses' =>  BookingStatus::asSelect(),
-            'bookingPayments' =>  BookingPayment::asSelect(),
+            'statuses' => BookingStatus::asSelect(),
+            'bookingPayments' => BookingPayment::asSelect(),
             'smokings' => SmokingPreference::asSelect(),
             'types' => PaymentType::asSelect(),
             'methods' => PaymentMethod::asSelect(),
@@ -131,8 +138,14 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function failed()
+    public function failed(Booking $booking)
     {
-        return inertia('Landing/Failed');
+//        if (!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
+//            abort(403);
+//        }
+
+        return inertia('Landing/Failed', [
+            'booking' => BookingResource::make($booking),
+        ]);
     }
 }

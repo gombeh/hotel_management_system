@@ -46,6 +46,6 @@ Route::middleware(['auth:customer', 'verified.customer'])->withoutMiddleware('au
     Route::post('/bookings/{booking}/payments', [PaymentController::class, 'store'])->name('bookings.payments.store');
     Route::post('payments/confirm', [PaymentController::class, 'confirmPayment'])->name('payments.confirm');
     Route::get('bookings/{booking}/success', [PaymentController::class, 'success'])->name('bookings.success');
-    Route::get('payments/failed', [PaymentController::class, 'failed'])->name('payments.failed');
+    Route::get('bookings/{booking}/failed', [PaymentController::class, 'failed'])->name('bookings.failed');
 });
 
