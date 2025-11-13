@@ -74,16 +74,21 @@ class   Booking extends Model
 
     public function scopeActiveOverlap($query, $checkIn, $checkOut)
     {
-         $query->where('check_in', '<', $checkOut)
+        $query->where('check_in', '<', $checkOut)
             ->where('check_out', '>', $checkIn)
             ->where(function (Builder $query) use ($checkIn, $checkOut) {
                 $query->whereIn('status', [BookingStatusEnum::RESERVED, BookingStatusEnum::CHECK_IN]);
                 $query->orWhere(
                     fn(Builder $query) => $query->where('status', BookingStatusEnum::PENDING)
-                    ->where('lock_until_at', '>=', now())
+                        ->where('lock_until_at', '>=', now())
                 );
             });
 
+    }
+
+    public function isPayable(): bool
+    {
+        return $this->status === BookingStatusEnum::PENDING && $this->lock_until_at->gte(now());
     }
 
     public static function booted(): void

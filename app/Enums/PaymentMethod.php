@@ -15,4 +15,7 @@ enum PaymentMethod: string
 
     #[Display('Bank Transfer', 'bg-warning-lt')]
     case BANK_TRANSFER = 'bank_transfer';
+
+    #[Display('Online', 'bg-warning-lt')]
+    case ONLINE = 'online';
 }

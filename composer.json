@@ -18,6 +18,7 @@
         "spatie/laravel-medialibrary": "^11.15",
         "spatie/laravel-permission": "^6.21",
         "spatie/laravel-query-builder": "^6.3",
+        "stripe/stripe-php": "^18.2",
         "tightenco/ziggy": "^2.5"
     },
     "require-dev": {

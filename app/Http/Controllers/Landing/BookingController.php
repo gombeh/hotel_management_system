@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Landing;
 
 use App\Enums\BookingStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentType;
 use App\Enums\SmokingPreference;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Booking\PricesRequest;
@@ -48,8 +50,13 @@ class BookingController extends Controller
 
         $booking = $bookingService->create($data);
 
-        return redirect()->intended(route('home'))
-            ->with('success', 'Booking has been created.');
+        $booking->payments()->create([
+            'amount' => $booking->total_price,
+            'type' => PaymentType::DEPOSIT,
+            'payment_method' => PaymentMethod::ONLINE,
+        ]);
+
+        return redirect()->intended(route('bookings.payments.create', $booking));
     }
 
     public function prices(PricesRequest $request, BookingService $bookingService)

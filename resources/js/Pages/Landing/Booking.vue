@@ -45,7 +45,7 @@
                                         <span>{{ roomType.size }} m²</span>
                                     </div>
                                     <div class="capacity-item">
-                                        <i class="bi bi-bed"></i>
+                                        <i class="bi bi-house"></i>
                                         <span v-text="roomType.bedTypes.map(rt => rt.name).join(' + ')"></span>
                                     </div>
                                 </div>
@@ -95,11 +95,11 @@
                             <h3 class="text-lg-start m-0">Your price summary</h3>
                             <div class="d-flex flex-column gap-4 mt-4">
                                 <div class="d-flex justify-content-between">
-                                    <span><i class="bi bi-house me-2"></i>Room Price</span>
+                                    <span><i class="bi bi-house me-2"></i>Room</span>
                                     <span> ${{ prices.totalRooms }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <span><i class="bi bi-egg-fried me-2"></i>Meal Plan Price</span>
+                                    <span><i class="bi bi-egg-fried me-2"></i>Meal Plan</span>
                                     <span>${{ prices.mealPlan }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">

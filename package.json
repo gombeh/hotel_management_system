@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.1.6",
+        "@stripe/stripe-js": "^8.4.0",
         "@tabler/core": "^1.4.0",
         "@tabler/icons-vue": "^3.35.0",
         "@vitejs/plugin-vue": "^6.0.1",

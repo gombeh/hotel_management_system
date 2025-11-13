@@ -38,6 +38,7 @@ class BookingResource extends JsonResource
             'deposit_amount' => $this->deposit_amount,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'access' => $this->whenNotNull($this->access),
+            'rooms_count' => $this->whenNotNull($this->rooms_count),
         ];
     }
 }

@@ -53,7 +53,7 @@
                                 <span>{{ roomType.size }} m²</span>
                             </div>
                             <div class="capacity-item">
-                                <i class="bi bi-bed"></i>
+                                <i class="bi bi-house"></i>
                                 <span v-text="roomType.bedTypes.map(rt => rt.name).join(' + ')"></span>
                             </div>
                         </div>

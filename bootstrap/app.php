@@ -4,6 +4,7 @@ use App\Http\Middleware\CustomerIsVerified;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\IsAuthorize;
 use App\Http\Middleware\PaginationValidation;
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Providers\AuthProvider;
 use App\Providers\DatabaseSessionProvider;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             HandleInertiaRequests::class,
+            VerifyCsrfToken::class,
         ]);
 
         $middleware->alias([
