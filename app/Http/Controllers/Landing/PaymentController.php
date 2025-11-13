@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Landing;
 use App\Enums\BookingPayment;
 use App\Enums\BookingStatus;
 use App\Enums\ChargeType;
+use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Enums\PaymentType;
+use App\Enums\SmokingPreference;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\RoomTypeResource;
 use App\Models\Booking;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Stripe\Exception\ApiErrorException;
@@ -103,13 +107,27 @@ class PaymentController extends Controller
 
     public function success(Booking $booking)
     {
-        if($booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
+        if(
+            $booking->payment_status !== BookingPayment::PAID->value ||
+            $booking->customer_id !== auth('customer')->id()
+        ) {
             abort(403);
         }
 
-        $booking->load(['charges'])->loadCount('rooms');
+        $roomType = RoomType::whereHas('rooms.bookings', fn ($query) => $query->whereKey($booking->id))->first();
+        $roomType->load('media', 'bedTypes');
+
+        $booking->load(['charges', 'mealPlan', 'customer', 'rooms', 'payments'])->loadCount('rooms');
         return inertia('Landing/Success', [
             'booking' => BookingResource::make($booking),
+            'roomType' => RoomTypeResource::make($roomType),
+            'charges' => ChargeType::asSelect(),
+            'statuses' =>  BookingStatus::asSelect(),
+            'bookingPayments' =>  BookingPayment::asSelect(),
+            'smokings' => SmokingPreference::asSelect(),
+            'types' => PaymentType::asSelect(),
+            'methods' => PaymentMethod::asSelect(),
+            'paymentStatuses' => PaymentStatus::asSelect(),
         ]);
     }
 
