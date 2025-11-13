@@ -140,9 +140,9 @@ class PaymentController extends Controller
 
     public function failed(Booking $booking)
     {
-//        if (!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
-//            abort(403);
-//        }
+        if (!$booking->isPayable() || $booking->customer_id !== auth('customer')->id()) {
+            abort(403);
+        }
 
         return inertia('Landing/Failed', [
             'booking' => BookingResource::make($booking),
