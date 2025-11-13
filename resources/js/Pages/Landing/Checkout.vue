@@ -27,7 +27,7 @@
                                 <img :src="roomType.mainImage[0].url" alt="Hotel luxury showcase" class="img-fluid">
                             </div>
                             <div class="card-body room-details">
-                                <Link :href="route('roomTypes.show', {roomType: roomType.slug, filters})"><h3
+                                <Link :href="route('roomTypes.show', {roomType: roomType.slug})"><h3
                                     class="text-lg-start">{{ roomType.name }}l</h3></Link>
                                 <div class="room-capacity mb-4">
                                     <div class="capacity-item">
