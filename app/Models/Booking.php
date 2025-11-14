@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookingPayment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -83,12 +84,16 @@ class   Booking extends Model
                         ->where('lock_until_at', '>=', now())
                 );
             });
-
     }
 
     public function isPayable(): bool
     {
-        return $this->status === BookingStatusEnum::PENDING && $this->lock_until_at->gte(now());
+        return $this->status === BookingStatusEnum::PENDING->value && $this->lock_until_at->gte(now());
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->payment_status === BookingPayment::PAID->value;
     }
 
     public static function booted(): void

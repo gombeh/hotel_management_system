@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Customer\Auth;
 
 use App\Enums\CustomerStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\CompleteRegisterRequest;
+use App\Http\Requests\Customer\Auth\CompleteRegisterRequest;
 use App\Models\Customer;
 use App\Services\OtpService;
 use Illuminate\Http\Request;

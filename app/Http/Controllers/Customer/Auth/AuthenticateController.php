@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Customer\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Customer\Auth\LoginRequest;
 
 class AuthenticateController extends Controller
 {

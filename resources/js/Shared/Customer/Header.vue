@@ -1,21 +1,5 @@
 <template>
     <header id="header" class="header sticky-top">
-
-        <div class="topbar d-flex align-items-center dark-background">
-            <div class="container d-flex justify-content-center justify-content-md-between">
-                <div class="contact-info d-flex align-items-center">
-                    <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:contact@example.com">contact@example.com</a></i>
-                    <i class="bi bi-phone d-flex align-items-center ms-4"><span>+1 5589 55488 55</span></i>
-                </div>
-                <div class="social-links d-none d-md-flex align-items-center">
-                    <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-        </div><!-- End Top Bar -->
-
         <div class="branding d-flex align-items-cente">
 
             <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -29,26 +13,51 @@
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><Link :href="route('home')" :class="{'active': $page.url === '/'}">Home</Link></li>
-                        <li><Link :href="route('roomTypes.index')" :class="{'active': $page.url === route('roomTypes.index')}">Rooms</Link></li>
-                        <li><a href="amenities.html">Amenities</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li v-if="!customer"><Link :href="route('login')">Login</Link></li>
-                        <li v-if="!customer"><Link :href="route('register')">Register</Link></li>
-                        <li class="dropdown" v-if="customer">
+                        <li>
+                            <Link
+                                :href="route('customer.dashboard')"
+                                :class="{'active': $page.url === route('customer.dashboard', {}, false)}">
+                                <i class="bi bi-house me-2 fs-6"></i>
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                :href="route('customer.bookings.index')"
+                                :class="{'active': $page.url === route('customer.bookings.index', {}, false)}">
+                                <i class="bi bi bi-calendar3 me-2 fs-6"></i>
+                                Bookings
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                :href="route('customer.payments.index')"
+                                :class="{'active': $page.url === route('customer.payments.index', {}, false)}">
+                                <i class="bi bi-wallet2 me-2 fs-6"></i>
+                                Payments
+                            </Link>
+                        </li>
+                        <li class="dropdown">
                             <a href="#profile">
                                 <div class="rounded-5 me-2 mx-1"
                                      style="background: #ffb700; round: 100%; overflow: hidden">
-                                    <img width="30" height="30" :src="getMediaUrl(customer.avatar[0], 'thumb')" alt="avtar"/>
+                                    <img width="30" height="30" :src="getMediaUrl(customer.avatar[0], 'thumb')"
+                                         alt="avtar"/>
                                 </div>
                                 <span class="me-1">{{ customer.full_name }}</span>
                                 <i class="bi bi-chevron-down toggle-dropdown"></i>
                             </a>
                             <ul>
                                 <li>
-                                    <Link :href="route('customer.dashboard')" class="d-inline-block">
+                                    <Link :href="route('customer.profile.edit')" class="d-inline-block">
                                         <i class="bi bi-person me-2" style="font-size: 18px"></i>
-                                        <span>My Account</span>
+                                        <span>Profile</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link :href="route('customer.password.edit')" class="d-inline-block">
+                                        <i class="bi bi-unlock2 me-2" style="font-size: 18px"></i>
+                                        <span>Change Password</span>
                                     </Link>
                                 </li>
                                 <li>

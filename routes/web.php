@@ -5,6 +5,9 @@ use App\Http\Controllers\Customer\Auth\ForgetPasswordController;
 use App\Http\Controllers\Customer\Auth\RegisterController;
 use App\Http\Controllers\Customer\Auth\ResetPasswordController;
 use App\Http\Controllers\Customer\Auth\VerifyCodeController;
+use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\Customer\PasswordController;
+use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Landing\BookingController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Landing\PaymentController;
@@ -47,5 +50,18 @@ Route::middleware(['auth:customer', 'verified.customer'])->withoutMiddleware('au
     Route::post('payments/confirm', [PaymentController::class, 'confirmPayment'])->name('payments.confirm');
     Route::get('bookings/{booking}/success', [PaymentController::class, 'success'])->name('bookings.success');
     Route::get('bookings/{booking}/failed', [PaymentController::class, 'failed'])->name('bookings.failed');
+
+    Route::prefix('/customer')->name('customer.')->group(function() {
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+        Route::get('/bookings', [\App\Http\Controllers\Customer\BookingController::class, 'index'])->name('bookings.index');
+        Route::get('/payments', [\App\Http\Controllers\Customer\PaymentController::class, 'index'])->name('payments.index');
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+        Route::get('/password', [PasswordController::class, 'edit'])->name('password.edit');
+        Route::post('/password', [PasswordController::class, 'update'])->name('password.save');
+    });
 });
 

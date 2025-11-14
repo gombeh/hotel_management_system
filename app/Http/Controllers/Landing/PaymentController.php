@@ -115,7 +115,7 @@ class PaymentController extends Controller
     public function success(Booking $booking)
     {
         if (
-            $booking->payment_status !== BookingPayment::PAID->value ||
+            !$booking->isPaid() ||
             $booking->customer_id !== auth('customer')->id()
         ) {
             abort(403);
