@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\AuthenticateController;
 use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\BedTypeController;
+use App\Http\Controllers\Admin\BookingCheckController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BookingPaymentController;
 use App\Http\Controllers\Admin\CancellationRuleController;
@@ -80,6 +81,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('bookings/rooms-types', [BookingController::class, 'roomTypes'])->name('bookings.roomTypes');
     Route::post('bookings/prices', [BookingController::class, 'prices'])->name('bookings.prices');
+
+    Route::post('/bookings/{booking}/check-in', [BookingCheckController::class, 'checkIn'])
+        ->name('bookings.checkin');
+
+    Route::post('/bookings/{booking}/check-out', [BookingCheckController::class, 'checkOut'])
+        ->name('bookings.checkout');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');

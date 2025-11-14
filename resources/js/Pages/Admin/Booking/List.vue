@@ -9,8 +9,8 @@
             <div class="btn-list">
 
                 <Link :href="route('admin.bookings.create')" class="btn btn-primary btn-5 d-none d-sm-inline-block"
-                        v-if="access.createBookings"
-                        @click="openModal = !openModal">
+                      v-if="access.createBookings"
+                      @click="openModal = !openModal">
                     <IconPlus class="icon icon-2"/>
                     New Record
                 </Link>
@@ -56,7 +56,7 @@
                         <td>{{ booking.children }}</td>
                         <td>{{ booking.check_in }}</td>
                         <td>{{ booking.check_out }}</td>
-                        <td>{{ booking.rooms.map(r => r.room_number).join(', ')}}</td>
+                        <td>{{ booking.rooms.map(r => r.room_number).join(', ') }}</td>
                         <td>
                             <span class="badge" :class="displayStatus(booking.status).bgClass">
                                 {{ displayStatus(booking.status).label }}
@@ -69,13 +69,27 @@
                                     Actions
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
-                                    <Link :href="route('admin.bookings.show', booking.id)" class="dropdown-item" v-if="booking.access.show">
+                                    <Link :href="route('admin.bookings.show', booking.id)" class="dropdown-item"
+                                          v-if="booking.access.show">
                                         <IconEye class="icon icon1"/>
                                         Show
                                     </Link>
-                                    <Link :href="route('admin.bookings.payments.index', booking.id)" class="dropdown-item" v-if="booking.access.payments">
+                                    <Link :href="route('admin.bookings.payments.index', booking.id)"
+                                          class="dropdown-item" v-if="booking.access.payments">
                                         <IconCreditCard class="icon icon1"/>
                                         Payments
+                                    </Link>
+                                    <button @click="() => confirmCheck(route('admin.bookings.checkin', booking.id), 'Check-in', booking.customer.full_name)"
+                                            class="dropdown-item"
+                                            v-if="booking.access.checkIn">
+                                        <IconDoorEnter class="icon icon1"/>
+                                        Check In
+                                    </button>
+                                    <Link @click="() => confirmCheck(route('admin.bookings.checkout', booking.id), 'Check-out', booking.customer.full_name)"
+                                          class="dropdown-item"
+                                          v-if="booking.access.checkOut">
+                                        <IconDoorExit class="icon icon1"/>
+                                        Check Out
                                     </Link>
                                 </div>
                             </div>
@@ -102,10 +116,10 @@ import {ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
-import {IconPlus, IconEye, IconCreditCard} from '@tabler/icons-vue';
-import {useConfirm} from "../../../Composables/useConfirm.js";
+import {IconPlus, IconEye, IconCreditCard, IconDoorEnter, IconDoorExit} from '@tabler/icons-vue';
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
+import Swal from "sweetalert2";
 
 const props = defineProps({
     'bookings': Object,
@@ -117,11 +131,27 @@ const props = defineProps({
     'access': Object,
 });
 
-const confirmDelete = useConfirm();
 const {
     display: displayStatus
 } = useEnum(props.statuses)
 
+
+const confirmCheck = (url, action, customer) => {
+    Swal.fire({
+        title:  'Confirm ' + action,
+        html: `<div style="text-align: left">Are you sure you want to ${action} the booking for customer <b>${customer}</b>?</br>
+This action is final and will be officially recorded in the system.</div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: `Yes, ${action} now`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.post(url)
+        }
+    })
+}
 
 const filters = ref(props.filters);
 const sorts = ref(props.sorts);

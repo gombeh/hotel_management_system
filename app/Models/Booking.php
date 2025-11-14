@@ -31,6 +31,7 @@ class   Booking extends Model
 
     protected $casts = [
         'status' => BookingStatusEnum::class,
+        'payment_status' => BookingPayment::class,
         'check_in' => 'date',
         'check_out' => 'date',
         'lock_until_at' => 'datetime',
@@ -88,12 +89,12 @@ class   Booking extends Model
 
     public function isPayable(): bool
     {
-        return $this->status === BookingStatusEnum::PENDING->value && $this->lock_until_at->gte(now());
+        return $this->status === BookingStatusEnum::PENDING && $this->lock_until_at->gte(now());
     }
 
     public function isPaid(): bool
     {
-        return $this->payment_status === BookingPayment::PAID->value;
+        return $this->payment_status === BookingPayment::PAID;
     }
 
     public static function booted(): void

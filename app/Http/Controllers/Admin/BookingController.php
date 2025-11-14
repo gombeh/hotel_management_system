@@ -40,6 +40,13 @@ class BookingController extends Controller
             ->through(fn($booking) => $booking->setAttribute('access', [
                 'payments' => $user->can('viewAny', [Payment::class, $booking]),
                 'show' => $user->can('show', $booking),
+                'checkIn' => $user->can('checkIn', $booking) &&
+                    $booking->check_in->lte(now()->startOfDay()) &&
+                    $booking->status === BookingStatus::RESERVED,
+                'checkOut' => $user->can('checkOut', $booking) &&
+                    $booking->check_out->lte(now()->startOfDay()) &&
+                    $booking->status === BookingStatus::CHECK_IN &&
+                    $booking->payment_status === BookingPayment::PAID
             ]));
 
         return inertia('Admin/Booking/List', [
