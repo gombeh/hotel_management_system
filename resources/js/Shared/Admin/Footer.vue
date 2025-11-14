@@ -9,7 +9,7 @@
                             <a href="https://github.com/gombeh/hotel_management_system" target="_blank" class="link-secondary" rel="noopener">Source code</a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="https://github.com/sponsors/gombeh" target="_blank" class="link-secondary" rel="noopener">
+                            <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
                                 <IconHeart class="icon icon-2 text-pink" />
                                 Sponsor
                             </a>

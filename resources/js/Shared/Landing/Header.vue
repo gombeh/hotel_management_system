@@ -33,7 +33,6 @@
                         <li><Link :href="route('roomTypes.index')" :class="{'active': $page.url === route('roomTypes.index')}">Rooms</Link></li>
                         <li><a href="amenities.html">Amenities</a></li>
                         <li><a href="about.html">About</a></li>
-                        <span style="font-size: 20px">|</span>
                         <li v-if="!customer"><Link :href="route('login')">Login</Link></li>
                         <li v-if="!customer"><Link :href="route('register')">Register</Link></li>
                         <li class="dropdown" v-if="customer">

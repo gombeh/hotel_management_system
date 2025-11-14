@@ -7,7 +7,7 @@
                     <IconBrandGithub class="icon icon-2"/>
                     Source code
                 </a>
-                <a href="https://github.com/sponsors/gombeh" class="btn btn-6" target="_blank" rel="noreferrer">
+                <a href="https://github.com/sponsors/codecalm" class="btn btn-6" target="_blank" rel="noreferrer">
                     <IconHeart class="icon icon-2 text-pink"/>
                     Sponsor
                 </a>

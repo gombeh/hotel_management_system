@@ -6,7 +6,7 @@
                 <div class="row gy-4">
                     <div class="col-lg-4 col-md-6 footer-about">
                         <a href="index.html" class="logo d-flex align-items-center">
-                            <span class="sitename">Grandoria</span>
+                            <span class="sitename">Hotel Homa</span>
                         </a>
                         <div class="footer-contact pt-3">
                             <p>A108 Adam Street</p>
@@ -69,14 +69,14 @@
 
                 <div class="d-flex flex-column align-items-center align-items-lg-start">
                     <div>
-                        © Copyright <strong><span>MyWebsite</span></strong>. All Rights Reserved
+                        © Copyright <strong><span>Homa</span></strong>. All Rights Reserved
                     </div>
                     <div class="credits">
                         <!-- All the links in the footer should remain intact. -->
                         <!-- You can delete the links only if you purchased the pro version. -->
                         <!-- Licensing information: https://bootstrapmade.com/license/ -->
                         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
-                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        Designed by <a class="text-white" href="https://bootstrapmade.com/">BootstrapMade</a>
                     </div>
                 </div>
 
