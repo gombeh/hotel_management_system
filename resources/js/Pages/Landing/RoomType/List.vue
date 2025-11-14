@@ -35,7 +35,7 @@
                         <div class="col-md-4">
                             <label for="guests" class="form-label">Guests</label>
                             <div class="border bg-white rounded px-4 position-relative cursor-pointer"
-                                 style="padding: .375rem .75rem;">
+                                 style="padding: .75rem;">
                                 <div class="d-flex justify-content-between flex-grow-1"
                                      @click="showGuests = !showGuests">
                                     <i class="bi bi-people-fill"
@@ -55,7 +55,7 @@
                                 </div>
                                 <div
                                     class="border shadow position-absolute w-full bg-white rounded p-4 d-flex flex-column gap-3"
-                                    style="left: 0; top: 45px; z-index: 9" v-if="showGuests">
+                                    style="left: 0; top: 53px; z-index: 9" v-if="showGuests">
                                     <div>
                                         <label for="adults" class="form-label">Adults</label>
                                         <input type="number" min="1" v-model="form.adults" class="form-control"
@@ -164,3 +164,13 @@ const submitForm = () => {
 }
 
 </script>
+
+<style scoped>
+.form-control {
+    padding: 0.75rem;
+}
+
+.btn-origin {
+    padding: 0.75rem
+}
+</style>
