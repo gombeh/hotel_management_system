@@ -96,6 +96,18 @@
                                         <IconEye class="icon icon1"/>
                                         Show
                                     </Link>
+                                    <Link class="dropdown-item align-middle"
+                                          :href="route('admin.bookings.index', {'filters[customer_id]':customer.id})"
+                                          v-if="customer.access.show">
+                                        <IconCalendarCheck class="icon icon1"/>
+                                        Bookings
+                                    </Link>
+                                    <Link class="dropdown-item align-middle"
+                                          :href="route('admin.payments.index', {'filters[customer_id]':customer.id})"
+                                          v-if="customer.access.show">
+                                        <IconBrandMastercard class="icon icon1"/>
+                                        Payments
+                                    </Link>
                                     <button class="dropdown-item align-middle" @click="openEditModal(customer)"
                                             v-if="customer.access.edit">
                                         <IconEdit class="icon icon1"/>
@@ -137,7 +149,7 @@ import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
 import Create from "./Create.vue";
-import {IconEdit, IconTrash, IconPlus, IconSearch, IconEye} from '@tabler/icons-vue';
+import {IconEdit, IconTrash, IconPlus, IconSearch, IconEye, IconCalendarCheck, IconBrandMastercard} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
