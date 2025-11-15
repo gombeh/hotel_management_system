@@ -30,11 +30,15 @@ class PaymentPolicy extends BasePolicy
             ->whereIn('status', [PaymentStatus::PENDING, PaymentStatus::PAID])
             ->sum('amount');
 
-        if($paymentPrice === $booking->total_price){
+        if ($paymentPrice === $booking->total_price) {
             return false;
         }
         return $this->defaultValidation($user, __FUNCTION__);
     }
 
+    public function all(User $user): bool
+    {
+        return $this->defaultValidation($user, __FUNCTION__);
+    }
 
 }

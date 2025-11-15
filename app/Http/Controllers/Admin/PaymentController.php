@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Attributes\Authorize;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentType;
@@ -16,11 +17,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PaymentController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource('App\Models\Payment,booking', 'payment,booking');
-    }
-
+    #[Authorize('all', Payment::class)]
     public function index(Request $request)
     {
         $limit = $request->limit;

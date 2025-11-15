@@ -25,5 +25,8 @@ return [
         'update' => 'Edit',
         'delete' => 'Delete',
         'permissions' => 'Permissions',
+        'checkIn' => 'Check-in',
+        'checkOut' => 'Check-out',
+        'all' => 'All',
     ]
 ];
