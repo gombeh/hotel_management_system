@@ -60,7 +60,7 @@ import {
     IconHome, IconUsers, IconUser,
     IconShieldLock, IconBuildingSkyscraper,
     IconWorld, IconBed, IconClipboardData, IconSofa, IconBuildingBurjAlArab, IconMeat,
-    IconScale, IconUserCircle, IconCalendarWeek, IconCalendarCheck
+    IconScale, IconUserCircle, IconCalendarWeek, IconCalendarCheck, IconBrandMastercard
 } from "@tabler/icons-vue"
 import {usePage} from '@inertiajs/vue3'
 import {h} from "vue";
@@ -143,6 +143,11 @@ const links = [
                 name: "Bookings",
                 routeName: 'admin.bookings.index',
                 icon: h(IconCalendarCheck)
+            },
+            {
+                name: "Payments",
+                routeName: 'admin.payments.index',
+                icon: h(IconBrandMastercard)
             },
         ]
     }

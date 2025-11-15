@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\MealPlanController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PasswordController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -87,6 +88,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/bookings/{booking}/check-out', [BookingCheckController::class, 'checkOut'])
         ->name('bookings.checkout');
+
+    Route::get('payments', [PaymentController::class, 'index'])->name('payments.index')
+        ->middleware( 'pagination.validation');
 
     Route::post('media/upload', [MediaController::class, 'upload'])->name('media.upload');
     Route::delete('media/{media}/delete', [MediaController::class, 'delete'])->name('media.delete');
