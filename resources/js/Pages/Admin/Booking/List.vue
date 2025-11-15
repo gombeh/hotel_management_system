@@ -64,6 +64,12 @@
                 <div class="row mt-3">
                     <div class="col-2">
                         <select-box
+                            placeholder="All Payment Status"
+                            v-model="filters.payment_status"
+                            :options="selectPaymentStatuses"/>
+                    </div>
+                    <div class="col-2">
+                        <select-box
                             placeholder="All Status"
                             v-model="filters.status"
                             :options="selectStatuses"/>
@@ -183,12 +189,17 @@ const props = defineProps({
     'sorts': String,
     'limit': Number,
     'access': Object,
+    'paymentStatuses': Array,
 });
 
 const {
     select: selectStatuses,
     display: displayStatus
 } = useEnum(props.statuses)
+
+const {
+    select: selectPaymentStatuses,
+} = useEnum(props.paymentStatuses)
 
 
 const confirmCheck = (url, action, customer) => {

@@ -46,6 +46,7 @@ class BookingController extends Controller
                 AllowedFilter::exact('customer_id'),
                 AllowedFilter::exact('ref_number'),
                 AllowedFilter::exact('status'),
+                AllowedFilter::exact('payment_status'),
                 AllowedFilter::exact('room_number', 'rooms.room_number'),
                 AllowedFilter::custom('check_in', new FilterDate),
                 AllowedFilter::custom('check_out', new FilterDate),
@@ -77,6 +78,7 @@ class BookingController extends Controller
         return inertia('Admin/Booking/List', [
             'smokingPreferences' => SmokingPreference::asSelect(),
             'statuses' => BookingStatus::asSelect(),
+            'paymentStatuses' => BookingPayment::asSelect(),
             'bookings' => BookingResource::collection($bookings),
             'customers' => $customers,
             'filters' => request()->input('filters') ?? (object)[],
