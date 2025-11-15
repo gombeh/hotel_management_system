@@ -57,3 +57,11 @@ if(!function_exists('keys_not_null')) {
         return array_every($keys, fn($key) => !is_null($arr[$key]));
     }
 }
+
+if(!function_exists('validateDate')) {
+    function validateDate(string $date, $format = 'Y-m-d H:i:s'): bool {
+        $d = DateTime::createFromFormat($format, $date);
+
+        return $d && $d->format($format) == $date;
+    }
+}

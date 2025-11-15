@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Facility;
 use App\Models\RoomType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -57,6 +58,20 @@ class AppServiceProvider extends ServiceProvider
             $routeName = $user instanceof User ? 'admin.password.reset' : 'password.reset';
 
             return route($routeName, ['token' => $token, 'email' => $user->email]);
+        });
+
+        Carbon::macro('createOrNow', function($value, $format = 'Y-m-d H:i:s'): Carbon {
+            if(empty($value)) {
+                return Carbon::now();
+            }
+
+            if(is_string($value)) {
+                if(validateDate($value, $format)) {
+                    return Carbon::createFromFormat($format, $value);
+                }
+                return Carbon::now();
+            }
+            return Carbon::createFromFormat($format, $value);
         });
     }
 }

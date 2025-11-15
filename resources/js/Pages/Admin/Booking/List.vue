@@ -45,6 +45,24 @@
                                class="form-control" autocomplete="off" v-model="filters.room_number">
                     </div>
                     <div class="col-2">
+                        <DatePicker
+                            v-model="filters.check_in"
+                            placeholder="Check-in"
+                            range multi-calendars
+                            :time-config="{ enableTimePicker: false }"
+                        />
+                    </div>
+                    <div class="col-2">
+                        <DatePicker
+                            v-model="filters.check_out"
+                            placeholder="Check-out"
+                            range multi-calendars
+                            :time-config="{ enableTimePicker: false }"
+                        />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-2">
                         <select-box
                             placeholder="All Status"
                             v-model="filters.status"
@@ -154,6 +172,7 @@ import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 import Swal from "sweetalert2";
 import SelectBox from "../../../Components/SelectBox.vue";
+import DatePicker from "../../../Components/DatePicker.vue";
 
 const props = defineProps({
     'bookings': Object,

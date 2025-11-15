@@ -17,6 +17,7 @@ use App\Models\MealPlan;
 use App\Models\Payment;
 use App\Models\RoomType;
 use App\Services\BookingService;
+use App\Services\Filters\FilterDate;
 use App\Services\Sorts\MultiColumnSort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class BookingController extends Controller
                 AllowedFilter::exact('ref_number'),
                 AllowedFilter::exact('status'),
                 AllowedFilter::exact('room_number', 'rooms.room_number'),
+                AllowedFilter::custom('check_in', new FilterDate),
+                AllowedFilter::custom('check_out', new FilterDate),
             ])
             ->allowedSorts([
                 'ref_number',
