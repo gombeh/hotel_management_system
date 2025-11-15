@@ -17,8 +17,11 @@ use App\Models\MealPlan;
 use App\Models\Payment;
 use App\Models\RoomType;
 use App\Services\BookingService;
+use App\Services\Sorts\MultiColumnSort;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 
@@ -33,10 +36,29 @@ class BookingController extends Controller
     {
         $limit = $request->limit;
         $user = auth()->user();
+
+        $customers = Customer::all()->pluck('full_name', 'id');
+
         $bookings = QueryBuilder::for(Booking::class)
             ->with(['rooms.type', 'customer'])
+            ->allowedFilters([
+                AllowedFilter::exact('customer_id'),
+                AllowedFilter::exact('ref_number'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('room_number', 'rooms.room_number'),
+            ])
+            ->allowedSorts([
+                'ref_number',
+                AllowedSort::custom('full_name', new MultiColumnSort(['first_name', 'last_name'], 'customer')),
+                'check_in',
+                'check_out',
+                'status',
+                'total_price',
+                'deposit_amount'
+            ])
             ->latest()
             ->paginate($limit)
+            ->withQueryString()
             ->through(fn($booking) => $booking->setAttribute('access', [
                 'payments' => $user->can('viewAny', [Payment::class, $booking]),
                 'show' => $user->can('show', $booking),
@@ -53,6 +75,7 @@ class BookingController extends Controller
             'smokingPreferences' => SmokingPreference::asSelect(),
             'statuses' => BookingStatus::asSelect(),
             'bookings' => BookingResource::collection($bookings),
+            'customers' => $customers,
             'filters' => request()->input('filters') ?? (object)[],
             'sorts' => request()->input('sorts') ?? "",
             'limit' => $limit,

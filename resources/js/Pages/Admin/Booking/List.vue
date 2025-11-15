@@ -27,6 +27,33 @@
                     <h3 class="card-title mb-0">Bookings</h3>
                     <p class="text-secondary m-0">List Bookings.</p>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <select-box
+                            placeholder="All Customers"
+                            v-model="filters.customer_id"
+                            :options="customers"/>
+                    </div>
+                    <div class="input-group input-group-flat w-auto col-2">
+                        <input id="advanced-table-search" type="number"
+                               placeholder="Ref Number"
+                               class="form-control" autocomplete="off" v-model="filters.ref_number">
+                    </div>
+                    <div class="input-group input-group-flat w-auto col-2">
+                        <input id="advanced-table-search" type="number"
+                               placeholder="Room Number"
+                               class="form-control" autocomplete="off" v-model="filters.room_number">
+                    </div>
+                    <div class="col-2">
+                        <select-box
+                            placeholder="All Status"
+                            v-model="filters.status"
+                            :options="selectStatuses"/>
+                    </div>
+                    <Link :href="route('admin.bookings.index')" class="btn btn-primary w-auto">
+                        <IconRestore class="icon m-0"/>
+                    </Link>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-selectable card-table table-vcenter text-nowrap datatable">
@@ -34,12 +61,13 @@
                     <tr>
                         <th class="w-1"></th>
                         <sort-head name="ref_number" v-model="sorts" label="Ref Number"/>
-                        <sort-head name="customer.full_name" v-model="sorts" label="Customer"/>
-                        <SortHead name="adults" v-model="sorts" label="Adults"/>
-                        <SortHead name="children" v-model="sorts" label="Children"/>
+                        <sort-head name="full_name" v-model="sorts" label="Customer"/>
+                        <th>Guests</th>
                         <SortHead name="check_in" v-model="sorts" label="Check IN"/>
                         <SortHead name="check_out" v-model="sorts" label="Check OUT"/>
-                        <SortHead name="rooms" v-model="sorts" label="Rooms"/>
+                        <th>Rooms</th>
+                        <SortHead name="total_price" v-model="sorts" label="Total Price"/>
+                        <SortHead name="deposit_amount" v-model="sorts" label="Paid Amount"/>
                         <SortHead name="status" v-model="sorts" label="status"/>
                         <th></th>
                     </tr>
@@ -52,11 +80,16 @@
                         </td>
                         <td>{{ booking.ref_number }}</td>
                         <td>{{ booking.customer.full_name }}</td>
-                        <td>{{ booking.adults }}</td>
-                        <td>{{ booking.children }}</td>
+                        <td>{{ booking.adults }} - {{ booking.children }}</td>
                         <td>{{ booking.check_in }}</td>
                         <td>{{ booking.check_out }}</td>
-                        <td>{{ booking.rooms.map(r => r.room_number).join(', ') }}</td>
+                        <td>
+                            <span :title="booking.rooms.map(r => r.room_number).join(', ')">
+                                {{ booking.rooms.length }} {{ booking.rooms.length === 1 ? 'Room' : 'Rooms' }}
+                            </span>
+                        </td>
+                        <td>${{ booking.total_price }}</td>
+                        <td>${{ booking.deposit_amount }}</td>
                         <td>
                             <span class="badge" :class="displayStatus(booking.status).bgClass">
                                 {{ displayStatus(booking.status).label }}
@@ -116,14 +149,16 @@ import {ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
-import {IconPlus, IconEye, IconCreditCard, IconDoorEnter, IconDoorExit} from '@tabler/icons-vue';
+import {IconPlus, IconEye, IconCreditCard, IconDoorEnter, IconDoorExit, IconRestore} from '@tabler/icons-vue';
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 import Swal from "sweetalert2";
+import SelectBox from "../../../Components/SelectBox.vue";
 
 const props = defineProps({
     'bookings': Object,
     'smokingPreferences': Array,
+    'customers': Object,
     'statuses': Array,
     'filters': Object,
     'sorts': String,
@@ -132,6 +167,7 @@ const props = defineProps({
 });
 
 const {
+    select: selectStatuses,
     display: displayStatus
 } = useEnum(props.statuses)
 

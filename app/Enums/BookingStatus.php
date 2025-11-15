@@ -19,7 +19,7 @@ enum BookingStatus: string
     #[Display('Check Out', 'bg-warning-lt')]
     case CHECK_OUT = "checked_out";
 
-    #[Display('Check Out', 'bg-danger-lt')]
+    #[Display('Cancelled', 'bg-danger-lt')]
     case CANCELLED = "cancelled";
 
     #[Display('Expired', 'bg-dark-lt')]
