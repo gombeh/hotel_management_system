@@ -148,6 +148,12 @@
                                         <IconDoorExit class="icon icon1"/>
                                         Check Out
                                     </Link>
+                                    <button type="button" @click="openCancelModal(booking)"
+                                          class="dropdown-item"
+                                          v-if="booking.access.cancel">
+                                        <IconCalendarX class="icon icon1"/>
+                                        Cancel
+                                    </button>
                                 </div>
                             </div>
                         </td>
@@ -166,20 +172,22 @@
             </div>
         </div>
     </div>
+    <Cancel v-if="editingBooking" :booking="editingBooking"/>
 </template>
 
 <script setup>
-import {ref, toRaw, watch} from "vue";
+import {provide, ref, toRaw, watch} from "vue";
 import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import Pagination from "../../../Shared/Admin/Pagination.vue";
-import {IconPlus, IconEye, IconCreditCard, IconDoorEnter, IconDoorExit, IconRestore} from '@tabler/icons-vue';
+import {IconPlus, IconEye, IconCreditCard, IconDoorEnter, IconDoorExit, IconRestore, IconCalendarX} from '@tabler/icons-vue';
 import SortHead from "../../../Components/SortHead.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 import Swal from "sweetalert2";
 import SelectBox from "../../../Components/SelectBox.vue";
 import DatePicker from "../../../Components/DatePicker.vue";
 import {money_format} from "../../../Utils/helper.js";
+import Cancel from "./Cancel.vue";
 
 const props = defineProps({
     'bookings': Object,
@@ -201,6 +209,16 @@ const {
 const {
     select: selectPaymentStatuses,
 } = useEnum(props.paymentStatuses)
+
+const editingBooking = ref(null);
+
+provide("closeModal", () => {
+    if(editingBooking) editingBooking.value = null
+});
+
+const openCancelModal = (booking) => {
+    editingBooking.value = booking;
+}
 
 
 const confirmCheck = (url, action, customer) => {

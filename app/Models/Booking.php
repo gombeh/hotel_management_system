@@ -103,6 +103,11 @@ class   Booking extends Model
         return $this->payment_status === BookingPayment::PAID;
     }
 
+    public function daysUntilCheckIn(): float
+    {
+        return now()->startOfDay()->diffInDays($this->check_in->startOfDay());
+    }
+
     public static function booted(): void
     {
         static::creating(function (Booking $booking) {

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\AuthenticateController;
 use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\BedTypeController;
+use App\Http\Controllers\Admin\BookingCancelController;
 use App\Http\Controllers\Admin\BookingCheckController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BookingPaymentController;
@@ -88,6 +89,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/bookings/{booking}/check-out', [BookingCheckController::class, 'checkOut'])
         ->name('bookings.checkout');
+
+    Route::get('/bookings/{booking}/cancellation-fee', [BookingCancelController::class, 'cancellationFee'])
+    ->name('bookings.cancellationFee');
+    Route::post('/bookings/{booking}/cancel', [BookingCancelController::class, 'cancel'])
+        ->name('bookings.cancel');
+
 
     Route::get('payments', [PaymentController::class, 'index'])->name('payments.index')
         ->middleware( 'pagination.validation');

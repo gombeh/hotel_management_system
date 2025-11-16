@@ -22,4 +22,9 @@ class BookingPolicy extends BasePolicy
     {
         return $this->defaultValidation($user, __FUNCTION__);
     }
+
+    public function cancel(User $user, Booking $booking): bool
+    {
+        return $this->defaultValidation($user, __FUNCTION__);
+    }
 }
