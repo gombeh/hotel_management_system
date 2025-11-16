@@ -12,10 +12,12 @@ use App\Enums\SmokingPreference;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\RoomTypeResource;
+use App\Mail\BookingConfirmed;
 use App\Models\Booking;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mail;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -105,6 +107,8 @@ class PaymentController extends Controller
                     'status' => BookingStatus::RESERVED,
                 ]);
             });
+
+            Mail::to($booking->customer->email)->send(new BookingConfirmed($booking));
 
             return redirect()->intended(route('bookings.success', $booking));
         }

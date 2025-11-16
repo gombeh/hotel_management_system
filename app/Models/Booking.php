@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\BookingPayment;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -72,6 +73,11 @@ class   Booking extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function guests():Attribute
+    {
+        return Attribute::make(get: fn() => $this->adults + $this->children);
     }
 
     public function scopeActiveOverlap($query, $checkIn, $checkOut)
