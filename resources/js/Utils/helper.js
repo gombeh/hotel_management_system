@@ -60,7 +60,7 @@ export function getMediaUrl(media, conversion = null) {
 }
 
 
-export function number_format(price) {
+export function money_format(price) {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',

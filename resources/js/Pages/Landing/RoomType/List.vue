@@ -116,7 +116,7 @@
                                     <div class="room-footer">
                                         <div class="room-price">
                                             <span class="price-from">From</span>
-                                            <span class="price-amount">{{ number_format(roomType.price) }}</span>
+                                            <span class="price-amount">{{ money_format(roomType.price) }}</span>
                                             <span class="price-period">/ night</span>
                                         </div>
                                         <Link :href="route('roomTypes.show', {
@@ -138,7 +138,7 @@
 </template>
 
 <script setup>
-import {addDays, currentDate, getMediaUrl, number_format} from "../../../Utils/helper.js";
+import {addDays, currentDate, getMediaUrl, money_format} from "../../../Utils/helper.js";
 import {ref} from "vue";
 import {InfiniteScroll, useForm} from "@inertiajs/vue3";
 

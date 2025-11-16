@@ -96,20 +96,22 @@
                             <div class="d-flex flex-column gap-4 mt-4">
                                 <div class="d-flex justify-content-between">
                                     <span><i class="bi bi-house me-2"></i>Room</span>
-                                    <span>{{ number_format(prices.totalRooms) }}</span>
+                                    <span>{{ money_format(prices.totalRooms) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span><i class="bi bi-egg-fried me-2"></i>Meal Plan</span>
-                                    <span>{{ number_format(prices.mealPlan) }}</span>
+                                    <span>{{ money_format(prices.mealPlan) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span><i class="bi bi-bank me-2"></i>Tax </span>
-                                    <span>{{ number_format(prices.tax) }}</span>
+                                    <span>{{ money_format(prices.tax) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <span class="bold text-black" style="font-weight: 700;"><i
                                         class="bi bi-wallet2 me-2"></i>Total Price</span>
-                                    <span class="bold text-black" style="font-weight: 700;">{{ number_format(prices.total) }}</span>
+                                    <span class="bold text-black" style="font-weight: 700;">{{
+                                            money_format(prices.total)
+                                        }}</span>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +301,7 @@
 import {defineProps, onMounted, ref, watch} from "vue";
 import {useEnum} from "../../Composables/useEnum.js";
 import {useForm, usePage} from "@inertiajs/vue3";
-import {addDays, currentDate, diffDays, number_format} from "../../Utils/helper.js";
+import {addDays, currentDate, diffDays, money_format} from "../../Utils/helper.js";
 import moment from "moment/moment.js";
 import SelectBox from "../../Components/SelectBox.vue";
 import Repeater from "../../Components/Repeater.vue";

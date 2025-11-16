@@ -211,7 +211,7 @@
                         </div>
                         <div class="room-summary">
                             <h5>{{ roomType.name}}</h5>
-                            <div class="price-tag">{{ number_format(roomType.price) }}<span>/night</span></div>
+                            <div class="price-tag">{{ money_format(roomType.price) }}<span>/night</span></div>
                             <div class="basic-amenities">
                                 <i class="bi bi-wifi"></i>
                                 <i class="bi bi-tv"></i>
@@ -497,7 +497,7 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import {ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
-import {addDays, currentDate, number_format} from "../../Utils/helper.js";
+import {addDays, currentDate, money_format} from "../../Utils/helper.js";
 
 defineProps({
     'roomTypes': Array

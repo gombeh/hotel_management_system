@@ -54,7 +54,7 @@
                             </td>
                             <td>{{ mealPlan.name }}</td>
                             <td>{{ mealPlan.code }}</td>
-                            <td>{{ number_format(mealPlan.adult_price) }}</td>
+                            <td>{{ money_format(mealPlan.adult_price) }}</td>
                             <td class="text-end">
                                 <div class="dropdown" v-if="Object.values(mealPlan.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
@@ -93,7 +93,7 @@ import Create from "./Create.vue";
 import {IconEdit, IconTrash, IconPlus} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useConfirm} from "../../../Composables/useConfirm.js";
-import {number_format} from "../../../Utils/helper.js";
+import {money_format} from "../../../Utils/helper.js";
 
 const confirmDelete = useConfirm();
 

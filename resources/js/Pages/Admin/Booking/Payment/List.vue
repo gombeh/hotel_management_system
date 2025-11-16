@@ -57,7 +57,7 @@
                                 <input class="form-check-input m-0 align-middle table-selectable-check" type="checkbox"
                                        aria-label="Select invoice" value="true">
                             </td>
-                            <td>{{ number_format(payment.amount) }}</td>
+                            <td>{{ money_format(payment.amount) }}</td>
                             <td>
                                 <span class="badge" :class="displayType(payment.type).bgClass">
                                     {{ displayType(payment.type).label }}
@@ -96,8 +96,10 @@
                             <td colspan="8" class="text-center">Payments Record Not exists.</td>
                         </tr>
                         <tr class="border-top-wide">
-                            <td colspan="4" class="text-center">Total Price: {{ number_format(booking.total_price) }}</td>
-                            <td colspan="4" class="text-center">Deposit Amount: {{ number_format(booking.deposit_amount) }}</td>
+                            <td colspan="4" class="text-center">Total Price: {{ money_format(booking.total_price) }}</td>
+                            <td colspan="4" class="text-center">Deposit Amount: {{
+                                    money_format(booking.deposit_amount)
+                                }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -114,7 +116,7 @@ import Create from "./Create.vue";
 import {IconEdit, IconPlus, IconArrowLeft} from '@tabler/icons-vue';
 import Update from "./Update.vue";
 import {useEnum} from "../../../../Composables/useEnum.js";
-import {number_format} from "../../../../Utils/helper.js";
+import {money_format} from "../../../../Utils/helper.js";
 
 
 const {types,statuses,methods} = defineProps({

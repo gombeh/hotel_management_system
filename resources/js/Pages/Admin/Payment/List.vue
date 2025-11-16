@@ -75,7 +75,7 @@
                                        aria-label="Select invoice" value="true">
                             </td>
                             <th>{{ payment.booking.customer.full_name }}</th>
-                            <td>{{ number_format(payment.amount) }}</td>
+                            <td>{{ money_format(payment.amount) }}</td>
                             <td>
                                 <span class="badge" :class="displayType(payment.type).bgClass">
                                     {{ displayType(payment.type).label }}
@@ -141,7 +141,7 @@ import {debounce} from "@tabler/core/dist/libs/list.js/src/utils/events.js";
 import {router} from "@inertiajs/vue3";
 import SelectBox from "../../../Components/SelectBox.vue";
 import DatePicker from "../../../Components/DatePicker.vue";
-import {number_format} from "../../../Utils/helper.js";
+import {money_format} from "../../../Utils/helper.js";
 
 
 const {types,statuses,methods, ...props} = defineProps({

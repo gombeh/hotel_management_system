@@ -41,7 +41,7 @@
                                     {{ displayStatus(booking.status).label }}
                                 </span>
                             </td>
-                            <td>{{ number_format(booking.total_price) }}</td>
+                            <td>{{ money_format(booking.total_price) }}</td>
                             <td class="text-end" style="width: 100px">
                                 <div class="dropdown" v-if="Object.values(booking.access).some(per => per)">
                                     <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
@@ -74,7 +74,7 @@
 <script setup>
 import {IconEye, IconCreditCard} from '@tabler/icons-vue';
 import {useEnum} from "../../Composables/useEnum.js";
-import {number_format} from "../../Utils/helper.js";
+import {money_format} from "../../Utils/helper.js";
 
 const props = defineProps({
     'bookings': Object,

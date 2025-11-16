@@ -167,24 +167,28 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col d-flex flex-column gap-4">
-                                <div>Total Rooms Price: <span class="text-green bold">{{ number_format(prices.totalRooms) }}</span>
+                                <div>Total Rooms Price: <span class="text-green bold">{{
+                                        money_format(prices.totalRooms)
+                                    }}</span>
                                 </div>
                                 <div :title="`$${roomType.price} / per night`" v-for="roomType in prices.roomTypes">
                                     {{ roomType.name }} Room Price (x{{ roomType.rooms }}):
-                                    <span class="text-green bold">{{ number_format(roomType.totalPrice) }}</span>
+                                    <span class="text-green bold">{{ money_format(roomType.totalPrice) }}</span>
                                 </div>
                             </div>
                             <div class="col d-flex flex-column gap-4">
-                                <div>Total Meal plan Price: <span class="text-green bold">{{ number_format(prices.mealPlan) }}</span>
+                                <div>Total Meal plan Price: <span class="text-green bold">{{
+                                        money_format(prices.mealPlan)
+                                    }}</span>
                                 </div>
                                 <div v-for="mealPlan in prices.mealPlanAges" :title="`$${mealPlan.price} / per night`">
                                     {{ capitalize(mealPlan.name) }} Meal plan Price (x{{ mealPlan.count }}):
-                                    <span class="text-green bold">{{ number_format(mealPlan.totalPrice) }}</span>
+                                    <span class="text-green bold">{{ money_format(mealPlan.totalPrice) }}</span>
                                 </div>
                             </div>
                             <div class="col d-flex flex-column gap-4">
-                                <div>Tax: <span class="text-green bold">{{ number_format(prices.tax) }}</span></div>
-                                <div>Total Price: <span class="text-green bold">{{ number_format(prices.total) }}</span></div>
+                                <div>Tax: <span class="text-green bold">{{ money_format(prices.tax) }}</span></div>
+                                <div>Total Price: <span class="text-green bold">{{ money_format(prices.total) }}</span></div>
                             </div>
                         </div>
                     </div>
@@ -209,7 +213,7 @@ import {useEnum} from "../../../Composables/useEnum.js";
 import Repeater from "../../../Components/Repeater.vue";
 import BaseTextarea from "../../../Components/BaseTextarea.vue";
 import BaseSwitch from "../../../Components/BaseSwitch.vue";
-import {addDays, capitalize, currentDate, diffDays, number_format} from "../../../Utils/helper.js";
+import {addDays, capitalize, currentDate, diffDays, money_format} from "../../../Utils/helper.js";
 
 const props = defineProps({
     customers: Object,
