@@ -72,7 +72,7 @@
                         <td>{{ roomType.size }} m&sup2</td>
                         <td>{{ roomType.max_total_guests }}</td>
                         <td>{{ roomType.rooms_count }}</td>
-                        <td>${{ roomType.price.toLocaleString('en-US') }}</td>
+                        <td>{{ number_format(roomType.price) }}</td>
                         <td>
                             <span class="badge"
                                   :class="displayStatus(roomType.status).bgClass">
@@ -133,6 +133,7 @@ import {useConfirm} from "../../../Composables/useConfirm.js";
 import SortHead from "../../../Components/SortHead.vue";
 import SelectBox from "../../../Components/SelectBox.vue";
 import {useEnum} from "../../../Composables/useEnum.js";
+import {number_format} from "../../../Utils/helper.js";
 
 const props = defineProps({
     'roomTypes': Object,

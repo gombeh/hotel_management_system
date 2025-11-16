@@ -96,13 +96,13 @@
                                         <i :class="`bi ${displayCharge(charge.charge_type).bgClass} me-2`"></i>
                                         {{ displayCharge(charge.charge_type).label }}
                                     </span>
-                                    <span>${{ charge.amount }}</span>
+                                    <span>{{ number_format(charge.amount) }}</span>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
                                     <span class="bold text-black" style="font-weight: 700;"><i
                                         class="bi bi-wallet2 me-2"></i>Total Price</span>
-                                    <span class="bold text-black" style="font-weight: 700;">${{ booking.total_price }}</span>
+                                    <span class="bold text-black" style="font-weight: 700;">{{ number_format(booking.total_price) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="fs-7 text-secondary">Deposit Amount</div>
-                                        <div class="mt-1 fs-6">${{booking.deposit_amount}}</div>
+                                        <div class="mt-1 fs-6">{{ number_format(booking.deposit_amount)}}</div>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -201,7 +201,7 @@
                                     </thead>
                                     <tbody>
                                     <tr v-for="payment in booking.payments">
-                                        <td>${{ payment.amount }}</td>
+                                        <td>{{ number_format(payment.amount) }}</td>
                                         <td>
                                             <span class="badge" :class="displayType(payment.type).bgClass">
                                                 {{ displayType(payment.type).label }}
@@ -257,7 +257,7 @@
 </template>
 
 <script setup>
-import {diffDays} from "../../Utils/helper.js";
+import {diffDays, number_format} from "../../Utils/helper.js";
 import moment from "moment";
 import {usePage} from "@inertiajs/vue3";
 import {useEnum} from "../../Composables/useEnum.js";

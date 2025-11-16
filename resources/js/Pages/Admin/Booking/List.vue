@@ -112,8 +112,8 @@
                                 {{ booking.rooms.length }} {{ booking.rooms.length === 1 ? 'Room' : 'Rooms' }}
                             </span>
                         </td>
-                        <td>${{ booking.total_price }}</td>
-                        <td>${{ booking.deposit_amount }}</td>
+                        <td>{{ number_format(booking.total_price) }}</td>
+                        <td>{{ number_format(booking.deposit_amount) }}</td>
                         <td>
                             <span class="badge" :class="displayStatus(booking.status).bgClass">
                                 {{ displayStatus(booking.status).label }}
@@ -179,6 +179,7 @@ import {useEnum} from "../../../Composables/useEnum.js";
 import Swal from "sweetalert2";
 import SelectBox from "../../../Components/SelectBox.vue";
 import DatePicker from "../../../Components/DatePicker.vue";
+import {number_format} from "../../../Utils/helper.js";
 
 const props = defineProps({
     'bookings': Object,

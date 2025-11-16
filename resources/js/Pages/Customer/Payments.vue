@@ -43,7 +43,7 @@
                                     #{{payment.booking.ref_number}}
                                 </Link>
                             </td>
-                            <td>${{ payment.amount }}</td>
+                            <td>{{ number_format(payment.amount) }}</td>
                             <td>
                                 <span class="badge" :class="displayType(payment.type).bgClass">
                                     {{ displayType(payment.type).label }}
@@ -75,6 +75,7 @@
 
 <script setup>
 import {useEnum} from "../../Composables/useEnum.js";
+import {number_format} from "../../Utils/helper.js";
 
 const {types, statuses, methods} = defineProps({
     payments: Array,

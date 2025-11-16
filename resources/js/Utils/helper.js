@@ -58,3 +58,14 @@ export function getMediaUrl(media, conversion = null) {
 
     return url;
 }
+
+
+export function number_format(price) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        trailingZeroDisplay: 'stripIfInteger'
+    });
+
+    return formatter.format(price);
+}

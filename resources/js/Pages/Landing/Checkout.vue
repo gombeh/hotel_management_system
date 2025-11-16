@@ -96,13 +96,13 @@
                                         <i :class="`bi ${displayCharge(charge.charge_type).bgClass} me-2`"></i>
                                         {{ displayCharge(charge.charge_type).label }}
                                     </span>
-                                    <span>${{ charge.amount }}</span>
+                                    <span>{{ number_format(charge.amount) }}</span>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
                                     <span class="bold text-black" style="font-weight: 700;"><i
                                         class="bi bi-wallet2 me-2"></i>Total Price</span>
-                                    <span class="bold text-black" style="font-weight: 700;">${{ booking.total_price }}</span>
+                                    <span class="bold text-black" style="font-weight: 700;">{{ number_format(booking.total_price) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
 <script setup>
     import {ref, onMounted} from 'vue'
     import {loadStripe} from '@stripe/stripe-js'
-    import {diffDays} from "../../Utils/helper.js";
+    import {diffDays, number_format} from "../../Utils/helper.js";
     import moment from "moment";
     import {router, usePage} from "@inertiajs/vue3";
     import {useEnum} from "../../Composables/useEnum.js";

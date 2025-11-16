@@ -81,13 +81,13 @@
                     <div class="datagrid-item">
                         <div class="datagrid-title">Total Price</div>
                         <div class="datagrid-content">
-                            ${{ booking.total_price }}
+                            {{ number_format(booking.total_price) }}
                         </div>
                     </div>
                     <div class="datagrid-item">
                         <div class="datagrid-title">Deposit Amount</div>
                         <div class="datagrid-content">
-                            ${{ booking.deposit_amount }}
+                            {{ number_format(booking.deposit_amount) }}
                         </div>
                     </div>
                     <div class="datagrid-item">
@@ -179,7 +179,7 @@
                             <tbody>
                             <tr v-for="charge in booking.charges">
                                 <td>{{ charge.charge_type }}</td>
-                                <td>${{ charge.amount }}</td>
+                                <td>{{ number_format(charge.amount) }}</td>
                                 <td>{{ charge.created_at }}</td>
                             </tr>
                             </tbody>
@@ -231,6 +231,7 @@ import {defineProps} from "vue"
 import {IconArrowLeft, IconWindow, IconCreditCard, IconSquareCheck, IconBabyCarriage} from "@tabler/icons-vue";
 import {useEnum} from "../../../Composables/useEnum.js";
 import {Link} from "@inertiajs/vue3";
+import {number_format} from "../../../Utils/helper.js";
 
 
 const props = defineProps({

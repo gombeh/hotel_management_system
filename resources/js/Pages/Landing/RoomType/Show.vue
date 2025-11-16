@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="room-price">
-                            <span class="price-amount">${{ roomType.price }}</span>
+                            <span class="price-amount">{{ number_format(roomType.price) }}</span>
                             <span class="price-period">per night</span>
                         </div>
                         <Link :href="route('bookings.create', {filters, roomType: roomType.slug})" class="btn btn-book-now">Book Now</Link>
@@ -227,7 +227,7 @@
                         </div>
                         <div class="col-lg-4 text-center text-lg-end">
                             <div class="price-display">
-                                <span class="price">${{roomType.price}}</span>
+                                <span class="price">{{number_format(roomType.price)}}</span>
                                 <span class="period">per night</span>
                             </div>
                             <Link :href="route('bookings.create', {filters, roomType: roomType.slug})" class="btn btn-primary btn-lg">Check Availability</Link>
@@ -243,7 +243,7 @@
 
 <script setup>
 import {Swiper, SwiperSlide} from "swiper/vue";
-import {getMediaUrl} from "../../../Utils/helper.js";
+import {getMediaUrl, number_format} from "../../../Utils/helper.js";
 import {onMounted, onUpdated} from "vue";
 import GLightbox from "glightbox";
 import 'glightbox/dist/css/glightbox.min.css'
