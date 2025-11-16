@@ -12,6 +12,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -49,4 +50,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })->withProviders([
         DatabaseSessionProvider::class,
         AuthProvider::class,
-    ])->create();
+    ])->withSchedule(function(Schedule $schedule) {
+        $schedule->command('bookings:expire-pending')->everyThirtyMinutes();
+    })->create();

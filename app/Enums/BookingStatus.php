@@ -22,7 +22,7 @@ enum BookingStatus: string
     #[Display('Cancelled', 'bg-danger-lt')]
     case CANCELLED = "cancelled";
 
-    #[Display('Expired', 'bg-dark-lt')]
+    #[Display('Expired', 'bg-secondary-lt')]
     case EXPIRED = "expired";
 
 
