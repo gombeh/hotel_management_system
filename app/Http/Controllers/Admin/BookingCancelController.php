@@ -18,12 +18,9 @@ class BookingCancelController extends Controller
     #[Authorize('cancel', 'booking')]
     public function cancellationFee(Booking $booking)
     {
-        $rules = CancellationRule::all();
-
-        $rule = $rules->first(function (CancellationRule $rule) use ($booking) {
-            return $booking->daysUntilCheckIn() >= $rule->min_days_before &&
-                $booking->daysUntilCheckIn() <= $rule->max_days_before;
-        });
+        $rule = CancellationRule::where('min_days_before', '<=', $booking->daysUntilCheckIn())
+            ->where('max_days_before', '>=', $booking->daysUntilCheckIn())
+            ->first();
 
         if (!$rule) {
             return response()->json([
@@ -43,7 +40,7 @@ class BookingCancelController extends Controller
     public function cancel(Request $request, Booking $booking)
     {
         $data = $request->validate([
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0|max:' . $booking->total_price,
             'description' => 'nullable|string',
         ]);
 
@@ -52,13 +49,17 @@ class BookingCancelController extends Controller
         }
 
         DB::Transaction(function () use ($booking, $data) {
-            $booking->payments()->create([
-                'amount' => $booking->deposit_amount - $data['amount'],
-                'type' => PaymentType::REFUND,
-                'payment_method' => 'bank_transfer',
-                'status' => PaymentStatus::PAID,
-                'payment_date' => now(),
-            ]);
+            $refundAmount = $booking->deposit_amount - $data['amount'];
+
+            if($refundAmount > 0) {
+                $booking->payments()->create([
+                    'amount' => $refundAmount,
+                    'type' => PaymentType::REFUND,
+                    'payment_method' => 'bank_transfer',
+                    'status' => PaymentStatus::PAID,
+                    'payment_date' => now(),
+                ]);
+            }
 
             $booking->charges()->create([
                 'amount' => $data['amount'],

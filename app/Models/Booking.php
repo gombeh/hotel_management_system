@@ -103,9 +103,9 @@ class   Booking extends Model
         return $this->payment_status === BookingPayment::PAID;
     }
 
-    public function daysUntilCheckIn(): float
+    public function daysUntilCheckIn(): int
     {
-        return now()->startOfDay()->diffInDays($this->check_in->startOfDay());
+        return (int) now()->startOfDay()->diffInDays($this->check_in->startOfDay());
     }
 
     public static function booted(): void

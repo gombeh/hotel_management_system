@@ -73,7 +73,8 @@ class BookingController extends Controller
                     $booking->check_out->lte(now()->startOfDay()) &&
                     $booking->status === BookingStatus::CHECK_IN &&
                     $booking->payment_status === BookingPayment::PAID,
-                'cancel' => $user->can('cancel', $booking),
+                'cancel' => $user->can('cancel', $booking) &&
+                    in_array($booking->status, [BookingStatus::RESERVED, BookingStatus::CHECK_IN]),
             ]));
 
         return inertia('Admin/Booking/List', [
