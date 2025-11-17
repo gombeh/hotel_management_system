@@ -30,7 +30,7 @@
                         </tr>
                         </thead>
                         <tbody class="table-tbody">
-                        <tr v-for="booking in bookings" :key="booking.id">
+                        <tr v-for="booking in bookings" :key="booking.id" v-if="bookings.length">
                             <td>{{ booking.ref_number }}</td>
                             <td>{{ booking.adults }}</td>
                             <td>{{ booking.children }}</td>
@@ -61,6 +61,11 @@
                                         </Link>
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+                        <tr v-else>
+                            <td colspan="7" class="text-center py-3 text-muted">
+                                No bookings found.
                             </td>
                         </tr>
                         </tbody>
