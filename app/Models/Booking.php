@@ -93,6 +93,16 @@ class   Booking extends Model
             });
     }
 
+    public function scopeReserved($query)
+    {
+        $query->where('status', BookingStatusEnum::RESERVED);
+    }
+
+    public function scopeCheckedIn($query)
+    {
+        $query->where('status', BookingStatusEnum::CHECK_IN);
+    }
+
     public function isPayable(): bool
     {
         return $this->status === BookingStatusEnum::PENDING && $this->lock_until_at->gte(now());
