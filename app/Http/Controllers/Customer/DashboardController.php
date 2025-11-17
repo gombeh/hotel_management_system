@@ -23,7 +23,7 @@ class DashboardController extends Controller
 
         // Recent Bookings
         $recent_bookings = Booking::where('customer_id', $customer->id)
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->take(5)
             ->get();
 
