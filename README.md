@@ -1,19 +1,20 @@
 # Reservation & Admin System – Mvp Note
 
 
-This is a simple demo of a food reservation & admin system.
+This is a simple demo of a hotel reservation & admin system.
 
 
 **User features:**
-- Book meals & food slots
-- Manage & cancel reservations
-- View payment history
+- Book rooms and make payments via Stripe
+- View and manage own bookings
+- Access personal dashboard to track reservations and payments
 
 
 **Admin features:**
-- Manage users, reservations & payments
-- Stripe payment integration
-- View reports & stats
+- Manage customers and user accounts, including roles and permissions
+- Manage all reservations (view, edit, cancel)
+- Manage all payments and transactions
+- Access admin dashboard with reports and statistics
 
 
 **Setup (local/demo):**
@@ -30,6 +31,18 @@ php artisan migrate --seed
 php artisan serve
 ```
 Open at `http://127.0.0.1:8000`
+
+## Test Credentials
+
+For demo purposes, you can use the following accounts:
+
+**Admin Account**  
+- Email: test@example.com  
+- Password: 1234  
+
+**User Account**  
+- Email: any  
+- Password: password
 
 
 **Notes:**
