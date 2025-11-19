@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                        <span class="bg-success text-white avatar">
+                        <span class="bg-success text-white avatar  ml-0 rounded" style="padding: 12px">
                            <IconCalendar class="icon"/>
                         </span>
                             </div>
@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                        <span class="bg-danger text-white avatar">
+                        <span class="bg-danger text-white avatar  ml-0 rounded" style="padding: 12px">
                            <IconDoorExit class="icon"/>
                         </span>
                             </div>
@@ -52,7 +52,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                        <span class="bg-warning text-white avatar">
+                        <span class="bg-warning text-white avatar  ml-0 rounded" style="padding: 12px">
                            <IconHistory class="icon"/>
                         </span>
                             </div>
@@ -71,7 +71,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                        <span class="bg-primary text-white avatar">
+                        <span class="bg-primary text-white avatar  ml-0 rounded" style="padding: 12px">
                            <IconBan class="icon"/>
                         </span>
                             </div>
