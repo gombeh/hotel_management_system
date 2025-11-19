@@ -1,4 +1,4 @@
-# Reservation & Admin System – Mvp Note
+# Reservation & Admin System – MVP Note
 
 
 This is a simple demo of a hotel reservation & admin system.
@@ -32,6 +32,15 @@ php artisan serve
 ```
 Open at `http://127.0.0.1:8000`
 
+
+**Notes:**
+- PUT & DELETE routes may not work on free/limited hosting.
+- Booking creation and viewing main features work fine.
+- Full Stripe integration requires valid API keys.
+
+
+**Structure:** `app/` – backend, `resources/` – frontend, `routes/`, `database/`, `public/`
+
 ## Test Credentials
 
 For demo purposes, you can use the following accounts:
@@ -44,11 +53,3 @@ For demo purposes, you can use the following accounts:
 - Email: any  
 - Password: password
 
-
-**Notes:**
-- PUT & DELETE routes may not work on free/limited hosting.
-- Booking creation and viewing main features work fine.
-- Full Stripe integration requires valid API keys.
-
-
-**Structure:** `app/` – backend, `resources/` – frontend, `routes/`, `database/`, `public/`
