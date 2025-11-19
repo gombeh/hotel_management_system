@@ -1,4 +1,4 @@
-# Reservation & Admin System – Demo Note
+# Reservation & Admin System – Mvp Note
 
 
 This is a simple demo of a food reservation & admin system.
