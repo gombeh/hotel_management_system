@@ -45,7 +45,8 @@ Open at `http://127.0.0.1:8000`
 
 For demo purposes, you can use the following accounts:
 
-**Admin Account**  
+**Admin Account**
+- Url: https://homa.infinityfree.me/admin
 - Email: test@example.com  
 - Password: 1234  
 
