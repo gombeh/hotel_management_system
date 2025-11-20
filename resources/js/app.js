@@ -15,20 +15,21 @@ const resolvePage = async (name) => {
     const pageModule = await importPage()
     const page = pageModule.default
 
-    if (!page.layout) {
-        if (name.startsWith('Landing')) {
-            const {default: LandingLayout} = await import("./Shared/Landing/Layout.vue")
-            page.layout = LandingLayout
-        } else if (name.startsWith('Customer/Auth')) {
-            const {default: AuthLayout} = await import("./Shared/Auth/Layout.vue")
-            page.layout = AuthLayout
-        } else if (name.startsWith('Customer')) {
-            const {default: CustomerLayout} = await import("./Shared/Customer/Layout.vue")
-            page.layout = CustomerLayout
-        } else {
-            const {default: AdminLayout} = await import("./Shared/Admin/Layout.vue")
-            page.layout = AdminLayout
-        }
+    if (page.layout !== undefined) return page
+
+
+    if (name.startsWith('Landing')) {
+        const {default: LandingLayout} = await import("./Shared/Landing/Layout.vue")
+        page.layout = LandingLayout
+    } else if (name.startsWith('Customer/Auth')) {
+        const {default: AuthLayout} = await import("./Shared/Auth/Layout.vue")
+        page.layout = AuthLayout
+    } else if (name.startsWith('Customer')) {
+        const {default: CustomerLayout} = await import("./Shared/Customer/Layout.vue")
+        page.layout = CustomerLayout
+    } else {
+        const {default: AdminLayout} = await import("./Shared/Admin/Layout.vue")
+        page.layout = AdminLayout
     }
 
     return page
@@ -46,7 +47,7 @@ createInertiaApp({
             .mount(el)
     },
     title: title => `Hotel Homa - ${title}`,
-    progress: { delay: 250, color: '#29d', includeCSS: true, showSpinner: false }
+    progress: {delay: 250, color: '#29d', includeCSS: true, showSpinner: false}
 })
 
 
