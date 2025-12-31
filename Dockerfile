@@ -3,13 +3,16 @@ FROM php:8.2-fpm
 ENV COMPOSER_MEMORY_LIMIT=-1
 
 RUN apt-get update && apt-get install -y \
-    git unzip curl \
     libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
     libicu-dev \
-    default-mysql-client
+    default-mysql-client \
+    git unzip curl
 
 RUN docker-php-ext-install \
     pdo \
@@ -22,6 +25,12 @@ RUN docker-php-ext-install \
     intl \
     gd \
     ftp
+
+RUN docker-php-ext-configure gd \
+        --with-jpeg \
+        --with-freetype \
+        --with-webp \
+    && docker-php-ext-install gd
 
 # Redis
 RUN pecl install redis && docker-php-ext-enable redis
