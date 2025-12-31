@@ -18,7 +18,7 @@ This is a simple demo of a hotel reservation & admin system.
 
 **Setup (docker):**
 ```bash
-    docker compose up -d --build
+docker compose up -d --build
 ```
 
 **Setup (local/demo):**
