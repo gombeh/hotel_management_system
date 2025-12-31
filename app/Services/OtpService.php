@@ -17,7 +17,7 @@ class OtpService
             'expired_at' => now()->addMinutes(5),
         ]);
 
-        Mail::to($customer->email)->send(new $mailClass($customer, $code));
+        Mail::to($customer->email)->queue(new $mailClass($customer, $code));
     }
 
     public static function verifyCode(Customer $customer, string $code): bool

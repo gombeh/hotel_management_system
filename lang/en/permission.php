@@ -28,5 +28,6 @@ return [
         'checkIn' => 'Check-in',
         'checkOut' => 'Check-out',
         'all' => 'All',
+        'cancel' => 'Cancel',
     ]
 ];

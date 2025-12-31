@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\CustomerStatus;
 use App\Enums\Sex;
+use App\Notifications\ResetPasswordQueued;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -120,5 +121,10 @@ class Customer extends Authenticatable implements HasMedia, CanResetPassword
             ->width(100)
             ->height(100)
             ->nonQueued();
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordQueued($token));
     }
 }

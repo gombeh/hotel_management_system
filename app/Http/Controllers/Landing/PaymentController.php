@@ -108,7 +108,7 @@ class PaymentController extends Controller
                 ]);
             });
 
-            Mail::to($booking->customer->email)->send(new BookingConfirmed($booking));
+            Mail::to($booking->customer->email)->queue(new BookingConfirmed($booking));
 
             return redirect()->intended(route('bookings.success', $booking));
         }

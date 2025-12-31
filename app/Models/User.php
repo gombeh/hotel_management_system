@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Sex;
+use App\Notifications\ResetPasswordQueued;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -86,5 +87,10 @@ class User extends Authenticatable implements HasMedia
             ->width(100)
             ->height(100)
             ->nonQueued();
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordQueued($token));
     }
 }

@@ -1,0 +1,59 @@
+version: '3.9'
+services:
+  hotel_backend:
+    build: .
+    container_name: hotel_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - hotel_db
+      - hotel_redis
+    environment:
+      APP_ROLE: app
+      DB_HOST: hotel_db
+      DB_DATABASE: hotel
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  hotel_frontend:
+    image: node:22
+    container_name: hotel_frontend
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
+
+  hotel_queue:
+    build: .
+    command: 'php artisan queue:work --tries=3 --verbose'
+    environment:
+      APP_ROLE: queue
+    depends_on:
+      - hotel_db
+      - hotel_redis
+
+  hotel_db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: hotel
+      MARIADB_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    command: --lower_case_table_names=1
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - "3309:3306"
+
+
+  hotel_redis:
+    image: redis
+    ports:
+      - "63799:6379"
+
