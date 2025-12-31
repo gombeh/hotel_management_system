@@ -16,6 +16,10 @@ This is a simple demo of a hotel reservation & admin system.
 - Manage all payments and transactions
 - Access admin dashboard with reports and statistics
 
+**Setup (docker):**
+```bash
+    docker compose up -d --build
+```
 
 **Setup (local/demo):**
 ```bash
